@@ -1,3 +1,4 @@
+
 {% extends "base.html" %}
 
 {% block title %}{{ article.title }}{% endblock %}
@@ -235,28 +236,6 @@
 
           </section>
 
-          {% if DISQUS_SITENAME and SITEURL and article.status != "draft" %}
-          <script type="text/javascript">
-            var disqus = '{{ DISQUS_SITENAME }}';
-            var disqus_shortname = '{{ DISQUS_SITENAME }}';
-            {% if article.disqus_identifier %}
-            var disqus_identifier = '{{ article.disqus_identifier }}';
-            {% else %}
-            var disqus_identifier = '/{{ article.url }}';
-            {% endif %}
-            var disqus_url = '{{ SITEURL }}/{{ article.url }}';
-          </script>
-          <noscript>Please enable JavaScript to view the comments.</noscript>
-          <section class="post-comments">
-            {% if article.disqus_identifier %}
-              <a id="show-disqus" class="post-comments-activate" data-disqus-identifier="{{ article.disqus_identifier }}" >Show Comments</a>
-            {% else %}
-              <a id="show-disqus" class="post-comments-activate" data-disqus-identifier="/{{ article.url }}" >Show Comments</a>
-            {% endif %}
-            <div id="disqus_thread"></div>
-          </section>
-          {% endif %}
-
           <aside class="post-nav">
             {% if article.next_article %}
             <a class="post-nav-next" href="{{ SITEURL }}/{{ article.next_article.url}}">
@@ -282,6 +261,9 @@
           </aside>
 
         </div>
+
+        {% include 'partials/comments.html' %}
+
       </article>
     </main>
 {% endblock content %}
