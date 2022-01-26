@@ -1,3 +1,4 @@
+
 {% extends "base.html" %}
 
 {% block title %}{{ article.title }}{% endblock %}
@@ -249,11 +250,25 @@
           <noscript>Please enable JavaScript to view the comments.</noscript>
           <section class="post-comments">
             {% if article.disqus_identifier %}
-              <a id="show-disqus" class="post-comments-activate" data-disqus-identifier="{{ article.disqus_identifier }}" >Show Comments</a>
+              <a id="show-comments" class="post-comments-activate" data-disqus-identifier="{{ article.disqus_identifier }}" >Show Comments</a>
             {% else %}
-              <a id="show-disqus" class="post-comments-activate" data-disqus-identifier="/{{ article.url }}" >Show Comments</a>
+              <a id="show-comments" class="post-comments-activate" data-disqus-identifier="/{{ article.url }}" >Show Comments</a>
             {% endif %}
             <div id="disqus_thread"></div>
+          </section>
+          {% elif UTTERANCES_REPO and SITEURL and article.status != "draft" %}
+            {% from 'partials/_defaults.html' import UTTERANCES_FILTER, UTTERANCES_THEME, UTTERANCES_LABEL with context %}
+            {% set identifier = SITEURL+ '/' + article.url %}
+            {% if article.comment_id %}
+              {% set identifier = article.comment_id %}
+            {% elif article.disqus_identifier %}
+              {% set identifier = article.disqus_identifier %}
+            {% endif %}
+
+          <script type="text/javascript">var use_utterance = true;</script>
+          <section class="post-comments">
+            {% from 'partials/utterances_scripts.html' import comments_script_utterances with context %}
+            {{ comments_script_utterances(UTTERANCES_REPO, identifier, UTTERANCES_LABEL, UTTERANCES_THEME) }}
           </section>
           {% endif %}
 
