@@ -25,7 +25,7 @@ It is ported from the ghost theme:
 - Featured posts (via [neighbors plugin](https://github.com/pelican-plugins/neighbors))  
 - Reading progress for posts  
 - Automatic code syntax highlight  
-- Disqus support  
+- Disqus / [utterances](https://utteranc.es/) support
 - Google Analytics, GAUGES, Piwik  
 - Sharing buttons  
 - Open Graph  
@@ -253,6 +253,10 @@ SHOW_FULL_ARTICLE_IN_SUMMARY = False
 SHOW_PAGES_ON_MENU = True
 SHOW_SITESUBTITLE_IN_HTML_TITLE = True
 SHOW_TAGS_IN_ARTICLE_SUMMARY = True
+
+UTTERANCES_REPO = "Lee-W/attila"
+# label on GitHub issue
+UTTERANCES_LABEL = "blog-comment"
 ```
 
 ## Contributing
