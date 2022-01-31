@@ -59,7 +59,15 @@
         <dl>
         {% for article in dates %}
           <dt>{{ article.locale_date }}</dt>
-          <dd><a href="{{ SITEURL }}/{{ article.url }}">{{ article.title }}</a></dd>
+          <dd>
+            <a href="{{ SITEURL }}/{{ article.url }}">
+              {{ article.title|striptags|e }}
+              {% if article.subtitle %}
+              <br>
+              <small class="post-subtitle">{{ article.subtitle|striptags|e }}</small>
+              {% endif %}
+            </a>
+          </dd>
         {% endfor %}
         </dl>
       </section>

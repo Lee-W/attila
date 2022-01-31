@@ -1,7 +1,7 @@
 
 {% extends "base.html" %}
 
-{% block title %}{{ article.title }}{% endblock %}
+{% block title %}{{ article.title|striptags|e }} {% if article.subtitle %} - {{ article.subtitle|striptags|e }}{% endif %}{% endblock %}
 
 {# <!-- Choosing cover image --> #}
 {% if article.cover %}
@@ -85,7 +85,13 @@
           <span class="post-count">{{primary_tag.name | title}}</span>
           {% endif %}
         </span>
-        <h1 class="post-title">{{ article.title }}</h1>
+        <h1 class="post-title">
+            {{ article.title }}
+            {% if article.subtitle %}
+            <br>
+            <small class="post-subtitle-white">{{ article.subtitle }}</small>
+            {% endif %}
+        </h1>
         <div class="post-meta">
           <div class="post-meta-avatars">
           {% for author in article.authors %}
@@ -161,7 +167,7 @@
           <section class="post-footer" {{post_footer_inline_style}}>
             <div class="post-share">
               <span class="post-info-label">{{"Share"}}</span>
-              <a title="Twitter" aria-label="Twitter" class="twitter" href="https://twitter.com/share?text={{ article.title }}&amp;url={{ SITEURL }}/{{ article.url }}" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+              <a title="Twitter" aria-label="Twitter" class="twitter" href="https://twitter.com/share?text={{ article.title|striptags|e }} {% if article.subtitle %} - {{ article.subtitle|striptags|e }}{% endif %}&amp;url={{ SITEURL }}/{{ article.url }}" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
                 <i class="icon icon-twitter" aria-hidden="true"></i><span class="hidden">Twitter</span>
               </a>
               <a title="Facebook" aria-label="Facebook" class="facebook" href="https://www.facebook.com/sharer/sharer.php?u={{ SITEURL }}/{{ article.url }}" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">

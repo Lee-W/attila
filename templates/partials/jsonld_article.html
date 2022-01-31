@@ -31,8 +31,8 @@
 {
   "@context": "http://schema.org",
   "@type": "Article",
-  "name": "{{ article.title|striptags }}",
-  "headline": "{{ article.title|striptags }}",
+  "name": "{{ article.title|striptags|e }}{% if article.subtitle %} - {{ article.subtitle|striptags|e }}{% endif %}",
+  "headline": "{{ article.title|striptags|e }}{% if article.subtitle %} - {{ article.subtitle|striptags|e }}{% endif %}",
   "datePublished": "{{ article.date }}",
   "dateModified": "{{ article.modified }}",
   "author": {
