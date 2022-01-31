@@ -30,6 +30,7 @@ It is ported from the ghost theme:
 - Sharing buttons  
 - Open Graph  
 - Rich Snippets (JSON-LD)
+- Article subtitle
 
 ## Install
 
@@ -64,6 +65,20 @@ pelican-themes -l
 ```
 
 - Use that theme name in your `pelicanconf.py`
+
+### Article Subtitle
+To set an article subtitle, set `subtitle` metadata in the front-matter.
+
+```rst
+:title: Page With Cover Images
+:subtitle: article subtitle
+:date: 2018-04-29 00:45
+:author: arul
+:category: foo
+:tags: footag
+:slug: page-with-cover-images
+:cover: assets/images/page_cover.jpg
+```
 
 ### Header Covers
 
