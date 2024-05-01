@@ -23,6 +23,7 @@ It is ported from the ghost theme:
 - Parallax cover images for posts, author archives, and blog  
 - Author information for posts and author archives  
 - Featured posts (via [neighbors plugin](https://github.com/pelican-plugins/neighbors))  
+- Series posts (via [series plugin](https://github.com/pelican-plugins/series))
 - Reading progress for posts  
 - Automatic code syntax highlight  
 - Disqus / [utterances](https://utteranc.es/) support
