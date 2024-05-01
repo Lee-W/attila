@@ -182,6 +182,7 @@
               <div class="clear"></div>
             </div>
 
+
             {% if article.tags %}
             <aside class="post-tags">
               {% for tag in article.tags %}<a href="{{ SITEURL }}/{{ tag.url }}">{{ tag | escape }}</a>{% if not loop.last %}{% endif %}{% endfor %}
@@ -240,6 +241,18 @@
             {% endfor %}
             {% endif %}
 
+            {% if article.series %}
+            <div class="series">
+              <p>This post is part {{ article.series.index }} of the "{{ article.series.name }}" series:</p>
+                <ol class="parts">
+                {% for part_article in article.series.all %}
+                  <li {% if part_article == article %}class="active"{% endif %}>
+                      <a href='{{ SITEURL }}/{{ part_article.url }}'>{{ part_article.title }} - {{ part_article.subtitle }}</a>
+                  </li>
+                {% endfor %}
+                </ol>
+              </div>
+             {% endif %}
           </section>
 
           {% if DISQUS_SITENAME and SITEURL and article.status != "draft" %}
