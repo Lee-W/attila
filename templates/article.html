@@ -247,7 +247,7 @@
                 <ol class="parts">
                 {% for part_article in article.series.all %}
                   <li {% if part_article == article %}class="active"{% endif %}>
-                      <a href='{{ SITEURL }}/{{ part_article.url }}'>{{ part_article.title }} - {{ part_article.subtitle }}</a>
+                      <a href='{{ SITEURL }}/{{ part_article.url }}'>{{ part_article.title }}{% if part_article.subtitle %} - {{ part_article.subtitle }}{% endif %}</a>
                   </li>
                 {% endfor %}
                 </ol>
