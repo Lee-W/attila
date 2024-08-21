@@ -1,0 +1,11 @@
+  <!-- TODO: combine -->
+  <link href="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/css/style.css" type="text/css" rel="stylesheet" />
+  <link href="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/css/pygments.css" type="text/css" rel="stylesheet" />
+  <link href="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/css/pagefind-ui-custom.css" type="text/css" rel="stylesheet" />
+  <link href="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/css/code.css" type="text/css" rel="stylesheet" />
+  <link href="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/css/code-copy.css" type="text/css" rel="stylesheet" />
+  <link href="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/css/custom.css" type="text/css" rel="stylesheet" />
+
+  {% if PAGEFIND_ENABLED|default(False) %}
+  <link href="/pagefind/pagefind-ui.css" rel="stylesheet">
+  {% endif %}
