@@ -241,55 +241,10 @@
             {% endfor %}
             {% endif %}
 
-            {% if article.series %}
-            <div class="series">
-              <p>This post is part {{ article.series.index }} of the "{{ article.series.name }}" series:</p>
-                <ol class="parts">
-                {% for part_article in article.series.all %}
-                  <li {% if part_article == article %}class="active"{% endif %}>
-                      <a href='{{ SITEURL }}/{{ part_article.url }}'>{{ part_article.title }}{% if part_article.subtitle %} - {{ part_article.subtitle }}{% endif %}</a>
-                  </li>
-                {% endfor %}
-                </ol>
-              </div>
-             {% endif %}
+            {% include 'partials/series.html' %}
           </section>
 
-          {% if DISQUS_SITENAME and SITEURL and article.status != "draft" %}
-          <script type="text/javascript">
-            var disqus = '{{ DISQUS_SITENAME }}';
-            var disqus_shortname = '{{ DISQUS_SITENAME }}';
-            {% if article.disqus_identifier %}
-            var disqus_identifier = '{{ article.disqus_identifier }}';
-            {% else %}
-            var disqus_identifier = '/{{ article.url }}';
-            {% endif %}
-            var disqus_url = '{{ SITEURL }}/{{ article.url }}';
-          </script>
-          <noscript>Please enable JavaScript to view the comments.</noscript>
-          <section class="post-comments">
-            {% if article.disqus_identifier %}
-              <a id="show-comments" class="post-comments-activate" data-disqus-identifier="{{ article.disqus_identifier }}" >Show Comments</a>
-            {% else %}
-              <a id="show-comments" class="post-comments-activate" data-disqus-identifier="/{{ article.url }}" >Show Comments</a>
-            {% endif %}
-            <div id="disqus_thread"></div>
-          </section>
-          {% elif UTTERANCES_REPO and SITEURL and article.status != "draft" %}
-            {% from 'partials/_defaults.html' import UTTERANCES_FILTER, UTTERANCES_THEME, UTTERANCES_LABEL with context %}
-            {% set identifier = SITEURL+ '/' + article.url %}
-            {% if article.comment_id %}
-              {% set identifier = article.comment_id %}
-            {% elif article.disqus_identifier %}
-              {% set identifier = article.disqus_identifier %}
-            {% endif %}
-
-          <script type="text/javascript">var use_utterance = true;</script>
-          <section class="post-comments">
-            {% from 'partials/utterances_scripts.html' import comments_script_utterances with context %}
-            {{ comments_script_utterances(UTTERANCES_REPO, identifier, UTTERANCES_LABEL, UTTERANCES_THEME) }}
-          </section>
-          {% endif %}
+          {% include 'partials/comments.html' %}
 
           <aside class="post-nav">
             {% if article.next_article %}
