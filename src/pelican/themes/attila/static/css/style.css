@@ -726,7 +726,7 @@ button,input,select,textarea {
 
 .post-content pre {
     position: relative;
-    margin: 0 0 4rem;
+    margin: 0 0 0rem;
     padding: 1em;
     overflow: hidden;
     font-family: monospace, sans-serif;
