@@ -38,19 +38,19 @@
                     {% endif %}
                      {{ " on " }}<time datetime="{{ article.locale_date }}">{{ article.locale_date }}</time>
                 </span>
-            {% if SHOW_FULL_ARTICLE_IN_SUMMARY|default(False) %}
                 <section class="post-content">
+            {% if SHOW_FULL_ARTICLE_IN_SUMMARY|default(False) %}
                 {{ article.content }}
-                </section>
             {% else %}
-                <p class="post-excerpt">
-                    {% if article.has_summary %}
-                        {{ article.summary }}
-                    {% elif article.summary %}
-                        {{ article.summary|striptags|truncate(250) }}
-                    {% endif %}
-                </p>
+                    <p class="post-excerpt">
+                        {% if article.has_summary %}
+                            {{ article.summary }}
+                        {% elif article.summary %}
+                            {{ article.summary|striptags|truncate(250) }}
+                        {% endif %}
+                    </p>
             {% endif %}
+                </section>
 
                 {% if SHOW_COMMENTS_COUNT_IN_ARTICLE_SUMMARY|default(True) or SHOW_TAGS_IN_ARTICLE_SUMMARY|default(False) %}
                 <div class="post-excerpt">
