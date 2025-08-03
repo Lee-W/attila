@@ -244,8 +244,6 @@
             {% include 'partials/series.html' %}
           </section>
 
-          {% include 'partials/comments.html' %}
-
           <aside class="post-nav">
             {% if article.next_article %}
             <a class="post-nav-next" href="{{ SITEURL }}/{{ article.next_article.url}}">
@@ -271,6 +269,9 @@
           </aside>
 
         </div>
+
+        {% include 'partials/comments.html' %}
+
       </article>
     </main>
 {% endblock content %}
