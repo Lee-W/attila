@@ -57,17 +57,21 @@
     <div class="inner">
       <section class="post-content">
         <dl>
-        {% for article in dates %}
-          <dt>{{ article.locale_date }}</dt>
-          <dd>
-            <a href="{{ SITEURL }}/{{ article.url }}">
+        {% set ns = namespace(cur_year=-1) %}
+        {% for article in articles %}
+          {% if ns.cur_year != article.date.year %}
+            {% set ns.cur_year = article.date.year %}
+            <hr>
+            <p class="h5">{{ ns.cur_year }}<p>
+          {% endif %}
+          <dt><time>{{ article.date|strftime('%m/%d - %a')}}</time>
+            <dd>
+            <a class="list-group-item list-group-item-action" href="{{ SITEURL }}/{{ article.url }}">
               {{ article.title|striptags|e }}
-              {% if article.subtitle %}
-              <br>
-              <small class="post-subtitle">{{ article.subtitle|striptags|e }}</small>
-              {% endif %}
+              {% if article.subtitle %} (<small class="post-subtitle">{{ article.subtitle|striptags|e }}</small>){% endif %}
             </a>
-          </dd>
+            </dd>
+          </dt>
         {% endfor %}
         </dl>
       </section>
