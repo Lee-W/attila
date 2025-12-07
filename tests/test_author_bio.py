@@ -1,46 +1,45 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
+from __future__ import annotations
 
-import locale
-from shutil import copy, rmtree
+import logging
+from typing import TYPE_CHECKING, Callable
 
-from support import (get_my_settings, unittest, BaseTest, CUR_DIR, CONTENT_DIR, OUTPUT_DIR)
+if TYPE_CHECKING:
+    from pelican.settings import Settings
 
-def tearDownModule():
-  print("teardown module")
-  try:
-    rmtree(OUTPUT_DIR)
-  except OSError as e:
-    print ("Error: %s - %s." % (e.filename,e.strerror))
+logger = logging.getLogger(__name__)
 
-class AuthorSocialLinksTest(unittest.TestCase, BaseTest):
 
-  def setUp(self):
-    self.initSettings()
+class TestAuthorSocialLinks:
+    def test_linkedin_link(
+        self,
+        default_settings: Settings,
+        gen_article_and_html_from_rst: Callable,
+        gen_author_and_html_from_name: Callable,
+    ):
+        author_name = "raj"
+        default_settings.update(
+            AUTHOR_META={
+                author_name: {
+                    "cover": "http://examble.com/cover.jpg",
+                    "linkedin": "mylinkedinname",
+                }
+            },
+            SHOW_AUTHOR_BIO_IN_ARTICLE=True,
+        )
 
-  def tearDown(self):
-    locale.setlocale(locale.LC_ALL, self.old_locale)
+        _, soup = gen_article_and_html_from_rst(
+            rst_path="content/article_with_og_image.rst",
+            settings=default_settings,
+        )
+        selected = soup.find(name="span", attrs={"class": "post-author-linkedin"})
+        assert selected is not None
+        selected_anchor = selected.find(name="a")
+        assert selected_anchor is not None
+        assert "https://www.linkedin.com/in/mylinkedinname" in selected_anchor["href"]
 
-  def test_linkedin_link(self):
-    authorName = "raj"
-    self.settings['AUTHOR_META'] = {
-      authorName: {
-        'cover': "http://examble.com/cover.jpg",
-        'linkedin': "mylinkedinname"
-      }
-    }
-    self.settings['SHOW_AUTHOR_BIO_IN_ARTICLE'] = True
-    rstPath="content/article_with_og_image.rst"
-    result, soup = self.gen_article_and_html_from_rst(rstPath)
-    selected = soup.find(name="span", attrs={"class": "post-author-linkedin"})
-    selectedAnchor = selected.find(name="a")
-    # Assertion
-    self.assertTrue("https://www.linkedin.com/in/mylinkedinname" in selectedAnchor["href"])
-
-    result, soup = self.gen_author_and_html_from_name(authorName)
-    selected = soup.find(name="span", attrs={"class": "archive-links"})
-    # Assertion
-    self.assertTrue("https://www.linkedin.com/in/mylinkedinname" in str(selected))
-
-if __name__ == '__main__':
-  unittest.main()
+        _, soup = gen_author_and_html_from_name(
+            name=author_name, settings=default_settings
+        )
+        selected = soup.find(name="span", attrs={"class": "archive-links"})
+        assert selected is not None
+        assert "https://www.linkedin.com/in/mylinkedinname" in str(selected)
