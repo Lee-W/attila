@@ -872,10 +872,10 @@ button,input,select,textarea {
 
 .post-content input[type="reset"],.post-content input[type="submit"],.post-content input[type="button"],.post-content button,.post-content .button {
     display: block;
-    width: 100%;
+    width: fit-content;
     padding: 1rem;
     border: 0;
-    border-radius: 4rem;
+    /* border-radius: 4rem; */
     box-sizing: border-box;
     -webkit-appearance: normal;
     appearance: normal;
@@ -2460,7 +2460,16 @@ button,input,select,textarea {
     font-weight: 400;
     font-size: 1.6em;
     line-height: 2rem;
-    color: var(--color-content-secondary)
+    color: var(--color-content-secondary);
+
+    position: relative;
+    z-index: 10;
+    display: block;
+    margin-bottom: 1.333em;
+    font-family: 'Fira Sans', sans-serif;
+    font-weight: 400;
+    line-height: 1.333em;
+    opacity: 0.5
 }
 
 .post-meta a {
@@ -3177,18 +3186,6 @@ p a {
         display:none
     }
 }
-.post-meta {
-  position: relative;
-  z-index: 10;
-  display: block;
-  margin-bottom: 1.333em;
-  font-family: 'Fira Sans', sans-serif;
-  /* font-size: 0.75em; */
-  font-weight: 400;
-  line-height: 1.333em;
-  opacity: 0.5
-}
-
 .post-content > dl > dt {
   margin-top: 20px;
 }
@@ -3220,10 +3217,10 @@ a {
   background-color: #F7F8FA;
 }
 
+/* pagefind */
 #search {
   padding-top: 10px;
 }
-
 
 input[type="text"].pagefind-ui__search-input {
   padding-left: 50px;
@@ -3237,4 +3234,33 @@ button.pagefind-ui__search-clear {
 .highlight {
     padding-top: 10px;
     padding-bottom: 10px;
+}
+
+/* clipboard.js */
+pre {
+    position: relative;
+    padding-top: 2.5em;
+}
+
+.copy-btn {
+    font-size: 1.5rem;
+    box-shadow: none;
+    min-height: initial;
+
+    position: absolute;
+    z-index: 1;
+    right: 0;
+    top: 0;
+
+    background-color: #fe8019;
+    padding: 0.7rem;
+
+    border: none;
+    border-radius: 4px;
+    width: fit-content;
+    height: fit-content;
+}
+
+.copy-btn:hover {
+    opacity: 1;
 }
