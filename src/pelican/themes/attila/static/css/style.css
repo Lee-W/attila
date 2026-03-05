@@ -3154,16 +3154,16 @@ p a {
     border-color: var(--color-primary-active)
 }
 
-.tag-weight-1  { font-size: 1.0em; }
-.tag-weight-2  { font-size: 1.2em; }
-.tag-weight-3  { font-size: 1.4em; }
-.tag-weight-4  { font-size: 1.6em; }
-.tag-weight-5  { font-size: 1.8em; }
-.tag-weight-6  { font-size: 2.0em; }
-.tag-weight-7  { font-size: 2.2em; }
-.tag-weight-8  { font-size: 2.4em; }
-.tag-weight-9  { font-size: 2.6em; }
-.tag-weight-10 { font-size: 2.8em; }
+.tag-weight-1  { font-size: 1.5em; }
+.tag-weight-2  { font-size: 1.7em; }
+.tag-weight-3  { font-size: 1.9em; }
+.tag-weight-4  { font-size: 2.1em; }
+.tag-weight-5  { font-size: 2.3em; }
+.tag-weight-6  { font-size: 2.5em; }
+.tag-weight-7  { font-size: 2.7em; }
+.tag-weight-8  { font-size: 2.9em; }
+.tag-weight-9  { font-size: 3.1em; }
+.tag-weight-10 { font-size: 3.3em; }
 
 
 /* this sets the scrolling in x */
