@@ -3177,3 +3177,64 @@ p a {
         display:none
     }
 }
+.post-meta {
+  position: relative;
+  z-index: 10;
+  display: block;
+  margin-bottom: 1.333em;
+  font-family: 'Fira Sans', sans-serif;
+  /* font-size: 0.75em; */
+  font-weight: 400;
+  line-height: 1.333em;
+  opacity: 0.5
+}
+
+.post-content > dl > dt {
+  margin-top: 20px;
+}
+
+.post-content small {
+    font-size: 0.8em;
+}
+
+.box > p {
+  font-size: 1.75em;
+  line-height: 1.5em;
+}
+
+a {
+  color: black
+}
+
+@media (prefers-color-scheme: dark) {
+  a {
+    color: #ffb9b9
+  }
+}
+.series {
+  font-size: 2em;
+  line-height: 1.5em;
+}
+
+.mermaid {
+  background-color: #F7F8FA;
+}
+
+#search {
+  padding-top: 10px;
+}
+
+
+input[type="text"].pagefind-ui__search-input {
+  padding-left: 50px;
+}
+
+button.pagefind-ui__search-clear {
+  text-align: center;
+  width: fit-content;
+}
+
+.highlight {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
