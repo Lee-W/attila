@@ -25,7 +25,7 @@ OUTPUT_DIR = os.path.join(CUR_DIR, "output")
 def default_settings() -> Settings:
     default_conf_path = Path(__file__).parent / "default_conf.py"
     settings = read_settings(str(default_conf_path))
-    settings["THEME"] = "../"
+    settings["THEME"] = "../src/pelican/themes/attila/"
     settings["filenames"] = {}
     return settings
 
