@@ -1,32 +1,20 @@
-{# <!-- Choosing cover image --> #}
-{% if article.og_image %}
-    {% if article.og_image|lower|truncate(4, True, '') == "http" %}
-        {% set default_cover = article.og_image %}
-    {% elif article.og_image.startswith('/') %}
-        {% set selected_cover = SITEURL+article.og_image %}
-    {% else %}
-        {% set default_cover = SITEURL+"/"+article.og_image %}
-    {% endif %}
-{% elif article.cover %}
-    {% if article.cover|lower|truncate(4, True, '') == "http" %}
-        {% set default_cover = article.cover %}
-    {% elif article.cover.startswith('/') %}
-        {% set selected_cover = SITEURL+article.cover %}
-    {% else %}
-        {% set default_cover = SITEURL+"/"+article.cover %}
-    {% endif %}
-{% elif HEADER_COVER %}
-  {% set default_cover = SITEURL+"/"+HEADER_COVER %}
-{% else %}
-  {% set default_cover = SITEURL+"/"+THEME_STATIC_DIR+"/images/post-bg.jpg" %}
+{% set default_cover = (
+  article.og_image if article.og_image else
+  article.cover if article.cover else
+  HEADER_COVER if HEADER_COVER else
+  THEME_STATIC_DIR ~ "/images/post-bg.jpg"
+) %}
+{% if default_cover.startswith("/") %}
+  {% set default_cover = SITEURL ~ default_cover %}
+{% elif not default_cover.lower().startswith("http") %}
+  {% set default_cover = SITEURL ~ "/" ~ default_cover %}
 {% endif %}
 
-{# <!-- Choosing description --> #}
-{% if article.headline %}
-    {% set description = article.headline %}
-{% elif article.summary %}
-    {% set description = article.summary|striptags|truncate(140) %}
-{% endif %}
+{% set description = (
+    article.headline if article.headline else
+    (article.summary|striptags|truncate(140) if article.summary else "")
+) %}
+
 <script type="application/ld+json">
 {
   "@context": "http://schema.org",
@@ -37,7 +25,7 @@
   "dateModified": "{{ article.modified }}",
   "author": {
     "@type": "Person",
-    "name": "{{ article.author.name | title }}",
+    "name": "{{ article.author.name|title }}",
     "url": "{{ SITEURL }}/{{ article.author.url }}"
   },
   "image": "{{ default_cover }}",

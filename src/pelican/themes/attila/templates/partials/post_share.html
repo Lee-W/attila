@@ -41,7 +41,7 @@
    <a title="Email"
       aria-label="Email"
       class="email"
-      href="mailto:?subject={% if article.subtitle %} - {{ article.subtitle|striptags|e }}{% endif %}&amp;body={{ SITEURL }}/{{ article.url }}">
+      href="mailto:?subject={{ article.title }}&amp;body={{ SITEURL }}/{{ article.url }}">
      <i class="fa-solid fa-envelope" aria-hidden="true"></i>
      <span class="hidden">Email</span>
    </a>

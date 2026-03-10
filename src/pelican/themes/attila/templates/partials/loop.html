@@ -3,7 +3,6 @@
 </div>
 
 {% for article in articles_page.object_list %}
-
   {% set primary_tag=None %}
   {% if article.category %}
     {% set primary_tag=article.category %}

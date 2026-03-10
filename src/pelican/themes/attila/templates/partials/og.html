@@ -28,15 +28,16 @@
 
 {# <!-- Choosing description --> #}
 {% if SITESUBTITLE %}
-    {% set description = SITESUBTITLE %}
+  {% set description = SITESUBTITLE %}
 {% else %}
-    {% set description = 'View the blog.' %}
+  {% set description = 'View the blog.' %}
 {% endif %}
 
 <!-- Open Graph -->
 {% for admin in FACEBOOK_ADMINS %}
   <meta property="fb:admins" content="{{ admin }}" />
 {% endfor %}
+
 <meta prefix="og: http://ogp.me/ns#" property="og:site_name" content="{{ SITENAME }}"/>
 <meta prefix="og: http://ogp.me/ns#" property="og:type" content="blog"/>
 <meta prefix="og: http://ogp.me/ns#" property="og:title" content="{{ SITENAME }}"/>

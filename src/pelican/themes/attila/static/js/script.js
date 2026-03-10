@@ -1,172 +1,120 @@
-jQuery(function ($) {
-  var html = $("html");
-  var viewport = $(window);
+jQuery(($) => {
+  const html = $("html");
+  const viewport = $(window);
 
-  /* ==========================================================================
-   Menu
-   ========================================================================== */
+  // Menu
+  const toggleMenu = () => html.toggleClass("menu-active");
+  $("#menu, .nav-menu, .nav-close").on("click", toggleMenu);
+  viewport.on("resize orientationchange", () =>
+    html.removeClass("menu-active"),
+  );
 
-  function menu() {
-    html.toggleClass("menu-active");
-  }
+  // Parallax cover
+  const cover = $(".cover");
+  let coverPosition = 0;
 
-  $("#menu").on({
-    click: function () {
-      menu();
-    },
-  });
-
-  $(".nav-menu").on({
-    click: function () {
-      menu();
-    },
-  });
-
-  $(".nav-close").on({
-    click: function () {
-      menu();
-    },
-  });
-
-  viewport.on({
-    resize: function () {
-      html.removeClass("menu-active");
-    },
-    orientationchange: function () {
-      html.removeClass("menu-active");
-    },
-  });
-
-  /* ==========================================================================
-   Parallax cover
-   ========================================================================== */
-
-  var cover = $(".cover");
-  var coverPosition = 0;
-
-  function prlx() {
-    if (cover.length >= 1) {
-      var windowPosition = viewport.scrollTop();
-      windowPosition > 0
-        ? (coverPosition = Math.floor(windowPosition * 0.25))
-        : (coverPosition = 0);
-      cover.css({
-        "-webkit-transform": "translate3d(0, " + coverPosition + "px, 0)",
-        transform: "translate3d(0, " + coverPosition + "px, 0)",
-      });
-      viewport.scrollTop() < cover.height()
-        ? html.addClass("cover-active")
-        : html.removeClass("cover-active");
-    }
-  }
-  prlx();
-
-  viewport.on({
-    scroll: function () {
-      prlx();
-    },
-    resize: function () {
-      prlx();
-    },
-    orientationchange: function () {
-      prlx();
-    },
-  });
-
-  /* ==========================================================================
-   Gallery
-   ========================================================================== */
-
-  function gallery() {
-    "use strict";
-    var images = document.querySelectorAll(".kg-gallery-image img");
-    images.forEach(function (image) {
-      var container = image.closest(".kg-gallery-image");
-      var width = image.attributes.width.value;
-      var height = image.attributes.height.value;
-      var ratio = width / height;
-      container.style.flex = ratio + " 1 0%";
+  const updateParallax = () => {
+    if (!cover.length) return;
+    const windowPosition = viewport.scrollTop();
+    coverPosition = windowPosition > 0 ? Math.floor(windowPosition * 0.25) : 0;
+    cover.css({
+      "-webkit-transform": `translate3d(0, ${coverPosition}px, 0)`,
+      transform: `translate3d(0, ${coverPosition}px, 0)`,
     });
-  }
+    viewport.scrollTop() < cover.height()
+      ? html.addClass("cover-active")
+      : html.removeClass("cover-active");
+  };
+
+  updateParallax();
+  viewport.on("scroll resize orientationchange", updateParallax);
+
+  // Gallery
+  const gallery = () => {
+    document.querySelectorAll(".kg-gallery-image img").forEach((image) => {
+      const container = image.closest(".kg-gallery-image");
+      const width = parseInt(image.getAttribute("width"), 10);
+      const height = parseInt(image.getAttribute("height"), 10);
+      if (!container || !width || !height) return;
+      const ratio = width / height;
+      container.style.flex = `${ratio} 1 0%`;
+    });
+  };
+
   gallery();
 
-  /* ==========================================================================
-   Theme
-   ========================================================================== */
+  // Theme (Light/Dark)
+  const initTheme = () => {
+    const toggle = $(".js-theme");
+    if (!toggle.length) return;
+    const toggleText = toggle.find(".theme-text");
 
-  function theme() {
-    "use strict";
-    var toggle = $(".js-theme");
-    var toggleText = toggle.find(".theme-text");
-
-    function system() {
-      const isDarkMode =
-        window.matchMedia &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches;
-      if (isDarkMode) {
-        dark();
-      } else {
-        light();
-      }
-    }
-
-    function dark() {
+    const setDark = () => {
       html.removeClass("theme-light").addClass("theme-dark");
       localStorage.setItem("attila_theme", "dark");
       toggleText.text(toggle.attr("data-dark"));
-    }
+    };
 
-    function light() {
+    const setLight = () => {
       html.removeClass("theme-dark").addClass("theme-light");
       localStorage.setItem("attila_theme", "light");
       toggleText.text(toggle.attr("data-light"));
-    }
+    };
 
+    const systemPref = () => {
+      const prefersDark =
+        window.matchMedia &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches;
+      prefersDark ? setDark() : setLight();
+    };
+
+    // Initialize theme
     switch (localStorage.getItem("attila_theme")) {
       case "dark":
-        dark();
+        setDark();
         break;
       case "light":
-        light();
+        setLight();
         break;
       default:
-        system();
+        systemPref();
         break;
     }
 
-    toggle.on("click", function (e) {
+    // Toggle click
+    toggle.on("click", (e) => {
       e.preventDefault();
-
-      if (!html.hasClass("theme-dark") && !html.hasClass("theme-light")) {
-        dark();
-      } else if (html.hasClass("theme-dark")) {
-        light();
+      if (html.hasClass("theme-dark")) {
+        setLight();
+      } else if (html.hasClass("theme-light")) {
+        setDark();
       } else {
-        system();
+        systemPref();
       }
     });
-  }
-  theme();
+  };
 
-  /* ==========================================================================
-   Comments
-   ========================================================================== */
-  function comments() {
+  initTheme();
+
+  // Comments
+  const initComments = () => {
     if (typeof disqus === "undefined" && typeof use_utterance === "undefined") {
-      $(".post-comments").css({
-        display: "none",
-      });
-    } else if (typeof use_utterance === "undefined") {
+      $(".post-comments").hide();
+      return;
+    }
+
+    if (typeof use_utterance === "undefined") {
       $("#show-comments").on("click", function () {
         $.ajax({
           type: "GET",
-          url: "//" + disqus + ".disqus.com/embed.js",
+          url: `//${disqus}.disqus.com/embed.js`,
           dataType: "script",
           cache: true,
         });
         $(this).parent().addClass("activated");
       });
     }
-  }
-  comments();
+  };
+
+  initComments();
 });
