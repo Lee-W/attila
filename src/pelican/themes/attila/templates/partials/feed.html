@@ -1,54 +1,29 @@
-{% for name, link in SOCIAL if name.lower() in ["rss", "rss-square", "feed"] %}
-  <link href="{{ link }}" type="application/atom+xml" rel="alternate" title="{{ SITENAME }} Full Atom Feed" />
-  {% else %}
+{% set global_feeds = [
+  ("atom", FEED_ALL_ATOM),
+  ("rss", FEED_ALL_RSS),
+  ("atom", FEED_ATOM),
+  ("rss", FEED_RSS)
+] %}
 
-  {% if FEED_ALL_ATOM %}
-  <link href="{{ FEED_DOMAIN }}/{{ FEED_ALL_ATOM }}" type="application/atom+xml" rel="alternate"
-    title="{{ SITENAME }} Full Atom Feed" />
+{% for fmt, feed in global_feeds if feed %}
+<link href="{{ FEED_DOMAIN }}/{{ feed }}" type="application/{{ fmt }}+xml"
+      rel="alternate" title="{{ SITENAME }} Full {{ fmt|upper }} Feed" />
+{% endfor %}
+
+{% set entity_feeds = [
+  ("category", CATEGORY_FEED_ATOM, CATEGORY_FEED_RSS, category),
+  ("tag", TAG_FEED_ATOM, TAG_FEED_RSS, tag),
+  ("author", AUTHOR_FEED_ATOM, AUTHOR_FEED_RSS, author)
+] %}
+
+{% for entity_name, atom_feed, rss_feed, entity in entity_feeds if entity %}
+  {% if atom_feed %}
+  <link href="{{ FEED_DOMAIN }}/{{ atom_feed.format(slug=entity.slug) }}" type="application/atom+xml"
+        rel="alternate" title="{{ SITENAME }} {{ entity_name|capitalize }} Atom Feed" />
   {% endif %}
 
-  {% if FEED_ALL_RSS %}
-  <link href="{{ FEED_DOMAIN }}/{{ FEED_ALL_RSS }}" type="application/rss+xml" rel="alternate"
-    title="{{ SITENAME }} Full RSS Feed" />
-  {% endif %}
-
-  {% if FEED_ATOM %}
-  <link href="{{ FEED_DOMAIN }}/{{ FEED_ATOM }}" type="application/atom+xml" rel="alternate"
-    title="{{ SITENAME }} Atom Feed" />
-  {% endif %}
-
-  {% if FEED_RSS %}
-  <link href="{{ FEED_DOMAIN }}/{{ FEED_RSS }}" type="application/rss+xml" rel="alternate"
-    title="{{ SITENAME }} RSS Feed" />
-  {% endif %}
-
-  {% if CATEGORY_FEED_ATOM and category %}
-  <link href="{{ FEED_DOMAIN }}/{{ CATEGORY_FEED_ATOM.format(slug=category.slug) }}" type="application/atom+xml"
-    rel="alternate" title="{{ SITENAME }} Categories Atom Feed" />
-  {% endif %}
-
-  {% if CATEGORY_FEED_RSS and category %}
-  <link href="{{ FEED_DOMAIN }}/{{ CATEGORY_FEED_RSS.format(slug=category.slug) }}" type="application/rss+xml"
-    rel="alternate" title="{{ SITENAME }} Categories RSS Feed" />
-  {% endif %}
-
-  {% if TAG_FEED_ATOM and tag %}
-  <link href="{{ FEED_DOMAIN }}/{{ TAG_FEED_ATOM.format(slug=tag.slug) }}" type="application/atom+xml" rel="alternate"
-    title="{{ SITENAME }} Tags Atom Feed" />
-  {% endif %}
-
-  {% if TAG_FEED_RSS and tag %}
-  <link href="{{ FEED_DOMAIN }}/{{ TAG_FEED_RSS.format(slug=tag.slug) }}" type="application/rss+xml" rel="alternate"
-    title="{{ SITENAME }} Tags RSS Feed" />
-  {% endif %}
-
-  {% if AUTHOR_FEED_ATOM and author %}
-  <link href="{{ FEED_DOMAIN }}/{{ AUTHOR_FEED_ATOM.format(slug=author.slug) }}" type="application/atom+xml"
-    rel="alternate" title="{{ SITENAME }} Author Atom Feed" />
-  {% endif %}
-
-  {% if AUTHOR_FEED_RSS and author %}
-  <link href="{{ FEED_DOMAIN }}/{{ AUTHOR_FEED_RSS .format(slug=author.slug) }}" type="application/rss+xml"
-    rel="alternate" title="{{ SITENAME }} Author RSS Feed" />
+  {% if rss_feed %}
+  <link href="{{ FEED_DOMAIN }}/{{ rss_feed.format(slug=entity.slug) }}" type="application/rss+xml"
+        rel="alternate" title="{{ SITENAME }} {{ entity_name|capitalize }} RSS Feed" />
   {% endif %}
 {% endfor %}

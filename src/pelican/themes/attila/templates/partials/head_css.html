@@ -1,0 +1,28 @@
+<link rel="stylesheet" type="text/css" href="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/css/style.css">
+
+{% if "pelican.plugins.osm" in PLUGINS %}
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+  <link rel="stylesheet" href="/static/pelican_osm/css/map.css">
+{% endif %}
+
+{% if PAGEFIND_ENABLED|default(False) %}
+  <link href="/pagefind/pagefind-ui.css" rel="stylesheet">
+{% endif %}
+
+{% for css in CSS_OVERRIDE|default([]) %}
+  {% if css|lower|truncate(4, True, "") == "http" %}
+    {% set css = css %}
+  {% elif css.startswith("/") %}
+    {% set css = SITEURL + css %}
+  {% else %}
+    {% set css = SITEURL + "/" + css %}
+  {% endif %}
+
+  <link href="{{ css }}" type="text/css" rel="stylesheet" />
+{% endfor %}
+
+{% if ALLOW_GOOGLE_FONTS|default(True) %}
+  <!-- Custom fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,300" rel="stylesheet" type="text/css" />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+{% endif %}

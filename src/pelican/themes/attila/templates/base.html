@@ -1,167 +1,74 @@
+{# set body context #}
+{% if not body_class %}
+
+  {% if article %}
+    {% set body_class = "post-template" %}
+    {% set current_url = "/" ~ article.url %}
+    {% set current_title = article.title %}
+  {% elif tag %}
+    {% set body_class = "tag-template" %}
+    {% set current_url = "/" ~ tag.url %}
+    {% set current_title = "Tag " ~ tag.name %}
+  {% elif category %}
+    {% set body_class = "category-template" %}
+    {% set current_url = "/" ~ category.url %}
+    {% set current_title = "Category " ~ category.name %}
+  {% elif page %}
+    {% set body_class = "page-template" %}
+    {% set current_url = "/" ~ page.url %}
+    {% set current_title = page.title %}
+  {% elif author %}
+    {% set body_class = "author-template" %}
+    {% set current_url = "/" ~ author.url %}
+    {% set current_title = "Author " ~ author.name %}
+  {% else %}
+    {% set body_class = "home-template" %}
+    {% set current_url = "/" %}
+    {% set current_title = SITENAME %}
+  {% endif %}
+
+  {% if period and period_num %}
+    {% set current_url = "/" ~ period_num[:3]|join("/") ~ "/" %}
+  {% endif %}
+{% endif %}
+
 <!DOCTYPE html>
 <html lang="{{ DEFAULT_LANG|default('en') }}">
 
 <head>
-  {% include "partials/head.html" %}
+{% block head %}
+  {% include "partials/head_meta.html" %}
+
+  <title>{% block title %}{{ SITENAME }}{% if SITESUBTITLE and SHOW_SITESUBTITLE_IN_HTML_TITLE|default(False) %} - {{ SITESUBTITLE }}{% endif
+    %}{% endblock title %}</title>
+
+  {% block canonical_url %}
+    <link href="{{ SITEURL }}/" rel="canonical" />
+  {% endblock canonical_url %}
+
+  {% include "partials/feed.html" %}
+
+  {% include "partials/head_css.html" %}
+
+  {% include "partials/head_script.html" %}
+
+{% endblock head %}
 </head>
 
-{% if body_class %}
-  {% set body_class=body_class %}
-
-{% else %}
-  {% set body_class='home-template' %}
-  {% set current_url='/' %}
-  {% set current_title=SITENAME %}
-
-  {% if article %}
-  {% set body_class='post-template' %}
-  {% set current_url='/'+article.url %}
-  {% set current_title=article.title %}
-  {% endif %}
-
-  {% if tag %}
-  {% set body_class='tag-template' %}
-  {% set current_url='/'+tag.url %}
-  {% set current_title='Tag '+tag.name %}
-  {% endif %}
-
-  {% if category %}
-  {% set body_class='category-template' %}
-  {% set current_url='/'+category.url %}
-  {% set current_title='Category '+category.name %}
-  {% endif %}
-
-  {% if page %}
-  {% set body_class='page-template' %}
-  {% set current_url='/'+page.url %}
-  {% set current_title=page.title %}
-  {% endif %}
-
-  {% if author %}
-  {% set body_class='author-template' %}
-  {% set current_url='/'+author.url %}
-  {% set current_title='Author '+author.name %}
-  {% endif %}
-
-  {% if period and period_num %}
-  {% if period_num[2] %}
-    {% set current_url='/{0}/{1}/{2}/'.format(period_num[0],period_num[1],period_num[2]) %}
-  {% elif period_num[1] %}
-    {% set current_url='/{0}/{1}/'.format(period_num[0],period_num[1]) %}
-  {% elif period_num[0] %}
-    {% set current_url='/{0}/'.format(period_num[0]) %}
-  {% endif %}
-  {% endif %}
-
-{% endif %}
-
 <body class="{{body_class}}">
-
-  {% include 'partials/navigation.html' %}
+  {% include "partials/navigation.html" %}
 
   <section id="wrapper" class="page-wrapper">
     {% block header %}{% endblock header %}
+
     {% block content %}{% endblock content %}
-    <div class="nav-footer">
-      <nav class="nav-wrapper" aria-label="Footer">
-        <span class="nav-copy">{{ SITENAME }} &copy; {{ COPYRIGHT_YEAR|default(2023) }}
-        {% for name,link in SOCIAL if name.lower() in ['rss', 'rss-square', 'feed'] %}
-          <a class="nav-rss" title="RSS" href="{{ link }}" target="_blank"><i class="icon icon-rss"></i></a>
-        {% endfor %}
-        </span>
-        <span class="nav-credits">
 
-          {% if SHOW_CREDITS|default(True) %}
-          {% if SHOW_CREDITS and SHOW_CREDITS.left %}
-          {% set left=SHOW_CREDITS.left %}
-          {% else %}
-          {% set left='Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a> &bull;' %}
-          {% endif %}
-
-          {% if SHOW_CREDITS and SHOW_CREDITS.right %}
-          {% set right=SHOW_CREDITS.right %}
-          {% else %}
-          {% set right='Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a> &bull;' %}
-          {% endif %}
-
-          {{right}}{{" "}}{{left}}
-          {% endif %}
-          <a class="menu-item js-theme" href="#" data-system="System theme" data-dark="Dark theme" data-light="Light theme">
-            <span class="theme-icon"></span><span class="theme-text">System theme</span>
-          </a>
-        </span>
-      </nav>
-    </div>
-
+    {% include "partials/footer.html" %}
   </section>
 
-  <script src="https://code.jquery.com/jquery-4.0.0.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script>
-  <script type="text/javascript" src="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/js/jquery.fitvids.js"></script>
-  <script type="text/javascript" src="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/js/script.js"></script>
+  {% include "partials/body_scripts.html" %}
 
-  {% if JS_OVERRIDE %}
-  <!-- Script specified by the user -->
-  {% for js in JS_OVERRIDE %}
-  {% if js|lower|truncate(4, True, '') == "http" %}
-    {% set js = js %}
-  {% elif js.startswith('/') %}
-    {% set js = SITEURL+js %}
-  {% else %}
-    {% set js = SITEURL+"/"+js %}
-  {% endif %}
-  <script type="text/javascript" src="{{ js }}"></script>
-  {% endfor %}
-  {% endif %}
-  {% include 'partials/analytics.js' %}
-  {% include 'partials/disqus.js' %}
-
-  {% if PAGEFIND_ENABLED|default(True) %}
-  <script src="/pagefind/pagefind-ui.js"></script>
-  <script>
-  window.addEventListener('DOMContentLoaded', (event) => {
-    new PagefindUI({
-        element: "#search",
-        showImages: false,
-    });
-  });
-  </script>
-  {% endif %}
-
-  <!-- pelican-osm  -->
-  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-  <script src="/static/pelican_osm/js/map-init.js"></script>
-
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        document.querySelectorAll('pre > code').forEach(function(codeBlock) {
-            var button = document.createElement('button');
-            button.className = 'copy-btn';
-            button.textContent = 'Copy';
-
-            var pre = codeBlock.parentNode;
-            pre.appendChild(button);
-
-            var clipboard = new ClipboardJS(button, {
-                target: function() { return codeBlock; }
-            });
-
-            clipboard.on('success', function(e) {
-                button.textContent = 'Copied!';
-                setTimeout(() => button.textContent = 'Copy', 1500);
-                e.clearSelection();
-            });
-
-            clipboard.on('error', function(e) {
-                button.textContent = 'Fail';
-                setTimeout(() => button.textContent = 'Copy', 1500);
-            });
-        });
-    });
-  </script>
-
-  <!-- 	The #block helper will pull in data from the #contentFor other template files. In this case, there's some JavaScript which we only want to use in article.html, but it needs to be included down here, after jQuery has already loaded. -->
+  <!-- The #block helper will pull in data from the #contentFor other template files. In this case, there's some JavaScript which we only want to use in article.html, but it needs to be included down here, after jQuery has already loaded. -->
   {% block scripts %}{% endblock scripts %}
 </body>
 

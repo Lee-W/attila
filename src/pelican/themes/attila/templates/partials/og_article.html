@@ -7,21 +7,21 @@
 
 {# <!-- Choosing cover image --> #}
 {% if article.og_image %}
-    {% if article.og_image|lower|truncate(4, True, '') == "http" %}
-        {% set selected_cover = article.og_image %}
-    {% elif article.og_image.startswith('/') %}
-        {% set selected_cover = SITEURL+article.og_image %}
-    {% else %}
-        {% set selected_cover = SITEURL+"/"+article.og_image %}
-    {% endif %}
+  {% if article.og_image|lower|truncate(4, True, '') == "http" %}
+    {% set selected_cover = article.og_image %}
+  {% elif article.og_image.startswith('/') %}
+    {% set selected_cover = SITEURL+article.og_image %}
+  {% else %}
+    {% set selected_cover = SITEURL+"/"+article.og_image %}
+  {% endif %}
 {% elif article.cover %}
-    {% if article.cover|lower|truncate(4, True, '') == "http" %}
-        {% set selected_cover = article.cover %}
-    {% elif article.cover.startswith('/') %}
-        {% set selected_cover = SITEURL+article.cover %}
-    {% else %}
-        {% set selected_cover = SITEURL+"/"+article.cover %}
-    {% endif %}
+  {% if article.cover|lower|truncate(4, True, '') == "http" %}
+    {% set selected_cover = article.cover %}
+  {% elif article.cover.startswith('/') %}
+    {% set selected_cover = SITEURL+article.cover %}
+  {% else %}
+    {% set selected_cover = SITEURL+"/"+article.cover %}
+  {% endif %}
 {% elif HEADER_COVER %}
   {% if HEADER_COVER|lower|truncate(4, True, '') == "http" %}
     {% set selected_cover = HEADER_COVER %}
@@ -73,22 +73,22 @@
 
 <!-- Twitter Card -->
 {% for name,link in SOCIAL if name.lower() in ['twitter'] %}
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@{{ link|replace('http://', 'https://')|replace('https://twitter.com/', '') }}">
-    <meta name="twitter:title" content="{{ article.title|striptags|e }}{% if article.subtitle %} - {{ article.subtitle|striptags|e }}{% endif %}">
-    <meta name="twitter:url" content="{{ SITEURL }}/{{ article.url }}">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@{{ link|replace('http://', 'https://')|replace('https://twitter.com/', '') }}">
+  <meta name="twitter:title" content="{{ article.title|striptags|e }}{% if article.subtitle %} - {{ article.subtitle|striptags|e }}{% endif %}">
+  <meta name="twitter:url" content="{{ SITEURL }}/{{ article.url }}">
 
-    {% if article.twitter_image %}
-        {% if article.twitter_image|lower|truncate(4, True, '') == "http" %}
-            <meta name="twitter:image:src" content="{{ article.twitter_image }}">
-        {% elif article.twitter_image.startswith('/') %}
-            <meta name="twitter:image:src" content="{{ SITEURL }}{{ article.twitter_image }}">
-        {% else %}
-            <meta name="twitter:image:src" content="{{ SITEURL }}/{{ article.twitter_image }}">
-        {% endif %}
+  {% if article.twitter_image %}
+    {% if article.twitter_image|lower|truncate(4, True, '') == "http" %}
+      <meta name="twitter:image:src" content="{{ article.twitter_image }}">
+    {% elif article.twitter_image.startswith('/') %}
+      <meta name="twitter:image:src" content="{{ SITEURL }}{{ article.twitter_image }}">
     {% else %}
-        <meta name="twitter:image:src" content="{{ selected_cover }}">
+      <meta name="twitter:image:src" content="{{ SITEURL }}/{{ article.twitter_image }}">
     {% endif %}
+  {% else %}
+    <meta name="twitter:image:src" content="{{ selected_cover }}">
+  {% endif %}
 
-      <meta name="twitter:description" content="{{ description }}">
+  <meta name="twitter:description" content="{{ description }}">
 {% endfor %}

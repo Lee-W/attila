@@ -1,11 +1,12 @@
 <div class="nav-header">
   <nav class="nav-wrapper" aria-label="Main">
-      {% if SITE_LOGO %}
+    {% if SITE_LOGO %}
       <span class="logo">
         <a href="{{ SITEURL }}" title="Home"><img src="{{SITE_LOGO}}" alt="Blog Logo" /></a>
       </span>
-      {% endif %}
-      {% include 'partials/navigation-items.html' %}
+    {% endif %}
+
+    {% include "partials/navigation-items.html" %}
   </nav>
 
   <div class="nav-wrapper-control">
@@ -15,4 +16,5 @@
     </div>
   </div>
 </div>
+
 <div class="nav-close" role="button" aria-label="Close"></div>

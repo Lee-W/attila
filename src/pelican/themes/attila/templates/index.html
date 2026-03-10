@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 
 {% block head %}
-    {{ super() }}
-    {% include 'partials/og.html' %}
-    {% include 'partials/jsonld.html' %}
+  {{ super() }}
+  {% include "partials/og.html" %}
+  {% include "partials/jsonld.html" %}
 {% endblock %}
 
 {% if HEADER_COVER %}
@@ -29,30 +29,30 @@
 {% endif %}
 
 {% block header %}
-    <!-- Page Header -->
-    <!-- Set your background image for this header on the line below. -->
-    <header class="blog-header {% if selected_cover or selected_color %} has-cover {% endif %}">
-      <div class="inner">
-        <div class="box blog-box">
-          <h1 class="blog-name">{{ SITENAME }}</h1>
-          {% if SITESUBTITLE %}
+  <!-- Page Header -->
+  <!-- Set your background image for this header on the line below. -->
+  <header class="blog-header {% if selected_cover or selected_color %} has-cover {% endif %}">
+    <div class="inner">
+      <div class="box blog-box">
+        <h1 class="blog-name">{{ SITENAME }}</h1>
+        {% if SITESUBTITLE %}
           <span class="blog-description">{{ SITESUBTITLE }}</span>
-          {% endif %}
-        </div>
-
-        {% if selected_cover %}
-          <div class="blog-cover cover">
-            {% if "image_process" is plugin_enabled %}
-              <img class="image-process-large-photo" src="{{ selected_cover }}" alt="{{ current_title }}" />
-            {% else %}
-              <img src="{{ selected_cover }}" alt="{{ current_title }}" />
-            {% endif %}
-          </div>
-        {% elif selected_color %}
-          <div class="blog-cover cover" style="background-color: {{ selected_color }}">
         {% endif %}
       </div>
-    </header>
+
+    {% if selected_cover %}
+      <div class="blog-cover cover">
+        {% if "image_process" is plugin_enabled %}
+            <img class="image-process-large-photo" src="{{ selected_cover }}" alt="{{ current_title }}" />
+        {% else %}
+            <img src="{{ selected_cover }}" alt="{{ current_title }}" />
+        {% endif %}
+      </div>
+    {% elif selected_color %}
+      <div class="blog-cover cover" style="background-color: {{ selected_color }}"></div>
+    {% endif %}
+    </div>
+  </header>
 
 {% endblock header %}
 

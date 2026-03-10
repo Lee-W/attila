@@ -42,9 +42,9 @@ dependencies = [
 
 [dependency-groups]
 dev = [
-    { include-group = "base" },
-    { include-group = "test" },
-    { include-group = "linters" },
+  { include-group = "base" },
+  { include-group = "test" },
+  { include-group = "linters" },
 ]
 base = ["poethepoet>=0.34.0"]
 test = ["pytest>=9.0.0", "BeautifulSoup4"]

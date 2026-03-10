@@ -1,0 +1,29 @@
+<div class="nav-footer">
+  <nav class="nav-wrapper" aria-label="Footer">
+    <span class="nav-copy">{{ SITENAME }} &copy; {{ COPYRIGHT_YEAR|default(2026) }}
+    {% for name, link in SOCIAL if name.lower() in ["rss", "rss-square", "feed"] %}
+      <a class="nav-rss" title="RSS" href="{{ link }}" target="_blank"><i class="icon icon-rss"></i></a>
+    {% endfor %}
+    </span>
+
+    <span class="nav-credits">
+      {% if SHOW_CREDITS|default(True) %}
+        {% if SHOW_CREDITS and SHOW_CREDITS.left %}
+          {% set left=SHOW_CREDITS.left %}
+        {% else %}
+          {% set left='Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a> &bull;' %}
+        {% endif %}
+        {% if SHOW_CREDITS and SHOW_CREDITS.right %}
+          {% set right=SHOW_CREDITS.right %}
+        {% else %}
+          {% set right='Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a> &bull;' %}
+        {% endif %}
+
+        {{ right }}{{ " " }}{{ left }}
+      {% endif %}
+      <a class="menu-item js-theme" href="#" data-system="System theme" data-dark="Dark theme" data-light="Light theme">
+        <span class="theme-icon"></span><span class="theme-text">System theme</span>
+      </a>
+    </span>
+  </nav>
+</div>

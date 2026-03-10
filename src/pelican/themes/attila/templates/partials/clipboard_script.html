@@ -1,0 +1,30 @@
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll("pre > code").forEach((codeBlock) => {
+    const button = document.createElement("button");
+    button.className = "copy-btn";
+    button.textContent = "Copy";
+    codeBlock.parentNode.appendChild(button);
+
+    const clipboard = new ClipboardJS(button, {
+      target: () => codeBlock
+    });
+
+    clipboard.on("success", (e) => {
+      button.textContent = "Copied!";
+      setTimeout(() => {
+        button.textContent = "Copy";
+      }, 1500);
+      e.clearSelection();
+    });
+
+    clipboard.on("error", (e) => {
+      button.textContent = "Fail";
+      setTimeout(() => {
+        button.textContent = "Copy";
+      }, 1500);
+    });
+  });
+});
+</script>
