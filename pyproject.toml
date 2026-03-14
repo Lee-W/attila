@@ -38,7 +38,7 @@ dependencies = [
   "pelican-statistics >= 1.0.0",
   "pelican-webassets >= 2.1.0",
   "pelican-osm >= 0.3.0",
-  "pelican-heatmap >= 0.2.0",
+  "pelican-heatmap >= 0.2.2",
 ]
 
 [dependency-groups]
