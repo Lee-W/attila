@@ -1,3 +1,9 @@
+## v2.2.0 (2026-03-14)
+
+### Feat
+
+- add pelican-osm, pelican-heatmap support
+
 ## v2.1.0 (2026-03-10)
 
 ### Feat
