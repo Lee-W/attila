@@ -32,6 +32,8 @@ It is ported from the ghost theme:
 - Open Graph  
 - Rich Snippets (JSON-LD)
 - Article subtitle
+- Writing heatmap (via [heatmap plugin](https://pypi.org/project/pelican-heatmap/))
+- OpenStreetMap (via [osm plugin](https://pypi.org/project/pelican-osm/))
 
 ## Install
 

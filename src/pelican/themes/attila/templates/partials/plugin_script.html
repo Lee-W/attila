@@ -1,5 +1,8 @@
 {% if "pelican.plugins.osm" in PLUGINS %}
-  <!-- pelican-osm  -->
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-  <script src="/static/pelican_osm/js/map-init.js"></script>
+  <script src="/static/pelican_osm/js/osm-map.js" defer></script>
+{% endif %}
+
+{% if "pelican.plugins.heatmap" in PLUGINS %}
+  <script src="/static/pelican_heatmap.js" defer></script>
 {% endif %}

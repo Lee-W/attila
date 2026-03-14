@@ -2,7 +2,11 @@
 
 {% if "pelican.plugins.osm" in PLUGINS %}
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
-  <link rel="stylesheet" href="/static/pelican_osm/css/map.css">
+  <link rel="stylesheet" href="/static/pelican_osm/css/osm-map.css">
+{% endif %}
+
+{% if "pelican.plugins.heatmap" in PLUGINS %}
+  <link rel="stylesheet" href="/static/pelican_heatmap.css">
 {% endif %}
 
 {% if PAGEFIND_ENABLED|default(False) %}
