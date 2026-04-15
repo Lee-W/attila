@@ -34,6 +34,7 @@ It is ported from the ghost theme:
 - Article subtitle
 - Writing heatmap (via [heatmap plugin](https://pypi.org/project/pelican-heatmap/))
 - OpenStreetMap (via [osm plugin](https://pypi.org/project/pelican-osm/))
+- [umami](https://umami.is/) support
 
 ## Install
 
@@ -223,6 +224,7 @@ Supported social profiles: Facebook, GitHub, LinkedIn, Twitter, and Instagram.
 - Google Analytics: `GOOGLE_ANALYTICS`  
 - Gauges: `GAUGES`  
 - Piwik: `PIWIK_URL` + `PIWIK_SITE_ID`
+- umami: `UMAMI_WEBSITE_ID`
 
 ### Menu Items
 The menu item comes from the pelican config `MENUITEMS`.

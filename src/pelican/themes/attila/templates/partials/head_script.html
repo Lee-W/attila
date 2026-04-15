@@ -4,3 +4,10 @@
 <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
 <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+{% if UMAMI_WEBSITE_ID %}
+<script async defer
+    data-website-id="{{ UMAMI_WEBSITE_ID }}"
+    src="https://cloud.umami.is/script.js">
+</script>
+{% endif %}
