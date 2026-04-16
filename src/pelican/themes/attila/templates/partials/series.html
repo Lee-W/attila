@@ -1,6 +1,6 @@
 {% if article.series %}
 <div class="series">
-  <p>This post is part {{ article.series.index }} of the "{{ article.series.name }}" series:</p>
+  <p>{% trans index=article.series.index, name=article.series.name %}This post is part {{ index }} of the "{{ name }}" series:{% endtrans %}</p>
   <ol class="parts">
   {% for part_article in article.series.all %}
     <li {% if part_article == article %}class="active"{% endif %}>

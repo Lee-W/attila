@@ -6,17 +6,17 @@
   {% if HEADER_COVER|lower|truncate(4, True, '') == "http" %}
     {% set selected_cover = HEADER_COVER %}
   {% elif HEADER_COVER.startswith('/') %}
-    {% set selected_cover = SITEURL+HEADER_COVER %}
+    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+HEADER_COVER %}
   {% else %}
-    {% set selected_cover = SITEURL+"/"+HEADER_COVER %}
+    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+"/"+HEADER_COVER %}
   {% endif %}
 {% elif HOME_COVER %}
   {% if HOME_COVER|lower|truncate(4, True, '') == "http" %}
     {% set selected_cover = HOME_COVER %}
   {% elif HOME_COVER.startswith('/') %}
-    {% set selected_cover = SITEURL+HOME_COVER %}
+    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+HOME_COVER %}
   {% else %}
-    {% set selected_cover = SITEURL+"/"+HOME_COVER %}
+    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+"/"+HOME_COVER %}
   {% endif %}
 {% elif HEADER_COLOR %}
   {% set selected_color = HEADER_COLOR %}
@@ -55,14 +55,18 @@
 {% block content %}
   {% set max_count = (tags|map('last')|map('count')|max) or 1 %}
   {% set steps = (TAG_CLOUD_STEPS|default(5, true)) - 1 %}
-  <article class="post">
-    <div class="inner tag-cloud">
-      {% for tag, articles in tags|sort %}
-        {% set count = articles|count %}
-        <div class="tag tag-weight-{{ (count/(max_count/steps))|int + 1 }}">
-          <a href="{{ SITEURL }}/{{ tag.url }}" title="{{ count }} article(s) tagged '{{ tag }}'">{{ tag }}</a>
-        </div>
-      {% endfor %}
+  <div class="tags-page">
+    <div class="inner">
+      <div class="tag-cloud">
+        {% for tag, articles in tags|sort %}
+          {% set count = articles|count %}
+          {% set weight = (count / (max_count / steps))|int + 1 %}
+          <a href="{{ SITEURL }}/{{ tag.url }}" class="tag-pill tag-weight-{{ weight }}" title="{{ count }} article(s)">
+            <span class="tag-name">{{ tag }}</span>
+            <span class="tag-count">{{ count }}</span>
+          </a>
+        {% endfor %}
+      </div>
     </div>
-  </article>
+  </div>
 {% endblock content %}

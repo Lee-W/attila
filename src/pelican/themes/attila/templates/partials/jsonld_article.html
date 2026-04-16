@@ -5,9 +5,9 @@
   THEME_STATIC_DIR ~ "/images/post-bg.jpg"
 ) %}
 {% if default_cover.startswith("/") %}
-  {% set default_cover = SITEURL ~ default_cover %}
+  {% set default_cover = (STATIC_SITEURL|default(SITEURL)) ~ default_cover %}
 {% elif not default_cover.lower().startswith("http") %}
-  {% set default_cover = SITEURL ~ "/" ~ default_cover %}
+  {% set default_cover = (STATIC_SITEURL|default(SITEURL)) ~ "/" ~ default_cover %}
 {% endif %}
 
 {% set description = (

@@ -114,3 +114,4 @@ venv.bak/
 
 # ruff
 .ruff_cache
+tests/output

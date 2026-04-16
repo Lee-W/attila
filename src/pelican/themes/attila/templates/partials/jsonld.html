@@ -1,5 +1,5 @@
 {# <!-- Choosing cover image --> #}
-{% set default_cover = SITEURL ~ "/" ~ (HEADER_COVER if HEADER_COVER else THEME_STATIC_DIR ~ "/images/home-bg.jpg") %}
+{% set default_cover = (STATIC_SITEURL|default(SITEURL)) ~ "/" ~ (HEADER_COVER if HEADER_COVER else THEME_STATIC_DIR ~ "/images/home-bg.jpg") %}
 
 {# <!-- Choosing description --> #}
 {% set description = SITESUBTITLE if SITESUBTITLE else "View the blog." %}
