@@ -1,3 +1,9 @@
+## v2.4.0 (2026-04-16)
+
+### Feat
+
+- modernize UI and add i18n support
+
 ## v2.3.0 (2026-04-15)
 
 ### Feat
