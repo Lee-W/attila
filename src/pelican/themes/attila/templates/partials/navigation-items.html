@@ -26,6 +26,14 @@
     </li>
   {% endfor %}
 
+  {% if LANGUAGES|default([]) %}
+    <li class="nav-languages">
+      {% for lang_name, lang_url in LANGUAGES %}
+        <a href="{{ lang_url }}" class="nav-language-item{% if CURRENT_LANG|default('') == lang_name %} active{% endif %}">{{ lang_name }}</a>
+      {% endfor %}
+    </li>
+  {% endif %}
+
   <li class="nav-search" style="display: none;">
     <a title="Search">
       <i class="icon icon-search" aria-hidden="true"></i>

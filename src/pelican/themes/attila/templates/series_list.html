@@ -9,10 +9,12 @@
           <h1>Article Series</h1>
 
           {% for series_name, series_articles in article_series.items() %}
+          {% if series_articles %}
           {% set article = series_articles[0] %}
           <li>
             <a href="{{ article.url }}">{{ series_name }}</a>
           </li>
+          {% endif %}
           {% endfor %}
 
         </section>

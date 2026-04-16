@@ -1,0 +1,48 @@
+# Taiwanese Mandarin translations for Attila theme
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: zh_TW\n"
+
+msgid "Newer Posts"
+msgstr "較新文章"
+
+msgid "Older Posts"
+msgstr "較舊文章"
+
+msgid "Page {{ current }} of {{ total }}"
+msgstr "第 {{ current }} 頁，共 {{ total }} 頁"
+
+msgid "Post"
+msgstr "篇文章"
+
+msgid "Posts"
+msgstr "篇文章"
+
+msgid "Category"
+msgstr "分類"
+
+msgid "Tag"
+msgstr "標籤"
+
+msgid "Author"
+msgstr "作者"
+
+msgid "Share"
+msgstr "分享"
+
+msgid "Published with {{ pelican }} &bull; Theme {{ attila }} &bull;"
+msgstr "以 {{ pelican }} 建立 &bull; 主題：{{ attila }} &bull;"
+
+msgid "System theme"
+msgstr "系統主題"
+
+msgid "Dark theme"
+msgstr "深色主題"
+
+msgid "Light theme"
+msgstr "淺色主題"
+
+msgid "This post is part {{ index }} of the \"{{ name }}\" series:"
+msgstr "本文是「{{ name }}」系列的第 {{ index }} 篇："

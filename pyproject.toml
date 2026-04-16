@@ -17,7 +17,6 @@ classifiers = [
   "Framework :: Pelican :: Themes",
   "Intended Audience :: Developers",
   "Intended Audience :: Information Technology",
-  "License :: OSI Approved :: MIT License",
   "Operating System :: OS Independent",
   "Programming Language :: JavaScript",
   "Programming Language :: Other",
@@ -59,7 +58,7 @@ linters = ["ruff>=0.15.4"]
 "Releases" = "https://github.com/Lee-W/attila/releases"
 
 [build-system]
-requires = ["uv_build >= 0.10.3, <0.11.0"]
+requires = ["uv_build >= 0.11.0, <0.12.0"]
 build-backend = "uv_build"
 
 [tool.uv.build-backend]

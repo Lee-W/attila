@@ -6,17 +6,17 @@
   {% if HEADER_COVER|lower|truncate(4, True, '') == "http" %}
     {% set selected_cover = HEADER_COVER %}
   {% elif HEADER_COVER.startswith('/') %}
-    {% set selected_cover = SITEURL+HEADER_COVER %}
+    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+HEADER_COVER %}
   {% else %}
-    {% set selected_cover = SITEURL+"/"+HEADER_COVER %}
+    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+"/"+HEADER_COVER %}
   {% endif %}
 {% elif HOME_COVER %}
   {% if HOME_COVER|lower|truncate(4, True, '') == "http" %}
     {% set selected_cover = HOME_COVER %}
   {% elif HOME_COVER.startswith('/') %}
-    {% set selected_cover = SITEURL+HOME_COVER %}
+    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+HOME_COVER %}
   {% else %}
-    {% set selected_cover = SITEURL+"/"+HOME_COVER %}
+    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+"/"+HOME_COVER %}
   {% endif %}
 {% elif HEADER_COLOR %}
   {% set selected_color = HEADER_COLOR %}
@@ -53,29 +53,22 @@
 {% endblock header %}
 
 {% block content %}
-  <article class="post">
+  <div class="archives-page">
     <div class="inner">
-      <section class="post-content">
-        <dl>
-        {% set ns = namespace(cur_year=-1) %}
-        {% for article in articles %}
-          {% if ns.cur_year != article.date.year %}
-            {% set ns.cur_year = article.date.year %}
-            <hr>
-            <h4>{{ ns.cur_year }}</h4>
-          {% endif %}
-          <dt>
-            <time>{{ article.date|strftime("%m/%d (%a)")}}</time>
-            <dd>
-            <a class="list-group-item list-group-item-action" href="{{ SITEURL }}/{{ article.url }}">
-              {{ article.title|striptags|e }}
-              {% if article.subtitle %} (<small class="post-subtitle">{{ article.subtitle|striptags|e }}</small>){% endif %}
-            </a>
-            </dd>
-          </dt>
-        {% endfor %}
-        </dl>
-      </section>
+      {% set ns = namespace(cur_year=-1) %}
+      {% for article in articles %}
+        {% if ns.cur_year != article.date.year %}
+          {% set ns.cur_year = article.date.year %}
+          <h2 class="archives-year">{{ ns.cur_year }}</h2>
+        {% endif %}
+        <div class="archive-entry">
+          <time class="archive-date">{{ article.date|strftime("%m/%d") }}</time>
+          <a class="archive-title" href="{{ SITEURL }}/{{ article.url }}">
+            {{ article.title|striptags|e }}
+            {% if article.subtitle %}<span class="archive-subtitle">— {{ article.subtitle|striptags|e }}</span>{% endif %}
+          </a>
+        </div>
+      {% endfor %}
     </div>
-  </article>
+  </div>
 {% endblock content %}

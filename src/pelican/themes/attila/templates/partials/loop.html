@@ -13,36 +13,27 @@
   <article class="post">
     <div class="inner">
       <div class="box post-box">
-        <h2 class="post-title">
-          <a href="{{ SITEURL }}/{{ article.url }}" rel="bookmark" title="Permalink to {{ article.title|striptags|e }}{% if article.subtitle %} - {{ article.subtitle|striptags|e }}{% endif %}">
-              {{ article.title|striptags|e }}
-              {% if article.subtitle %}<br><small class="post-subtitle">{{ article.subtitle|striptags|e }}</small>{% endif %}
-          </a>
-        </h2>
 
-        <span class="post-meta">
-          {{ "By " }}
-
-          {% for author in article.authors %}
-            {% set author_name = author.name | title %}
-            {% if AUTHOR_META and author.name.lower() in AUTHOR_META %}
-              {% set author_name = AUTHOR_META[author.name.lower()].name or author.name %}
-            {% endif %}
-            <a class="post-meta-tag" href="{{ SITEURL }}/{{ author.url }}">{{ author_name }}</a>
-          {% endfor %}
-
+        <div class="post-card-meta">
           {% if primary_tag %}
-            {{ " in " }}
-            <a class="post-meta-tag" href="{{ SITEURL }}/{{ primary_tag.url }}">{{ primary_tag | title }}</a>
+            <a class="post-card-category" href="{{ SITEURL }}/{{ primary_tag.url }}">{{ (CATEGORY_TRANSLATIONS|default({})).get(primary_tag.name, primary_tag.name) }}</a>
           {% endif %}
-          {{ " on " }}<time datetime="{{ article.locale_date }}">{{ article.locale_date }}</time>
-        </span>
+          <time class="post-card-date" datetime="{{ article.date.isoformat() }}">{{ article.date.strftime("%Y/%m/%d") }}</time>
+        </div>
+
+        <h2 class="post-title">
+          <a href="{{ SITEURL }}/{{ article.url }}" rel="bookmark">
+            {{ article.title|striptags|e }}
+          </a>
+          {% if article.subtitle %}
+            <small class="post-subtitle">{{ article.subtitle|striptags|e }}</small>
+          {% endif %}
+        </h2>
 
         <section class="post-content">
           {% if SHOW_FULL_ARTICLE_IN_SUMMARY|default(False) %}
             {{ article.content }}
           {% else %}
-
             <p class="post-excerpt">
               {% if article.has_summary %}
                 {{ article.summary }}
@@ -53,22 +44,14 @@
           {% endif %}
         </section>
 
-        {% if SHOW_COMMENTS_COUNT_IN_ARTICLE_SUMMARY|default(True) or SHOW_TAGS_IN_ARTICLE_SUMMARY|default(False) %}
-
-        <div class="post-excerpt">
-          {% if SHOW_COMMENTS_COUNT_IN_ARTICLE_SUMMARY|default(True) %}
-            {% include 'partials/comments_count.html' %}
-          {% endif %}
-
-          {% if SHOW_TAGS_IN_ARTICLE_SUMMARY|default(False) %}
-          {% if article.tags %}
-            <aside class="post-tags">
-            {% for tag in article.tags[0:3] %}<a href="{{ SITEURL }}/{{ tag.url }}">{{ tag | escape }}</a>{% if not loop.last %}{% endif %}{% endfor %}
-            </aside>
-          {% endif %}
-          {% endif %}
-        </div>
+        {% if SHOW_TAGS_IN_ARTICLE_SUMMARY|default(False) and article.tags %}
+          <aside class="post-tags">
+            {% for tag in article.tags[0:3] %}
+              <a href="{{ SITEURL }}/{{ tag.url }}">{{ tag | escape }}</a>
+            {% endfor %}
+          </aside>
         {% endif %}
+
       </div>
     </div>
   </article>
