@@ -17,9 +17,9 @@
   {% if tag_cover|lower|truncate(4, True, '') == "http" %}
     {% set selected_cover = tag_cover %}
   {% elif tag_cover.startswith('/') %}
-    {% set selected_cover = SITEURL+tag_cover %}
+    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+tag_cover %}
   {% else %}
-    {% set selected_cover = SITEURL+"/"+tag_cover %}
+    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+"/"+tag_cover %}
   {% endif %}
 {% elif tag_color %}
   {% set selected_color = tag_color %}
@@ -27,17 +27,17 @@
   {% if HEADER_COVER|lower|truncate(4, True, '') == "http" %}
     {% set selected_cover = HEADER_COVER %}
   {% elif HEADER_COVER.startswith('/') %}
-    {% set selected_cover = SITEURL+HEADER_COVER %}
+    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+HEADER_COVER %}
   {% else %}
-    {% set selected_cover = SITEURL+"/"+HEADER_COVER %}
+    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+"/"+HEADER_COVER %}
   {% endif %}
 {% elif HOME_COVER %}
   {% if HOME_COVER|lower|truncate(4, True, '') == "http" %}
     {% set selected_cover = HOME_COVER %}
   {% elif HOME_COVER.startswith('/') %}
-    {% set selected_cover = SITEURL+HOME_COVER %}
+    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+HOME_COVER %}
   {% else %}
-    {% set selected_cover = SITEURL+"/"+HOME_COVER %}
+    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+"/"+HOME_COVER %}
   {% endif %}
 {% elif HEADER_COLOR %}
   {% set selected_color = HEADER_COLOR %}
@@ -52,12 +52,12 @@
       <div class="inner">
         <div class="archive archive-tag box archive-box">
           <span class="archive-info">
-            <span class="archive-type">{{"Tag"}}</span>
+            <span class="archive-type">{% trans %}Tag{% endtrans %}</span>
             <span class="archive-count">
             {% if articles|count == 1 %}
-            {{ articles|count }} Post
+            {{ articles|count }} {% trans %}Post{% endtrans %}
             {% else %}
-            {{ articles|count }} Posts
+            {{ articles|count }} {% trans %}Posts{% endtrans %}
             {% endif %}
             </span>
           </span>

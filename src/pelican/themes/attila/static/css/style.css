@@ -203,11 +203,11 @@ td,th {
     --color-content-lead: #FFF;
     --color-content-main: #E1E3E6;
     --color-content-secondary: #909499;
-    --pagefind-ui-primary: #eeeeee;
-    --pagefind-ui-text: #eeeeee;
-    --pagefind-ui-background: #152028;
-    --pagefind-ui-border: #152028;
-    --pagefind-ui-tag: #152028;
+    --pagefind-ui-primary: var(--color-primary);
+    --pagefind-ui-text: var(--color-content-main);
+    --pagefind-ui-background: var(--color-background-main);
+    --pagefind-ui-border: var(--color-background-contrast);
+    --pagefind-ui-tag: var(--color-background-secondary);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -505,6 +505,14 @@ td,th {
 html {
     font-size: 62.5%;
     overflow-x: hidden
+}
+
+html[lang="zh-tw"] {
+    font-size: 70%
+}
+
+html[lang="en"] {
+    font-size: 45%
 }
 
 .menu-active body,html.menu-active {
@@ -1797,6 +1805,10 @@ button,input,select,textarea {
     color: var(--color-content-main)
 }
 
+.cover-active .nav-header {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0) 100%)
+}
+
 .cover-active .nav-header .nav-wrapper-control {
     color: white
 }
@@ -2049,6 +2061,37 @@ button,input,select,textarea {
     display: block !important
 }
 
+.nav-meta li.nav-languages {
+    display: flex;
+    align-items: center;
+    background: var(--color-background-contrast);
+    border-radius: 20px;
+    padding: 3px
+}
+
+.nav-meta li.nav-languages .nav-language-item {
+    font-size: 0.8em;
+    font-weight: 600;
+    text-decoration: none;
+    color: var(--color-content-secondary);
+    padding: 3px 10px;
+    border-radius: 16px;
+    transition: color linear 0.1s, background linear 0.1s
+}
+
+.nav-meta li.nav-languages .nav-language-item + .nav-language-item {
+    border-left: 1px solid var(--color-background-contrast)
+}
+
+.nav-meta li.nav-languages .nav-language-item:hover {
+    color: var(--color-content-lead)
+}
+
+.nav-meta li.nav-languages .nav-language-item.active {
+    background: var(--color-background-main);
+    color: var(--color-content-lead)
+}
+
 .cover-active .nav-wrapper-control a {
     color: rgba(255,255,255,0.8)
 }
@@ -2295,13 +2338,62 @@ button,input,select,textarea {
 }
 
 .container .post .post-box {
-    padding-top: calc(4rem + 2vw);
-    padding-bottom: calc(4rem + 2vw);
+    padding-top: calc(3rem + 1vw);
+    padding-bottom: calc(3rem + 1vw);
     border-bottom: 1px solid var(--color-background-contrast)
 }
 
 .container #results .post:first-child .post-box {
     border-top: 1px solid var(--color-background-contrast)
+}
+
+.post-card-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem
+}
+
+.post-card-category {
+    font-size: 1.4rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-primary);
+    text-decoration: none;
+    padding: 0.2rem 0.8rem;
+    border-radius: 999px;
+    border: 1px solid var(--color-primary);
+    transition: background ease 0.15s, color ease 0.15s
+}
+
+.post-card-category:hover {
+    background: var(--color-primary);
+    color: #fff
+}
+
+.post-card-date {
+    font-size: 1.3rem;
+    color: var(--color-content-secondary)
+}
+
+.container .post .post-title {
+    font-size: 2.4rem;
+    margin-bottom: 0.6rem
+}
+
+.container .post .post-subtitle {
+    display: block;
+    font-size: 1.6rem;
+    font-weight: 400;
+    color: var(--color-content-secondary);
+    margin-top: 0.4rem
+}
+
+.container .post .post-tags a {
+    font-size: 1.4rem;
+    line-height: 2.6rem;
+    padding: 0 1rem
 }
 
 .container .post.featured .post-title:after {
@@ -2469,7 +2561,7 @@ button,input,select,textarea {
     font-family: 'Fira Sans', sans-serif;
     font-weight: 400;
     line-height: 1.333em;
-    opacity: 0.5
+    opacity: 0.8
 }
 
 .post-meta a {
@@ -3135,44 +3227,129 @@ p a {
 }
 
 
+/* css for archives */
+
+.archives-page {
+    padding: 4rem 0 8rem
+}
+
+.archives-page .inner {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 4rem
+}
+
+.archives-year {
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: var(--color-content-lead);
+    margin: 4rem 0 1rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 2px solid var(--color-primary)
+}
+
+.archives-year:first-child {
+    margin-top: 0
+}
+
+.archive-entry {
+    display: flex;
+    align-items: baseline;
+    gap: 1.6rem;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid var(--color-background-contrast)
+}
+
+.archive-date {
+    flex-shrink: 0;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--color-content-secondary);
+    font-variant-numeric: tabular-nums;
+    width: 4rem
+}
+
+.archive-title {
+    font-size: 1.5rem;
+    color: var(--color-content-main);
+    text-decoration: none;
+    transition: color ease 0.15s
+}
+
+.archive-title:hover {
+    color: var(--color-primary)
+}
+
+.archive-subtitle {
+    font-size: 1.3rem;
+    color: var(--color-content-secondary)
+}
+
 /* css for tag cloud */
 
+.tags-page {
+    padding: 4rem 0 8rem
+}
+
+.tags-page .inner {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 4rem
+}
+
 .tag-cloud {
-    text-align: center;
-    margin-bottom: 3em;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center
 }
 
-.tag-cloud .tag {
-    display: inline-block;
-    padding: 0.2em 0.15em;
-    vertical-align: middle;
-}
-
-.tag-cloud a {
-    display: inline-block;
-    padding: 0.5em 1em;
-    color: var(--color-content-secondary);
+.tag-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.6rem 1.2rem;
+    border-radius: 999px;
     text-decoration: none;
+    font-size: 1.4rem;
+    font-weight: 500;
+    background: var(--color-background-secondary);
+    color: var(--color-content-main);
     border: 1px solid var(--color-background-contrast);
-    border-radius: 4px;
-    transition: all ease 0.2s
+    transition: background ease 0.15s, border-color ease 0.15s, color ease 0.15s
 }
 
-.tag-cloud a:focus,.tag-cloud a:hover {
-    color: var(--color-primary-active);
-    border-color: var(--color-primary-active)
+.tag-pill:hover {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: #fff
 }
 
-.tag-weight-1  { font-size: 1.5em; }
-.tag-weight-2  { font-size: 1.7em; }
-.tag-weight-3  { font-size: 1.9em; }
-.tag-weight-4  { font-size: 2.1em; }
-.tag-weight-5  { font-size: 2.3em; }
-.tag-weight-6  { font-size: 2.5em; }
-.tag-weight-7  { font-size: 2.7em; }
-.tag-weight-8  { font-size: 2.9em; }
-.tag-weight-9  { font-size: 3.1em; }
-.tag-weight-10 { font-size: 3.3em; }
+.tag-pill .tag-count {
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding: 0.1rem 0.55rem;
+    border-radius: 999px;
+    background: var(--color-background-contrast);
+    color: var(--color-content-secondary);
+    transition: background ease 0.15s, color ease 0.15s
+}
+
+.tag-pill:hover .tag-count {
+    background: rgba(255,255,255,0.25);
+    color: #fff
+}
+
+.tag-weight-1  { opacity: 0.75; }
+.tag-weight-2  { opacity: 0.8; }
+.tag-weight-3  { opacity: 0.85; }
+.tag-weight-4  { opacity: 0.9; }
+.tag-weight-5  { opacity: 0.92; }
+.tag-weight-6  { opacity: 0.95; }
+.tag-weight-7  { opacity: 0.97; }
+.tag-weight-8  { opacity: 1; }
+.tag-weight-9  { opacity: 1; font-weight: 600; }
+.tag-weight-10 { opacity: 1; font-weight: 700; }
 
 
 /* this sets the scrolling in x */
@@ -3218,17 +3395,56 @@ a {
 }
 
 /* pagefind */
+:root {
+    --pagefind-ui-primary: var(--color-primary);
+    --pagefind-ui-text: var(--color-content-main);
+    --pagefind-ui-background: var(--color-background-main);
+    --pagefind-ui-border: var(--color-background-contrast);
+    --pagefind-ui-tag: var(--color-background-secondary);
+    --pagefind-ui-border-width: 1px;
+    --pagefind-ui-border-radius: 8px;
+    --pagefind-ui-font: inherit
+}
+
+.search-page {
+    padding: 4rem 0 8rem
+}
+
+.search-page .inner {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 4rem
+}
+
 #search {
-  padding-top: 10px;
+    width: 100%
 }
 
 input[type="text"].pagefind-ui__search-input {
-  padding-left: 50px;
+    padding-left: 50px;
+    font-size: 1.6rem;
+    border-radius: var(--pagefind-ui-border-radius)
 }
 
 button.pagefind-ui__search-clear {
-  text-align: center;
-  width: fit-content;
+    text-align: center;
+    width: fit-content
+}
+
+.pagefind-ui__result {
+    border-top: 1px solid var(--color-background-contrast);
+    padding: 2rem 0
+}
+
+.pagefind-ui__result-title {
+    font-size: 1.8rem;
+    font-weight: 600
+}
+
+.pagefind-ui__result-excerpt {
+    font-size: 1.4rem;
+    color: var(--color-content-secondary);
+    margin-top: 0.5rem
 }
 
 .highlight {

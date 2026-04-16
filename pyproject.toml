@@ -17,7 +17,6 @@ classifiers = [
   "Framework :: Pelican :: Themes",
   "Intended Audience :: Developers",
   "Intended Audience :: Information Technology",
-  "License :: OSI Approved :: MIT License",
   "Operating System :: OS Independent",
   "Programming Language :: JavaScript",
   "Programming Language :: Other",
@@ -59,8 +58,12 @@ linters = ["ruff>=0.15.4"]
 "Releases" = "https://github.com/Lee-W/attila/releases"
 
 [build-system]
-requires = ["uv_build >= 0.10.3, <0.11.0"]
+requires = ["uv_build >= 0.11.0, <0.12.0"]
 build-backend = "uv_build"
+
+[tool.uv]
+required-version = ">=0.9.17"
+exclude-newer = "4 days"
 
 [tool.uv.build-backend]
 module-name = "pelican.themes.attila"
@@ -82,6 +85,13 @@ test.cmd = "pytest"
 
 all.help = "Run all tasks"
 all.sequence = ["format", "lint", "check-commit", "test"]
+
+[tool.poe.tasks.compile-i18n]
+shell = """
+find src/pelican/themes/attila/translations -name "*.po" | while read po; do
+  msgfmt "$po" -o "${po%.po}.mo"
+done
+"""
 
 [tool.commitizen]
 name = "cz_conventional_commits"

@@ -10,9 +10,9 @@
     {% if author_avatar|lower|truncate(4, True, '') == "http" %}
       {% set selected_avatar = author_avatar %}
     {% elif author_avatar.startswith('/') %}
-      {% set selected_cover = SITEURL+author_avatar %}
+      {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+author_avatar %}
     {% else %}
-      {% set selected_avatar = SITEURL+"/"+author_avatar %}
+      {% set selected_avatar = (STATIC_SITEURL|default(SITEURL))+"/"+author_avatar %}
     {% endif %}
   {% endif %}
 
@@ -22,9 +22,9 @@
     {% if author_cover|lower|truncate(4, True, '') == "http" %}
       {% set selected_cover = author_cover %}
     {% elif author_cover.startswith('/') %}
-      {% set selected_cover = SITEURL+author_cover %}
+      {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+author_cover %}
     {% else %}
-      {% set selected_cover = SITEURL+"/"+author_cover %}
+      {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+"/"+author_cover %}
     {% endif %}
   {% elif author_color %}
     {% set selected_color = author_color %}
@@ -35,17 +35,17 @@
   {% if HEADER_COVER|lower|truncate(4, True, '') == "http" %}
     {% set selected_cover = HEADER_COVER %}
   {% elif HEADER_COVER.startswith('/') %}
-    {% set selected_cover = SITEURL+HEADER_COVER %}
+    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+HEADER_COVER %}
   {% else %}
-    {% set selected_cover = SITEURL+"/"+HEADER_COVER %}
+    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+"/"+HEADER_COVER %}
   {% endif %}
 {% elif HOME_COVER %}
   {% if HOME_COVER|lower|truncate(4, True, '') == "http" %}
     {% set selected_cover = HOME_COVER %}
   {% elif HOME_COVER.startswith('/') %}
-    {% set selected_cover = SITEURL+HOME_COVER %}
+    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+HOME_COVER %}
   {% else %}
-    {% set selected_cover = SITEURL+"/"+HOME_COVER %}
+    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+"/"+HOME_COVER %}
   {% endif %}
 {% elif HEADER_COLOR %}
   {% set selected_color = HEADER_COLOR %}
@@ -69,8 +69,8 @@
       <div class="inner">
         <div class="archive archive-author box archive-box">
           <span class="archive-info">
-            <span class="archive-type">{{"Author"}}</span>
-            <span class="archive-count">{{ articles|count }} {% if articles|count > 1 %} posts {% else %} post {% endif %}</span>
+            <span class="archive-type">{% trans %}Author{% endtrans %}</span>
+            <span class="archive-count">{{ articles|count }} {% if articles|count > 1 %}{% trans %}Posts{% endtrans %}{% else %}{% trans %}Post{% endtrans %}{% endif %}</span>
           </span>
           <figure class="archive-avatar avatar">
             {% if selected_avatar %}

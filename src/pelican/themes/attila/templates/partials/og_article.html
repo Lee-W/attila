@@ -10,36 +10,36 @@
   {% if article.og_image|lower|truncate(4, True, '') == "http" %}
     {% set selected_cover = article.og_image %}
   {% elif article.og_image.startswith('/') %}
-    {% set selected_cover = SITEURL+article.og_image %}
+    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+article.og_image %}
   {% else %}
-    {% set selected_cover = SITEURL+"/"+article.og_image %}
+    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+"/"+article.og_image %}
   {% endif %}
 {% elif article.cover %}
   {% if article.cover|lower|truncate(4, True, '') == "http" %}
     {% set selected_cover = article.cover %}
   {% elif article.cover.startswith('/') %}
-    {% set selected_cover = SITEURL+article.cover %}
+    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+article.cover %}
   {% else %}
-    {% set selected_cover = SITEURL+"/"+article.cover %}
+    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+"/"+article.cover %}
   {% endif %}
 {% elif HEADER_COVER %}
   {% if HEADER_COVER|lower|truncate(4, True, '') == "http" %}
     {% set selected_cover = HEADER_COVER %}
   {% elif HEADER_COVER.startswith('/') %}
-    {% set selected_cover = SITEURL+HEADER_COVER %}
+    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+HEADER_COVER %}
   {% else %}
-    {% set selected_cover = SITEURL+"/"+HEADER_COVER %}
+    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+"/"+HEADER_COVER %}
   {% endif %}
 {% elif HOME_COVER %}
   {% if HOME_COVER|lower|truncate(4, True, '') == "http" %}
     {% set selected_cover = HOME_COVER %}
   {% elif HOME_COVER.startswith('/') %}
-    {% set selected_cover = SITEURL+HOME_COVER %}
+    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+HOME_COVER %}
   {% else %}
-    {% set selected_cover = SITEURL+"/"+HOME_COVER %}
+    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+"/"+HOME_COVER %}
   {% endif %}
 {% else %}
-  {% set selected_cover = SITEURL+"/"+THEME_STATIC_DIR+"/images/home-bg.jpg" %}
+  {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+"/"+THEME_STATIC_DIR+"/images/home-bg.jpg" %}
 {% endif %}
 
 {# <!-- Choosing description --> #}
