@@ -280,6 +280,28 @@ LANGUAGE_NAMES = {
 }
 ```
 
+### Creative Commons License
+
+To display a Creative Commons license badge on articles, set `CC_LICENSE` in `pelicanconf.py`:
+
+```python
+CC_LICENSE = {
+    "slug": "by-nc-sa",   # CC license slug, e.g. "by", "by-nc", "by-nc-sa"
+    "version": "4.0",     # license version
+    "name": "CC BY-NC-SA", # human-readable name shown in the link text
+}
+```
+
+The `slug` is used to build the license URL (`https://creativecommons.org/licenses/<slug>/<version>/`) and to render the corresponding Font Awesome Creative Commons icons.
+
+### Comments Intro
+
+To show an introductory paragraph above the comments section, set `COMMENTS_INTRO` in `pelicanconf.py`:
+
+```python
+COMMENTS_INTRO = "Comments are moderated. Be kind."
+```
+
 ### Other Configuration
 
 ```python
