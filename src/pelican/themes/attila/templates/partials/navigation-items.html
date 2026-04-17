@@ -27,10 +27,18 @@
   {% endfor %}
 
   {% if LANGUAGES|default([]) %}
+    {% set lang_names = LANGUAGE_NAMES|default({}) %}
     <li class="nav-languages">
-      {% for lang_name, lang_url in LANGUAGES %}
-        <a href="{{ lang_url }}" class="nav-language-item{% if CURRENT_LANG|default('') == lang_name %} active{% endif %}">{{ lang_name }}</a>
-      {% endfor %}
+      <button class="nav-language-toggle" aria-expanded="false" aria-haspopup="listbox">
+        <i class="fa-solid fa-language nav-language-icon"></i>
+      </button>
+      <ul class="nav-language-dropdown" role="listbox">
+        {% for lang_name, lang_url in LANGUAGES %}
+          <li role="option">
+            <a href="{{ lang_url }}">{{ lang_names.get(lang_name, lang_name) }}</a>
+          </li>
+        {% endfor %}
+      </ul>
     </li>
   {% endif %}
 

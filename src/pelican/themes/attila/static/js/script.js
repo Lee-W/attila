@@ -96,6 +96,41 @@ jQuery(($) => {
 
   initTheme();
 
+  // Language dropdown
+  const initLanguageDropdown = () => {
+    const toggle = $(".nav-language-toggle");
+    if (!toggle.length) return;
+
+    // Detect current language by longest matching URL prefix
+    const currentPath = window.location.pathname;
+    let best = { text: "", length: 0, li: null };
+    $(".nav-language-dropdown li a").each(function () {
+      const href = new URL($(this).attr("href"), window.location.origin).pathname;
+      if (currentPath.startsWith(href) && href.length > best.length) {
+        best = { text: $(this).text().trim(), length: href.length, li: $(this).closest("li") };
+      }
+    });
+    if (best.li) {
+      best.li.attr("aria-selected", "true");
+      toggle.find(".nav-language-icon").attr("data-lang", best.text);
+    }
+
+    toggle.on("click", (e) => {
+      e.stopPropagation();
+      const li = toggle.closest(".nav-languages");
+      const isOpen = li.hasClass("open");
+      li.toggleClass("open");
+      toggle.attr("aria-expanded", String(!isOpen));
+    });
+
+    $(document).on("click", () => {
+      $(".nav-languages").removeClass("open");
+      toggle.attr("aria-expanded", "false");
+    });
+  };
+
+  initLanguageDropdown();
+
   // Comments
   const initComments = () => {
     if (typeof disqus === "undefined" && typeof use_utterance === "undefined") {
