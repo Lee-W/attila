@@ -1,3 +1,9 @@
+## v2.6.1 (2026-04-17)
+
+### Fix
+
+- remove en and zh-tw separate size setup
+
 ## v2.6.0 (2026-04-17)
 
 ### Feat
