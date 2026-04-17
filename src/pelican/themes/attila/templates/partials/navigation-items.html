@@ -26,6 +26,15 @@
     </li>
   {% endfor %}
 
+  {% for name, link in SOCIAL if name.lower() in ["rss", "rss-square", "feed"] %}
+    <li class="nav-rss">
+      <a aria-label="RSS" href="{{ link }}" target="_blank">
+        <i class="icon icon-rss" aria-hidden="true"></i>
+        <span>RSS</span>
+      </a>
+    </li>
+  {% endfor %}
+
   {% if LANGUAGES|default([]) %}
     {% set lang_names = LANGUAGE_NAMES|default({}) %}
     <li class="nav-languages">
@@ -34,13 +43,42 @@
       </button>
       <ul class="nav-language-dropdown" role="listbox">
         {% for lang_name, lang_url in LANGUAGES %}
+          {% set ns = namespace(target_url=lang_url) %}
+          {% if article is defined %}
+            {% if article.lang == lang_name %}
+              {% set ns.target_url = SITEURL ~ '/' ~ article.url %}
+            {% elif lang_siteurls is defined %}
+              {% set trans = article.translations | selectattr('lang', 'equalto', lang_name) | list %}
+              {% if trans %}
+                {% set ns.target_url = main_siteurl ~ '/' ~ trans[0].url %}
+              {% endif %}
+            {% endif %}
+          {% elif page is defined %}
+            {% if page.lang == lang_name %}
+              {% set ns.target_url = SITEURL ~ '/' ~ page.url %}
+            {% elif lang_siteurls is defined %}
+              {% set trans = page.translations | selectattr('lang', 'equalto', lang_name) | list %}
+              {% if trans %}
+                {% set ns.target_url = main_siteurl ~ '/' ~ trans[0].url %}
+              {% endif %}
+            {% endif %}
+          {% endif %}
           <li role="option">
-            <a href="{{ lang_url }}">{{ lang_names.get(lang_name, lang_name) }}</a>
+            <a href="{{ ns.target_url }}">{{ lang_names.get(lang_name, lang_name) }}</a>
           </li>
         {% endfor %}
       </ul>
     </li>
   {% endif %}
+
+  <li class="nav-theme">
+    <a class="js-theme" href="#" data-system="{% trans %}System theme{% endtrans %}" data-dark="{% trans %}Dark theme{% endtrans %}" data-light="{% trans %}Light theme{% endtrans %}">
+      <i class="fa-regular fa-sun theme-icon-system" aria-hidden="true"></i>
+      <i class="fa-solid fa-sun theme-icon-light" aria-hidden="true"></i>
+      <i class="fa-solid fa-moon theme-icon-dark" aria-hidden="true"></i>
+      <span class="theme-text">{% trans %}System theme{% endtrans %}</span>
+    </a>
+  </li>
 
   <li class="nav-search" style="display: none;">
     <a title="Search">

@@ -51,12 +51,14 @@ jQuery(($) => {
 
     const setDark = () => {
       html.removeClass("theme-light").addClass("theme-dark");
+      html[0].style.colorScheme = "dark";
       localStorage.setItem("attila_theme", "dark");
       toggleText.text(toggle.attr("data-dark"));
     };
 
     const setLight = () => {
       html.removeClass("theme-dark").addClass("theme-light");
+      html[0].style.colorScheme = "light";
       localStorage.setItem("attila_theme", "light");
       toggleText.text(toggle.attr("data-light"));
     };

@@ -169,6 +169,17 @@
             </aside>
             {% endif %}
 
+            {% if CC_LICENSE %}
+            <aside class="post-license">
+              {% set cc_url = "https://creativecommons.org/licenses/" ~ CC_LICENSE.slug ~ "/" ~ CC_LICENSE.version ~ "/" %}
+              <i class="fa-brands fa-creative-commons" aria-hidden="true"></i>
+              {% for part in CC_LICENSE.slug.split('-') %}
+                <i class="fa-brands fa-creative-commons-{{ part }}" aria-hidden="true"></i>
+              {% endfor %}
+              <span>{% trans %}Licensed under{% endtrans %} <a rel="license" href="{{ cc_url }}" target="_blank">{{ CC_LICENSE.name }} {{ CC_LICENSE.version }}</a></span>
+            </aside>
+            {% endif %}
+
             <div class="clear"></div>
 
             {% if SHOW_AUTHOR_BIO_IN_ARTICLE | default(False) %}
