@@ -99,3 +99,7 @@ tag_format = "v$version"
 version_scheme = "pep440"
 version_provider = "uv"
 update_changelog_on_bump = true
+pre_bump_hooks = [
+  "uv run poe compile-i18n",
+  "git add src/pelican/themes/attila/translations/*/LC_MESSAGES/messages.mo",
+]

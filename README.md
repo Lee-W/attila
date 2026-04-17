@@ -259,6 +259,27 @@ TAG_CLOUD_STEPS = 5
 Default: 5, max supported by theme: 10.  
 For more steps, use CSS_OVERRIDE.
 
+### Language Switcher
+
+To show a language switcher in the navigation, set `LANGUAGES` (list of `(code, url)` pairs) and `CURRENT_LANG` (the active language code):
+
+```python
+LANGUAGES = [
+    ("zh-tw", "/zh-tw/"),
+    ("en", "/"),
+]
+CURRENT_LANG = "zh-tw"
+```
+
+By default the switcher displays the raw language code. Use `LANGUAGE_NAMES` to map codes to human-readable labels:
+
+```python
+LANGUAGE_NAMES = {
+    "zh-tw": "台灣漢語",
+    "en": "English",
+}
+```
+
 ### Other Configuration
 
 ```python
