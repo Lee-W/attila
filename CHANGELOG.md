@@ -1,3 +1,9 @@
+## v2.6.0 (2026-04-17)
+
+### Feat
+
+- add CC license display, comments intro, and improve navigation
+
 ## v2.5.0 (2026-04-17)
 
 ### Feat
