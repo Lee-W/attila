@@ -1,3 +1,9 @@
+## v2.5.0 (2026-04-17)
+
+### Feat
+
+- improve language button display
+
 ## v2.4.0 (2026-04-16)
 
 ### Feat
