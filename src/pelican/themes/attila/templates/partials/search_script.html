@@ -1,10 +1,23 @@
 {% if PAGEFIND_ENABLED|default(True) %}
-  <script src="/pagefind/pagefind-ui.js"></script>
+  <script src="/pagefind/pagefind-component-ui.js" type="module"></script>
   <script>
-  window.addEventListener('DOMContentLoaded', (event) => {
-    new PagefindUI({
-      element: "#search",
-      showImages: false,
+  const openModal = async () => {
+    await customElements.whenDefined('pagefind-modal');
+    document.querySelector('pagefind-modal')?.open();
+  };
+
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.nav-search').forEach(el => {
+      el.addEventListener('click', (e) => { e.preventDefault(); openModal(); });
+    });
+
+    document.addEventListener('keydown', (e) => {
+      const tag = document.activeElement?.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || document.activeElement?.isContentEditable) return;
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        openModal();
+      }
     });
   });
   </script>

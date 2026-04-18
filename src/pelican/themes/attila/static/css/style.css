@@ -239,11 +239,6 @@ th {
   --color-content-lead: #fff;
   --color-content-main: #e1e3e6;
   --color-content-secondary: #909499;
-  --pagefind-ui-primary: var(--color-primary);
-  --pagefind-ui-text: var(--color-content-main);
-  --pagefind-ui-background: var(--color-background-main);
-  --pagefind-ui-border: var(--color-background-contrast);
-  --pagefind-ui-tag: var(--color-background-secondary);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -2096,7 +2091,17 @@ textarea {
   width: 4rem;
 }
 
-.nav-header .nav-wrapper-control a.nav-search {
+.nav-header .nav-wrapper-control button.nav-search {
+  position: relative;
+  display: block;
+  padding: 2rem 0;
+  font-size: 2em;
+  line-height: 2rem;
+  color: inherit;
+  transition: all ease-out 0.1s;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
   width: auto;
   text-align: right;
 }
@@ -2206,6 +2211,7 @@ textarea {
 .nav-header ul.nav-meta {
   width: auto;
   justify-content: flex-end;
+  align-items: center;
 }
 
 @media only screen and (max-width: 640px) {
@@ -2357,8 +2363,14 @@ textarea {
   }
 }
 
-.nav-meta li a {
+.nav-meta li a,
+.nav-meta li.nav-search button {
   font-size: 1.75em;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  color: inherit;
+  padding: 0;
 }
 
 .nav-meta li span {
@@ -3887,57 +3899,21 @@ a {
   background-color: #f7f8fa;
 }
 
-/* pagefind */
+/* pagefind component ui */
 :root {
-  --pagefind-ui-primary: var(--color-primary);
-  --pagefind-ui-text: var(--color-content-main);
-  --pagefind-ui-background: var(--color-background-main);
-  --pagefind-ui-border: var(--color-background-contrast);
-  --pagefind-ui-tag: var(--color-background-secondary);
-  --pagefind-ui-border-width: 1px;
-  --pagefind-ui-border-radius: 8px;
-  --pagefind-ui-font: inherit;
+  --pf-text: var(--color-content-main);
+  --pf-text-secondary: var(--color-content-secondary);
+  --pf-background: var(--color-background-main);
+  --pf-border: var(--color-background-contrast);
+  --pf-border-focus: var(--color-content-secondary);
+  --pf-hover: var(--color-background-secondary);
+  --pf-outline-focus: var(--color-primary);
+  --pf-modal-backdrop: var(--color-background-overlay);
 }
 
-.search-page {
-  padding: 4rem 0 8rem;
-}
-
-.search-page .inner {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 0 4rem;
-}
-
-#search {
-  width: 100%;
-}
-
-input[type="text"].pagefind-ui__search-input {
-  padding-left: 50px;
-  font-size: 1.6rem;
-  border-radius: var(--pagefind-ui-border-radius);
-}
-
-button.pagefind-ui__search-clear {
-  text-align: center;
-  width: fit-content;
-}
-
-.pagefind-ui__result {
-  border-top: 1px solid var(--color-background-contrast);
-  padding: 2rem 0;
-}
-
-.pagefind-ui__result-title {
-  font-size: 1.8rem;
-  font-weight: 600;
-}
-
-.pagefind-ui__result-excerpt {
-  font-size: 1.4rem;
-  color: var(--color-content-secondary);
-  margin-top: 0.5rem;
+pagefind-modal {
+  --pf-modal-max-width: 760px;
+  --pf-modal-max-height: min(85dvh, 900px);
 }
 
 .highlight {
