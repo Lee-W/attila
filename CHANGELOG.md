@@ -1,3 +1,9 @@
+## v2.7.0 (2026-04-18)
+
+### Feat
+
+- **UX**: upgrade pagefind version and improve search UX (now we don't need a separate search page!)
+
 ## v2.6.2 (2026-04-18)
 
 ### Fix
