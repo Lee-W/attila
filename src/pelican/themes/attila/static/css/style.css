@@ -713,6 +713,16 @@ html {
   overflow-x: hidden;
 }
 
+@supports (-moz-appearance: none) {
+  html[lang="en"] {
+    font-size: 45%;
+  }
+
+  html[lang="zh-tw"] {
+    font-size: 70%;
+  }
+}
+
 .menu-active body,
 html.menu-active {
   overflow-y: hidden;
