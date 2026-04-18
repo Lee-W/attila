@@ -1,3 +1,9 @@
+## v2.6.2 (2026-04-18)
+
+### Fix
+
+- restore lang-specific font sizes for Firefox only
+
 ## v2.6.1 (2026-04-17)
 
 ### Fix
