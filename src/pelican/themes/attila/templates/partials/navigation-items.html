@@ -35,6 +35,15 @@
     </li>
   {% endfor %}
 
+  {% if PAGEFIND_ENABLED|default(True) %}
+  <li class="nav-search">
+    <button title="{% trans %}Search{% endtrans %}" aria-label="{% trans %}Search{% endtrans %}">
+      <i class="icon icon-search" aria-hidden="true"></i>
+      <span>{% trans %}Search{% endtrans %}</span>
+    </button>
+  </li>
+  {% endif %}
+
   {% if LANGUAGES|default([]) %}
     {% set lang_names = LANGUAGE_NAMES|default({}) %}
     <li class="nav-languages">
@@ -77,13 +86,6 @@
       <i class="fa-solid fa-sun theme-icon-light" aria-hidden="true"></i>
       <i class="fa-solid fa-moon theme-icon-dark" aria-hidden="true"></i>
       <span class="theme-text">{% trans %}System theme{% endtrans %}</span>
-    </a>
-  </li>
-
-  <li class="nav-search" style="display: none;">
-    <a title="Search">
-      <i class="icon icon-search" aria-hidden="true"></i>
-      <span>Search</span>
     </a>
   </li>
 </ul>

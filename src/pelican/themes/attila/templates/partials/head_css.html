@@ -10,8 +10,8 @@
   <link rel="stylesheet" href="/static/heatmap/pelican_heatmap.css">
 {% endif %}
 
-{% if PAGEFIND_ENABLED|default(False) %}
-  <link href="/pagefind/pagefind-ui.css" rel="stylesheet">
+{% if PAGEFIND_ENABLED|default(True) %}
+  <link href="/pagefind/pagefind-component-ui.css" rel="stylesheet">
 {% endif %}
 
 {% for css in CSS_OVERRIDE|default([]) %}
