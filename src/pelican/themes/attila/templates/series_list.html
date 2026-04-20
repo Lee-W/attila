@@ -1,20 +1,30 @@
 {% extends "index.html" %}
 
+{% set body_class = 'series-list-template' %}
+{% set _ss = SERIES_LIST_SAVE_AS|default('') %}
+{% set current_url = ('/' ~ _ss[:-10] if _ss[-10:] == 'index.html' else '/' ~ _ss) if _ss else '/' ~ SERIES_LIST_URL|default('series/') %}
+
 {% block content %}
   <!-- Post content -->
   <main class="content" role="main">
     <article class="post">
       <div class="inner">
         <section class="post-content">
-          <h1>Article Series</h1>
+          <h1>{% trans %}Article Series{% endtrans %}</h1>
 
-          {% for series_name, series_articles in article_series.items() %}
-          {% if series_articles %}
-          {% set article = series_articles[0] %}
+          {# Build series dict from articles to work around the series plugin
+             global variable being overwritten across i18n subsites #}
+          {% set ns = namespace(seen={}) %}
+          {% for a in articles if a.series is defined %}
+            {% if a.series.name not in ns.seen %}
+              {% set _ = ns.seen.update({a.series.name: a.series.all[0]}) %}
+            {% endif %}
+          {% endfor %}
+
+          {% for series_name, first_article in ns.seen.items() %}
           <li>
-            <a href="{{ article.url }}">{{ series_name }}</a>
+            <a href="{{ SITEURL }}/{{ first_article.url }}">{{ series_name }}</a>
           </li>
-          {% endif %}
           {% endfor %}
 
         </section>

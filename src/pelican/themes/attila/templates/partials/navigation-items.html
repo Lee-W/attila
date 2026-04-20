@@ -1,4 +1,4 @@
-<ul>
+<ul class="nav-menu-items">
   {% for title, link in MENUITEMS %}
     <li class="nav-{{title}} {%if current_url == link %}active{% endif %}" role="presentation"><a href="{{ link }}"><span>{{ title }}</span></a></li>
   {% endfor %}
@@ -17,10 +17,11 @@
 </ul>
 
 <ul class="nav-meta">
-  {% for name, link in SOCIAL if name.lower() in ['facebook', 'twitter', 'linkedin', 'github'] %}
+  {% set fa_icons = {'facebook': 'fa-brands fa-facebook', 'twitter': 'fa-brands fa-x-twitter', 'linkedin': 'fa-brands fa-linkedin', 'github': 'fa-brands fa-github'} %}
+  {% for name, link in SOCIAL if name.lower() in fa_icons %}
     <li class="nav-{{name.lower()}}">
       <a aria-label="{{name|title}}" href="{{ link }}" target="_blank">
-        <i class="icon icon-{{name.lower()}}" aria-hidden="true"></i>
+        <i class="{{ fa_icons[name.lower()] }}" aria-hidden="true"></i>
         <span>{{name}}</span>
       </a>
     </li>
@@ -29,7 +30,7 @@
   {% for name, link in SOCIAL if name.lower() in ["rss", "rss-square", "feed"] %}
     <li class="nav-rss">
       <a aria-label="RSS" href="{{ link }}" target="_blank">
-        <i class="icon icon-rss" aria-hidden="true"></i>
+        <i class="fa-solid fa-rss" aria-hidden="true"></i>
         <span>RSS</span>
       </a>
     </li>
@@ -38,54 +39,97 @@
   {% if PAGEFIND_ENABLED|default(True) %}
   <li class="nav-search">
     <button title="{% trans %}Search{% endtrans %}" aria-label="{% trans %}Search{% endtrans %}">
-      <i class="icon icon-search" aria-hidden="true"></i>
+      <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
       <span>{% trans %}Search{% endtrans %}</span>
     </button>
   </li>
   {% endif %}
 
+</ul>
+
+<ul class="nav-controls">
   {% if LANGUAGES|default([]) %}
     {% set lang_names = LANGUAGE_NAMES|default({}) %}
     <li class="nav-languages">
       <button class="nav-language-toggle" aria-expanded="false" aria-haspopup="listbox">
-        <i class="fa-solid fa-language nav-language-icon"></i>
+        <i class="fa-solid fa-language nav-language-icon" data-lang="{{ lang_names.get(DEFAULT_LANG) or DEFAULT_LANG }}"></i>
       </button>
       <ul class="nav-language-dropdown" role="listbox">
         {% for lang_name, lang_url in LANGUAGES %}
-          {% set ns = namespace(target_url=lang_url) %}
-          {% if article is defined %}
+          {% set base = lang_url[:-1] if lang_url[-1:] == '/' else lang_url %}
+          {% set ns = namespace(target_url=('/' if not base else base), show=True) %}
+          {% if article %}
             {% if article.lang == lang_name %}
-              {% set ns.target_url = SITEURL ~ '/' ~ article.url %}
+              {% set ns.target_url = base ~ '/' ~ article.url %}
             {% elif lang_siteurls is defined %}
               {% set trans = article.translations | selectattr('lang', 'equalto', lang_name) | list %}
               {% if trans %}
-                {% set ns.target_url = main_siteurl ~ '/' ~ trans[0].url %}
+                {% set ns.target_url = '/' ~ trans[0].url %}
               {% endif %}
+              {# no translation found: ns.target_url stays as home page fallback #}
             {% endif %}
-          {% elif page is defined %}
+          {% elif page %}
+            {# Use translation if available, otherwise fallback to home #}
             {% if page.lang == lang_name %}
-              {% set ns.target_url = SITEURL ~ '/' ~ page.url %}
-            {% elif lang_siteurls is defined %}
+              {% set ns.target_url = base ~ ('/' if page.url[0:1] != '/' else '') ~ page.url %}
+            {% else %}
               {% set trans = page.translations | selectattr('lang', 'equalto', lang_name) | list %}
               {% if trans %}
-                {% set ns.target_url = main_siteurl ~ '/' ~ trans[0].url %}
+                {% set ns.target_url = '/' ~ trans[0].url %}
+              {% else %}
+                {% set fallback_url = '/' if not base else base ~ '/' %}
+                <li role="option">
+                  <a href="{{ base ~ ('/' if page.url[0:1] != '/' else '') ~ page.url }}" data-fallback="{{ fallback_url }}">{{ lang_names.get(lang_name) or lang_name }}</a>
+                </li>
+                {% set ns.show = False %}
               {% endif %}
             {% endif %}
+          {% elif category %}
+            {# Category may not exist in target language — link to category page with fallback to home #}
+            {% set cat_url = base ~ ('/' if category.url[0:1] != '/' else '') ~ category.url %}
+            {% set fallback_url = '/' if not base else base ~ '/' %}
+            <li role="option">
+              <a href="{{ cat_url }}" data-fallback="{{ fallback_url }}">{{ lang_names.get(lang_name) or lang_name }}</a>
+            </li>
+            {% set ns.show = False %}
+          {% elif tag %}
+            {# Tag may not exist in target language — link to tag page with fallback to home #}
+            {% set tag_url = base ~ ('/' if tag.url[0:1] != '/' else '') ~ tag.url %}
+            {% set fallback_url = '/' if not base else base ~ '/' %}
+            <li role="option">
+              <a href="{{ tag_url }}" data-fallback="{{ fallback_url }}">{{ lang_names.get(lang_name) or lang_name }}</a>
+            </li>
+            {% set ns.show = False %}
+          {% elif author %}
+            {# Author may not exist in target language — link to author page with fallback to home #}
+            {% set author_url = base ~ ('/' if author.url[0:1] != '/' else '') ~ author.url %}
+            {% set fallback_url = '/' if not base else base ~ '/' %}
+            <li role="option">
+              <a href="{{ author_url }}" data-fallback="{{ fallback_url }}">{{ lang_names.get(lang_name) or lang_name }}</a>
+            </li>
+            {% set ns.show = False %}
+          {% else %}
+            {% if current_url[0:1] == '/' %}
+              {% set ns.target_url = base ~ current_url %}
+            {% else %}
+              {% set ns.target_url = base ~ '/' ~ current_url %}
+            {% endif %}
           {% endif %}
+          {% if ns.show %}
           <li role="option">
-            <a href="{{ ns.target_url }}">{{ lang_names.get(lang_name, lang_name) }}</a>
+            <a href="{{ ns.target_url }}">{{ lang_names.get(lang_name) or lang_name }}</a>
           </li>
+          {% endif %}
         {% endfor %}
       </ul>
     </li>
   {% endif %}
 
   <li class="nav-theme">
-    <a class="js-theme" href="#" data-system="{% trans %}System theme{% endtrans %}" data-dark="{% trans %}Dark theme{% endtrans %}" data-light="{% trans %}Light theme{% endtrans %}">
+    <a class="js-theme" href="#" title="{% trans %}Toggle theme{% endtrans %}" aria-label="{% trans %}Toggle theme{% endtrans %}" data-system="{% trans %}System theme{% endtrans %}" data-dark="{% trans %}Dark theme{% endtrans %}" data-light="{% trans %}Light theme{% endtrans %}">
       <i class="fa-regular fa-sun theme-icon-system" aria-hidden="true"></i>
       <i class="fa-solid fa-sun theme-icon-light" aria-hidden="true"></i>
       <i class="fa-solid fa-moon theme-icon-dark" aria-hidden="true"></i>
-      <span class="theme-text">{% trans %}System theme{% endtrans %}</span>
     </a>
   </li>
 </ul>

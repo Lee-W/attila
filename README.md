@@ -286,9 +286,9 @@ To display a Creative Commons license badge on articles, set `CC_LICENSE` in `pe
 
 ```python
 CC_LICENSE = {
-    "slug": "by-nc-sa",   # CC license slug, e.g. "by", "by-nc", "by-nc-sa"
-    "version": "4.0",     # license version
-    "name": "CC BY-NC-SA", # human-readable name shown in the link text
+    "slug": "by-nc-sa",  # CC license slug, e.g. "by", "by-nc", "by-nc-sa"
+    "version": "4.0",  # license version
+    "name": "CC BY-NC-SA",  # human-readable name shown in the link text
 }
 ```
 

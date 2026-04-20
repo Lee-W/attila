@@ -3,13 +3,13 @@
   <div class="inner">
     <div class="box pagination-box">
       {% if articles_page.has_previous() %}
-      <a title="{% trans %}Newer Posts{% endtrans %}" class="pagination-next" href="{{ SITEURL }}/{{ articles_previous_page.url }}"><i class="icon icon-arrow-left"></i> <span class="pagination-label">{% trans %}Newer Posts{% endtrans %}</span></a>
+      <a title="{% trans %}Newer Posts{% endtrans %}" class="pagination-next" href="{{ SITEURL }}/{{ articles_previous_page.url }}"><i class="fa-solid fa-arrow-left"></i> <span class="pagination-label">{% trans %}Newer Posts{% endtrans %}</span></a>
       {% endif %}
 
       <span class="pagination-info">{% trans current=articles_page.number, total=articles_paginator.num_pages %}Page {{ current }} of {{ total }}{% endtrans %}</span>
 
       {% if articles_page.has_next() %}
-      <a title="{% trans %}Older Posts{% endtrans %}" class="pagination-prev" href="{{ SITEURL }}/{{ articles_next_page.url }}"><span class="pagination-label">{% trans %}Older Posts{% endtrans %}</span> <i class="icon icon-arrow-right"></i></a>
+      <a title="{% trans %}Older Posts{% endtrans %}" class="pagination-prev" href="{{ SITEURL }}/{{ articles_next_page.url }}"><span class="pagination-label">{% trans %}Older Posts{% endtrans %}</span> <i class="fa-solid fa-arrow-right"></i></a>
       {% endif %}
     </div>
   </div>

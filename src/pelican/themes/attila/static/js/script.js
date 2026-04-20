@@ -47,20 +47,19 @@ jQuery(($) => {
   const initTheme = () => {
     const toggle = $(".js-theme");
     if (!toggle.length) return;
-    const toggleText = toggle.find(".theme-text");
 
     const setDark = () => {
       html.removeClass("theme-light").addClass("theme-dark");
       html[0].style.colorScheme = "dark";
       localStorage.setItem("attila_theme", "dark");
-      toggleText.text(toggle.attr("data-dark"));
+      toggle.attr("title", toggle.attr("data-dark"));
     };
 
     const setLight = () => {
       html.removeClass("theme-dark").addClass("theme-light");
       html[0].style.colorScheme = "light";
       localStorage.setItem("attila_theme", "light");
-      toggleText.text(toggle.attr("data-light"));
+      toggle.attr("title", toggle.attr("data-light"));
     };
 
     const systemPref = () => {
@@ -128,6 +127,21 @@ jQuery(($) => {
     $(document).on("click", () => {
       $(".nav-languages").removeClass("open");
       toggle.attr("aria-expanded", "false");
+    });
+
+    // For links with data-fallback, check if target exists; fall back if 404
+    $(".nav-language-dropdown li a[data-fallback]").on("click", function (e) {
+      const link = $(this);
+      const href = link.attr("href");
+      const fallback = link.attr("data-fallback");
+      if (link.closest("li").attr("aria-selected") === "true") return;
+
+      e.preventDefault();
+      fetch(href, { method: "HEAD" }).then((res) => {
+        window.location.href = res.ok ? href : fallback;
+      }).catch(() => {
+        window.location.href = href; // network error: try anyway
+      });
     });
   };
 
