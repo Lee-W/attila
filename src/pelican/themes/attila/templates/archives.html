@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}{{ SITENAME }} - Archives{% endblock %}
+{% block title %}{{ SITENAME }} - {% trans %}Archives{% endtrans %}{% endblock %}
 
 {% if HEADER_COVER %}
   {% if HEADER_COVER|lower|truncate(4, True, '') == "http" %}
@@ -22,13 +22,14 @@
   {% set selected_color = HEADER_COLOR %}
 {% endif %}
 
-{% block canonical_url %}<link href="{{ SITEURL }}/{{ARCHIVES_URL}}" rel="canonical" />{% endblock canonical_url %}
+{% block canonical_url %}<link href="{{ SITEURL }}/{{ARCHIVES_URL|default('archives/')}}" rel="canonical" />{% endblock canonical_url %}
 
 {% if dates %}
 {% set body_class='archives-template' %}
-{% set current_url=ARCHIVES_URL %}
-{% set current_title=SITENAME+' - Archives' %}
-{% set current_display_title='Archives' %}
+{% set _as = ARCHIVES_SAVE_AS|default('') %}
+{% set current_url = ('/' ~ _as[:-10] if _as[-10:] == 'index.html' else '/' ~ _as) if _as else '/' ~ ARCHIVES_URL|default('archives/') %}
+{% set current_title=SITENAME+' - '+_('Archives') %}
+{% set current_display_title=_('Archives') %}
 {% endif %}
 
 {% block header %}

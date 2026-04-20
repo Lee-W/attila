@@ -1,6 +1,6 @@
 {% extends "index.html" %}
 
-{% block title %}{{ SITENAME }} - Authors{% endblock title %}
+{% block title %}{{ SITENAME }} - {% trans %}Authors{% endtrans %}{% endblock title %}
 
 {% if HEADER_COVER %}
   {% if HEADER_COVER|lower|truncate(4, True, '') == "http" %}
@@ -22,13 +22,13 @@
   {% set selected_color = HEADER_COLOR %}
 {% endif %}
 
-{% block canonical_url %}<link href="{{ SITEURL }}/{{ AUTHORS_URL }}" rel="canonical" />{% endblock canonical_url %}
+{% block canonical_url %}<link href="{{ SITEURL }}/{{ AUTHORS_URL|default('authors/') }}" rel="canonical" />{% endblock canonical_url %}
 
 {% if authors %}
 {% set body_class='authors-template' %}
-{% set current_url=AUTHORS_URL %}
-{% set current_title=SITENAME+' - Authors' %}
-{% set current_display_title='Authors' %}
+{% set current_url='/' ~ AUTHORS_URL|default('authors/') %}
+{% set current_title=SITENAME+' - '+_('Authors') %}
+{% set current_display_title=_('Authors') %}
 {% endif %}
 
 {% block header %}

@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}{{ SITENAME }} - Tags{% endblock %}
+{% block title %}{{ SITENAME }} - {% trans %}Tags{% endtrans %}{% endblock %}
 
 {% if HEADER_COVER %}
   {% if HEADER_COVER|lower|truncate(4, True, '') == "http" %}
@@ -22,13 +22,14 @@
   {% set selected_color = HEADER_COLOR %}
 {% endif %}
 
-{% block canonical_url %}<link href="{{ SITEURL }}/{{ TAGS_URL }}" rel="canonical" />{% endblock canonical_url %}
+{% block canonical_url %}<link href="{{ SITEURL }}/{{ TAGS_URL|default('tags/') }}" rel="canonical" />{% endblock canonical_url %}
 
 {% if tags %}
 {% set body_class='tags-template' %}
-{% set current_url='/'+TAGS_URL %}
-{% set current_title=SITENAME+' - Tags' %}
-{% set current_display_title='Tags' %}
+{% set _ts = TAGS_SAVE_AS|default('') %}
+{% set current_url = ('/' ~ _ts[:-10] if _ts[-10:] == 'index.html' else '/' ~ _ts) if _ts else '/' ~ TAGS_URL|default('tags/') %}
+{% set current_title=SITENAME+' - '+_('Tags') %}
+{% set current_display_title=_('Tags') %}
 {% endif %}
 
 {% block header %}

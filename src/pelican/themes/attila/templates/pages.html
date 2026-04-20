@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}{{ SITENAME }} - Pages{% endblock %}
+{% block title %}{{ SITENAME }} - {% trans %}Pages{% endtrans %}{% endblock %}
 
 {# <!-- Choosing cover image --> #}
 {% if HEADER_COVER %}
@@ -19,13 +19,13 @@
   {% set selected_color = HEADER_COLOR %}
 {% endif %}
 
-{% block canonical_url %}<link href="{{ SITEURL }}/{{PAGES_URL}}" rel="canonical" />{% endblock canonical_url %}
+{% block canonical_url %}<link href="{{ SITEURL }}/{{PAGES_URL|default('pages/')}}" rel="canonical" />{% endblock canonical_url %}
 
 {% if pages %}
 {% set body_class='pages-template' %}
-{% set current_url=PAGES_URL %}
-{% set current_title=SITENAME+' - Pages' %}
-{% set current_display_title='Pages' %}
+{% set current_url='/' ~ PAGES_URL|default('pages/') %}
+{% set current_title=SITENAME+' - '+_('Pages') %}
+{% set current_display_title=_('Pages') %}
 {% endif %}
 
 {% block header %}
@@ -34,7 +34,7 @@
     <header class="blog-header {% if selected_cover or selected_color %} has-cover {% endif %}">
       <div class="inner">
         <h1 class="post-title">{{ current_display_title }}</h1>
-        <span class="blog-description">Pages: {{ pages|count }}</span>
+        <span class="blog-description">{% trans count=pages|count %}Pages: {{ count }}{% endtrans %}</span>
         {% if selected_cover %}
           <div class="post-cover cover">
             <img src="{{ selected_cover }}" alt="{{ current_title }}" />
