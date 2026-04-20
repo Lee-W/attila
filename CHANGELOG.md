@@ -1,3 +1,9 @@
+## v2.7.1 (2026-04-20)
+
+### Fix
+
+- i18n, UX and series_list parsing issue
+
 ## v2.7.0 (2026-04-18)
 
 ### Feat
