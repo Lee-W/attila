@@ -48,6 +48,19 @@
 
   {% include "partials/feed.html" %}
 
+  {% if FAVICON %}
+  <link rel="icon" href="{{ SITEURL }}/{{ FAVICON }}">
+  {% endif %}
+  {% if FAVICON_IE %}
+  <link rel="shortcut icon" href="{{ SITEURL }}/{{ FAVICON_IE }}">
+  {% endif %}
+  {% if TOUCHICON %}
+  <link rel="apple-touch-icon" href="{{ SITEURL }}/{{ TOUCHICON }}">
+  {% endif %}
+  {% if MANIFEST %}
+  <link rel="manifest" href="{{ SITEURL }}/{{ MANIFEST }}">
+  {% endif %}
+
   {% include "partials/head_css.html" %}
 
   {% include "partials/head_script.html" %}

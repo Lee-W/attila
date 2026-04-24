@@ -3,15 +3,15 @@
 
 {% if "pelican.plugins.osm" in PLUGINS %}
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
-  <link rel="stylesheet" href="/static/pelican_osm/css/osm-map.css">
+  <link rel="stylesheet" href="{{ SITEURL }}/static/pelican_osm/css/osm-map.css">
 {% endif %}
 
 {% if "pelican.plugins.heatmap" in PLUGINS %}
-  <link rel="stylesheet" href="/static/heatmap/pelican_heatmap.css">
+  <link rel="stylesheet" href="{{ SITEURL }}/static/heatmap/pelican_heatmap.css">
 {% endif %}
 
 {% if PAGEFIND_ENABLED|default(True) %}
-  <link href="/pagefind/pagefind-component-ui.css" rel="stylesheet">
+  <link href="{{ SITEURL }}/pagefind/pagefind-component-ui.css" rel="stylesheet">
 {% endif %}
 
 {% for css in CSS_OVERRIDE|default([]) %}
