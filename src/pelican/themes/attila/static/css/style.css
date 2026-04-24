@@ -847,7 +847,6 @@ textarea {
   font-family: var(--font-secondary);
   margin: 0 0 4rem;
   padding: 0.25em 1em;
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
   border-left: 0.25em solid var(--color-primary);
   font-style: italic;

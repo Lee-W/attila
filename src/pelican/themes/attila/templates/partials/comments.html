@@ -1,6 +1,6 @@
 {% if SITEURL and article.status != "draft" %}
   {% if DISQUS_SITENAME %}
-  <script type="text/javascript">
+  <script>
     var disqus = '{{ DISQUS_SITENAME }}';
     var disqus_shortname = '{{ DISQUS_SITENAME }}';
     {% if article.disqus_identifier %}
@@ -30,7 +30,7 @@
       {% set identifier = article.disqus_identifier %}
     {% endif %}
 
-  <script type="text/javascript">var use_utterance = true;</script>
+  <script>var use_utterance = true;</script>
   <section class="post-comments">
     {% if COMMENTS_INTRO %}<p class="post-comments-intro">{{ COMMENTS_INTRO }}</p>{% endif %}
     {% from 'partials/utterances_scripts.html' import comments_script_utterances with context %}
