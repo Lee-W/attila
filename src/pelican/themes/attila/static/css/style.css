@@ -3921,6 +3921,22 @@ a {
   line-height: 1.5em;
 }
 
+.series a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color ease-out 0.1s;
+}
+
+.series a:focus,
+.series a:hover {
+  color: var(--color-primary-active);
+}
+
+.series .active a {
+  color: var(--color-content-main);
+  font-weight: 700;
+}
+
 .mermaid {
   background-color: #f7f8fa;
 }
