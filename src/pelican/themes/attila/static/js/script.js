@@ -1,33 +1,36 @@
-jQuery(($) => {
-  const html = $("html");
-  const viewport = $(window);
+document.addEventListener("DOMContentLoaded", () => {
+  const html = document.documentElement;
 
   // Menu
-  const toggleMenu = () => html.toggleClass("menu-active");
-  $("#menu, .nav-menu, .nav-close").on("click", toggleMenu);
-  viewport.on("resize orientationchange", () =>
-    html.removeClass("menu-active"),
+  const toggleMenu = () => html.classList.toggle("menu-active");
+  document
+    .querySelectorAll("#menu, .nav-menu, .nav-close")
+    .forEach((el) => el.addEventListener("click", toggleMenu));
+  window.addEventListener("resize", () => html.classList.remove("menu-active"));
+  window.addEventListener("orientationchange", () =>
+    html.classList.remove("menu-active"),
   );
 
   // Parallax cover
-  const cover = $(".cover");
+  const cover = document.querySelector(".cover");
   let coverPosition = 0;
 
   const updateParallax = () => {
-    if (!cover.length) return;
-    const windowPosition = viewport.scrollTop();
+    if (!cover) return;
+    const windowPosition = window.scrollY;
     coverPosition = windowPosition > 0 ? Math.floor(windowPosition * 0.25) : 0;
-    cover.css({
-      "-webkit-transform": `translate3d(0, ${coverPosition}px, 0)`,
-      transform: `translate3d(0, ${coverPosition}px, 0)`,
-    });
-    viewport.scrollTop() < cover.height()
-      ? html.addClass("cover-active")
-      : html.removeClass("cover-active");
+    cover.style.transform = `translate3d(0, ${coverPosition}px, 0)`;
+    if (window.scrollY < cover.offsetHeight) {
+      html.classList.add("cover-active");
+    } else {
+      html.classList.remove("cover-active");
+    }
   };
 
   updateParallax();
-  viewport.on("scroll resize orientationchange", updateParallax);
+  window.addEventListener("scroll", updateParallax);
+  window.addEventListener("resize", updateParallax);
+  window.addEventListener("orientationchange", updateParallax);
 
   // Gallery
   const gallery = () => {
@@ -45,21 +48,23 @@ jQuery(($) => {
 
   // Theme (Light/Dark)
   const initTheme = () => {
-    const toggle = $(".js-theme");
-    if (!toggle.length) return;
+    const toggle = document.querySelector(".js-theme");
+    if (!toggle) return;
 
     const setDark = () => {
-      html.removeClass("theme-light").addClass("theme-dark");
-      html[0].style.colorScheme = "dark";
+      html.classList.remove("theme-light");
+      html.classList.add("theme-dark");
+      html.style.colorScheme = "dark";
       localStorage.setItem("attila_theme", "dark");
-      toggle.attr("title", toggle.attr("data-dark"));
+      toggle.setAttribute("title", toggle.getAttribute("data-dark"));
     };
 
     const setLight = () => {
-      html.removeClass("theme-dark").addClass("theme-light");
-      html[0].style.colorScheme = "light";
+      html.classList.remove("theme-dark");
+      html.classList.add("theme-light");
+      html.style.colorScheme = "light";
       localStorage.setItem("attila_theme", "light");
-      toggle.attr("title", toggle.attr("data-light"));
+      toggle.setAttribute("title", toggle.getAttribute("data-light"));
     };
 
     const systemPref = () => {
@@ -83,11 +88,11 @@ jQuery(($) => {
     }
 
     // Toggle click
-    toggle.on("click", (e) => {
+    toggle.addEventListener("click", (e) => {
       e.preventDefault();
-      if (html.hasClass("theme-dark")) {
+      if (html.classList.contains("theme-dark")) {
         setLight();
-      } else if (html.hasClass("theme-light")) {
+      } else if (html.classList.contains("theme-light")) {
         setDark();
       } else {
         systemPref();
@@ -99,71 +104,95 @@ jQuery(($) => {
 
   // Language dropdown
   const initLanguageDropdown = () => {
-    const toggle = $(".nav-language-toggle");
-    if (!toggle.length) return;
+    const toggle = document.querySelector(".nav-language-toggle");
+    if (!toggle) return;
 
     // Detect current language by longest matching URL prefix
     const currentPath = window.location.pathname;
     let best = { text: "", length: 0, li: null };
-    $(".nav-language-dropdown li a").each(function () {
-      const href = new URL($(this).attr("href"), window.location.origin).pathname;
-      if (currentPath.startsWith(href) && href.length > best.length) {
-        best = { text: $(this).text().trim(), length: href.length, li: $(this).closest("li") };
-      }
-    });
+    document
+      .querySelectorAll(".nav-language-dropdown li a")
+      .forEach((link) => {
+        const href = new URL(
+          link.getAttribute("href"),
+          window.location.origin,
+        ).pathname;
+        if (currentPath.startsWith(href) && href.length > best.length) {
+          best = {
+            text: link.textContent.trim(),
+            length: href.length,
+            li: link.closest("li"),
+          };
+        }
+      });
     if (best.li) {
-      best.li.attr("aria-selected", "true");
-      toggle.find(".nav-language-icon").attr("data-lang", best.text);
+      best.li.setAttribute("aria-selected", "true");
+      toggle
+        .querySelector(".nav-language-icon")
+        ?.setAttribute("data-lang", best.text);
     }
 
-    toggle.on("click", (e) => {
+    toggle.addEventListener("click", (e) => {
       e.stopPropagation();
       const li = toggle.closest(".nav-languages");
-      const isOpen = li.hasClass("open");
-      li.toggleClass("open");
-      toggle.attr("aria-expanded", String(!isOpen));
+      const isOpen = li.classList.contains("open");
+      li.classList.toggle("open");
+      toggle.setAttribute("aria-expanded", String(!isOpen));
     });
 
-    $(document).on("click", () => {
-      $(".nav-languages").removeClass("open");
-      toggle.attr("aria-expanded", "false");
+    document.addEventListener("click", () => {
+      document
+        .querySelectorAll(".nav-languages")
+        .forEach((el) => el.classList.remove("open"));
+      toggle.setAttribute("aria-expanded", "false");
     });
 
     // For links with data-fallback, check if target exists; fall back if 404
-    $(".nav-language-dropdown li a[data-fallback]").on("click", function (e) {
-      const link = $(this);
-      const href = link.attr("href");
-      const fallback = link.attr("data-fallback");
-      if (link.closest("li").attr("aria-selected") === "true") return;
+    document
+      .querySelectorAll(".nav-language-dropdown li a[data-fallback]")
+      .forEach((link) => {
+        link.addEventListener("click", (e) => {
+          const href = link.getAttribute("href");
+          const fallback = link.getAttribute("data-fallback");
+          if (link.closest("li").getAttribute("aria-selected") === "true")
+            return;
 
-      e.preventDefault();
-      fetch(href, { method: "HEAD" }).then((res) => {
-        window.location.href = res.ok ? href : fallback;
-      }).catch(() => {
-        window.location.href = href; // network error: try anyway
+          e.preventDefault();
+          fetch(href, { method: "HEAD" })
+            .then((res) => {
+              window.location.href = res.ok ? href : fallback;
+            })
+            .catch(() => {
+              window.location.href = href; // network error: try anyway
+            });
+        });
       });
-    });
   };
 
   initLanguageDropdown();
 
   // Comments
   const initComments = () => {
-    if (typeof disqus === "undefined" && typeof use_utterance === "undefined") {
-      $(".post-comments").hide();
+    if (
+      typeof disqus === "undefined" &&
+      typeof use_utterance === "undefined"
+    ) {
+      const postComments = document.querySelector(".post-comments");
+      if (postComments) postComments.style.display = "none";
       return;
     }
 
     if (typeof use_utterance === "undefined") {
-      $("#show-comments").on("click", function () {
-        $.ajax({
-          type: "GET",
-          url: `//${disqus}.disqus.com/embed.js`,
-          dataType: "script",
-          cache: true,
+      const showBtn = document.getElementById("show-comments");
+      if (showBtn) {
+        showBtn.addEventListener("click", () => {
+          const script = document.createElement("script");
+          script.src = `//${disqus}.disqus.com/embed.js`;
+          script.async = true;
+          document.body.appendChild(script);
+          showBtn.parentElement.classList.add("activated");
         });
-        $(this).parent().addClass("activated");
-      });
+      }
     }
   };
 

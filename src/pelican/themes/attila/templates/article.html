@@ -270,39 +270,29 @@
 
 {% block scripts %}
 {{ super() }}
-<!-- Add MathJax and FontAwesome for Asciidoc -->\
+<!-- Add MathJax and FontAwesome for Asciidoc -->
 {% if article.source_path and article.source_path.lower().endswith(('.adoc','.asciidoc')) %}
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    messageStyle: "none",
-    tex2jax: {
+<script>
+  window.MathJax = {
+    tex: {
       inlineMath: [["\\(", "\\)"]],
       displayMath: [["\\[", "\\]"]],
-      ignoreClass: "nostem|nolatexmath"
+      tags: "none",
+      processEscapes: false
     },
-    asciimath2jax: {
-      delimiters: [["\\$", "\\$"]],
-      ignoreClass: "nostem|noasciimath"
+    asciimath: {
+      delimiters: [["\\$", "\\$"]]
     },
-    TeX: { equationNumbers: { autoNumber: "none" } }
-  })
-  MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
-    MathJax.InputJax.AsciiMath.postfilterHooks.Add(function (data, node) {
-      if ((node = data.script.parentNode) && (node = node.parentNode) && node.classList.contains("stemblock")) {
-        data.math.root.display = "block"
-      }
-      return data
-    })
-  })
+    options: {
+      ignoreHtmlClass: "nostem|nolatexmath|noasciimath"
+    }
+  };
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js" integrity="sha512-tiaNmAzpy3KcgtuiLwT9WSlSsqGqtDB5ylMwxoqG5ysNIyzkBw24k6UFTuXGgyXJLJ8aM/ho1h67NRKedPx++Q==" crossorigin="anonymous"></script>
 {% endif %}
 <script>
-  $(document).ready(function () {
-    var viewport = $(window);
-    var post = $('.post-content');
-    // Responsive videos with fitVids
-    post.fitVids();
+  document.addEventListener("DOMContentLoaded", function () {
+    var post = document.querySelector('.post-content');
 
     var mdSelector=".highlight pre code";
     var rstSelector=".highlight pre code";
@@ -317,70 +307,47 @@
     {% else %}
     var selector=rstSelector;
     {% endif %}
-    // Format code blocks and add line numbers
-    function codestyling() {
-      $(selector).each(function(i, e) {
-        // Code highlight
-        hljs.highlightElement(e);
-        // No lines for plain text blocks
-        if (!$(this).hasClass('language-text')) {
-          var code = $(this);
-          // Calculate amount of lines
-          var lines = code.html().split(/\n(?!$)/g).length;
-          var numbers = [];
-          if (lines > 1) {
-            lines++;
-          }
-          for (i = 1; i < lines; i++) {
-            numbers += '<span class="line" aria-hidden="true">' + i + '</span>';
-          }
-          code.parent().append('<div class="lines">' + numbers + '</div>');
-        }
-      });
-    }
 
     // Format code blocks only
-    function codestylingWithoutLineNumbers() {
-      $(selector).each(function(i, e) {
-        // Code highlight
-        hljs.highlightElement(e);
-      });
-    }
+    document.querySelectorAll(selector).forEach(function(e) {
+      hljs.highlightElement(e);
+    });
 
-    codestylingWithoutLineNumbers();
     // Reading progress bar on window top
     function readingProgress() {
-      var postBottom = post.offset().top + post.height();
-      var viewportHeight = viewport.height();
-      var progress = 100 - (((postBottom - (viewport.scrollTop() + viewportHeight) + viewportHeight / 3) / (postBottom - viewportHeight + viewportHeight / 3)) * 100);
-      $('.progress-bar').css('width', progress + '%');
-      (progress > 100) ? $('.progress-container').addClass('complete'): $('.progress-container').removeClass('complete');
+      if (!post) return;
+      var postRect = post.getBoundingClientRect();
+      var postBottom = postRect.top + window.scrollY + post.offsetHeight;
+      var viewportHeight = window.innerHeight;
+      var progress = 100 - (((postBottom - (window.scrollY + viewportHeight) + viewportHeight / 3) / (postBottom - viewportHeight + viewportHeight / 3)) * 100);
+      var progressBar = document.querySelector('.progress-bar');
+      var progressContainer = document.querySelector('.progress-container');
+      if (progressBar) progressBar.style.width = progress + '%';
+      if (progressContainer) {
+        if (progress > 100) {
+          progressContainer.classList.add('complete');
+        } else {
+          progressContainer.classList.remove('complete');
+        }
+      }
     }
     readingProgress();
-    // Trigger reading progress
-    viewport.on({
-      'scroll': function() {
-        readingProgress();
-      },
-      'resize': function() {
-        readingProgress();
-      },
-      'orientationchange': function() {
-        readingProgress();
-      }
-    });
+    window.addEventListener('scroll', readingProgress);
+    window.addEventListener('resize', readingProgress);
+    window.addEventListener('orientationchange', readingProgress);
 
     {% if DISQUS_SITENAME and SITEURL and article.status != "draft" %}
       var disqus = '{{DISQUS_SITENAME}}';
-      $('#show-disqus').on('click', function() {
-        $.ajax({
-          type: "GET",
-          url: "//" + disqus + ".disqus.com/embed.js",
-          dataType: "script",
-          cache: true
+      var showDisqus = document.getElementById('show-disqus');
+      if (showDisqus) {
+        showDisqus.addEventListener('click', function() {
+          var script = document.createElement('script');
+          script.src = '//' + disqus + '.disqus.com/embed.js';
+          script.async = true;
+          document.body.appendChild(script);
+          this.parentElement.classList.add('activated');
         });
-        $(this).parent().addClass('activated');
-      });
+      }
     {% endif %}
   });
 </script>
