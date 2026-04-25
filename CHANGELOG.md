@@ -1,3 +1,14 @@
+## v2.7.2 (2026-04-25)
+
+### Fix
+
+- pin leaflet version with SRI, add reduced motion and lazy loading
+- remove unused fonts, update vendored fonts to CDN, fix hardcoded paths
+- update highlight.js theme to v11 scopes with dark mode support
+- modernize outdated dependencies, remove jQuery, and clean up HTML/CSS
+- color for series posts in dark mode
+- modernize outdated dependencies and remove jQuery
+
 ## v2.7.1 (2026-04-20)
 
 ### Fix
