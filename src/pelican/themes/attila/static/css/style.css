@@ -3766,7 +3766,7 @@ a {
 }
 
 .mermaid {
-  background-color: #f7f8fa;
+  background-color: var(--color-background-secondary);
 }
 
 /* pagefind component ui */
@@ -3818,4 +3818,16 @@ pre {
 
 .copy-btn:hover {
   opacity: 1;
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

@@ -14,12 +14,18 @@ document.addEventListener("DOMContentLoaded", () => {
   // Parallax cover
   const cover = document.querySelector(".cover");
   let coverPosition = 0;
+  const prefersReducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
 
   const updateParallax = () => {
     if (!cover) return;
-    const windowPosition = window.scrollY;
-    coverPosition = windowPosition > 0 ? Math.floor(windowPosition * 0.25) : 0;
-    cover.style.transform = `translate3d(0, ${coverPosition}px, 0)`;
+    if (!prefersReducedMotion) {
+      const windowPosition = window.scrollY;
+      coverPosition =
+        windowPosition > 0 ? Math.floor(windowPosition * 0.25) : 0;
+      cover.style.transform = `translate3d(0, ${coverPosition}px, 0)`;
+    }
     if (window.scrollY < cover.offsetHeight) {
       html.classList.add("cover-active");
     } else {
