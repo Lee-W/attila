@@ -20,12 +20,12 @@ It is ported from the ghost theme:
 ## Features
 - Responsive layout  
 - Navigation support  
-- Parallax cover images for posts, author archives, and blog  
+- Parallax cover images for posts, author archives, and blog (respects `prefers-reduced-motion`)
 - Author information for posts and author archives  
 - Featured posts (via [neighbors plugin](https://github.com/pelican-plugins/neighbors))  
 - Series posts (via [series plugin](https://github.com/pelican-plugins/series))
 - Reading progress for posts  
-- Automatic code syntax highlight  
+- Automatic code syntax highlight (highlight.js 11 with dark mode support)
 - Disqus / [utterances](https://utteranc.es/) support
 - Google Analytics, GAUGES, Piwik  
 - Sharing buttons  
@@ -35,6 +35,10 @@ It is ported from the ghost theme:
 - Writing heatmap (via [heatmap plugin](https://pypi.org/project/pelican-heatmap/))
 - OpenStreetMap (via [osm plugin](https://pypi.org/project/pelican-osm/))
 - [umami](https://umami.is/) support
+- Full-text search via [Pagefind](https://pagefind.app/) (Ctrl/Cmd+K)
+- Lazy loading for images
+- SRI (Subresource Integrity) for all CDN assets
+- No jQuery dependency — pure vanilla JavaScript
 
 ## Install
 
@@ -200,7 +204,7 @@ CSS_OVERRIDE = ["css/myblog.css"]
 ### User-defined JS
 
 ```python
-JS_OVERRIDE = [""]
+JS_OVERRIDE = ["js/custom.js"]
 ```
 
 ### Author Bio
@@ -300,6 +304,22 @@ To show an introductory paragraph above the comments section, set `COMMENTS_INTR
 
 ```python
 COMMENTS_INTRO = "Comments are moderated. Be kind."
+```
+
+### Search
+
+Full-text search is powered by [Pagefind](https://pagefind.app/) and enabled by default. Users can open the search modal by clicking the search icon or pressing `Ctrl+K` / `Cmd+K`. To disable:
+
+```python
+PAGEFIND_ENABLED = False
+```
+
+### Google Fonts
+
+Google Fonts (Montserrat and Lato) are loaded from the CDN by default. To disable:
+
+```python
+ALLOW_GOOGLE_FONTS = False
 ```
 
 ### Other Configuration
