@@ -55,8 +55,8 @@
 {% block content %}
     {% for author, articles in authors|sort %}
         {% set author_name = author.name | title  %}
-        {% if AUTHOR_META and author.name.lower() in AUTHOR_META %}
-            {% set author_name = AUTHOR_META[author.name.lower()].name or author.name %}
+        {% if AUTHOR_META and author.name in AUTHOR_META %}
+            {% set author_name = AUTHOR_META[author.name].name or author.name %}
         {% endif %}
 
       <article class="post">
