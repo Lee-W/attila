@@ -1,3 +1,9 @@
+## v2.7.3 (2026-04-26)
+
+### Fix
+
+- AUTHOR_META key handling and avatar/cover display
+
 ## v2.7.2 (2026-04-25)
 
 ### Fix
