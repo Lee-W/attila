@@ -984,19 +984,19 @@ textarea {
   color: var(--color-content-secondary);
   max-width: calc(64rem + 8vw);
   margin: auto;
-  font-size: 0.75em;
-  line-height: 2em;
-  padding: 2rem 0;
+  font-size: 0.85em;
+  line-height: 1.5em;
+  padding: 0.5rem 0 1.5rem;
+  text-align: center;
+  font-style: italic;
 }
 
-.post-content figure figcaption:after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 8rem;
-  height: 1px;
-  background: var(--color-background-contrast);
+.post-content figure > p {
+  margin: 0;
+}
+
+.post-content figure figcaption > p {
+  margin: 0;
 }
 
 .post-content figure figcaption a {
