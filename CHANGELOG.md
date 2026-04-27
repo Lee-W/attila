@@ -1,3 +1,9 @@
+## v2.7.4 (2026-04-27)
+
+### Fix
+
+- tighten figcaption spacing and remove decorative line
+
 ## v2.7.3 (2026-04-26)
 
 ### Fix

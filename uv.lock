@@ -30,7 +30,7 @@ wheels = [
 
 [[package]]
 name = "attila"
-version = "2.7.3"
+version = "2.7.4"
 source = { editable = "." }
 dependencies = [
     { name = "pelican" },
