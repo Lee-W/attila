@@ -1,3 +1,9 @@
+## v2.7.5 (2026-04-29)
+
+### Fix
+
+- simplify post table borders and align with theme tokens
+
 ## v2.7.4 (2026-04-27)
 
 ### Fix
