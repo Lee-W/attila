@@ -1,3 +1,9 @@
+## v2.7.6 (2026-04-29)
+
+### Fix
+
+- keep single-line code blocks below the copy button
+
 ## v2.7.5 (2026-04-29)
 
 ### Fix
