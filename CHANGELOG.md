@@ -1,3 +1,9 @@
+## v2.7.7 (2026-04-29)
+
+### Fix
+
+- set table boarder for better visibility
+
 ## v2.7.6 (2026-04-29)
 
 ### Fix
