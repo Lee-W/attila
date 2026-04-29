@@ -761,7 +761,7 @@ textarea {
 .post-content pre {
   position: relative;
   margin: 0 0 0rem;
-  padding: 1em;
+  padding: 2.8em 1em 1em;
   overflow: hidden;
   font-family: monospace, sans-serif;
   white-space: pre;
