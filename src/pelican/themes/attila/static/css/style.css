@@ -1971,11 +1971,11 @@ textarea {
   }
 }
 
-.nav-header .nav-wrapper-control {
-  position: absolute;
+.nav-wrapper-control {
+  position: fixed;
   z-index: 500;
   left: 0;
-  top: 100%;
+  top: 0;
   width: 100%;
   cursor: pointer;
   display: none;
@@ -1986,17 +1986,17 @@ textarea {
 }
 
 @media only screen and (max-width: 640px) {
-  .nav-header .nav-wrapper-control {
+  .nav-wrapper-control {
     display: block;
   }
 }
 
-.nav-header .nav-wrapper-control .inner {
+.nav-wrapper-control .inner {
   display: flex;
   justify-content: space-between;
 }
 
-.nav-header .nav-wrapper-control a {
+.nav-wrapper-control a {
   position: relative;
   display: block;
   width: 100%;
@@ -2007,12 +2007,12 @@ textarea {
   transition: all ease-out 0.1s;
 }
 
-.nav-header .nav-wrapper-control a i {
+.nav-wrapper-control a i {
   display: inline-block;
   width: 4rem;
 }
 
-.nav-header .nav-wrapper-control button.nav-search {
+.nav-wrapper-control button.nav-search {
   position: relative;
   display: block;
   padding: 2rem 0;
@@ -2027,8 +2027,8 @@ textarea {
   text-align: right;
 }
 
-.nav-header .nav-wrapper-control a:focus,
-.nav-header .nav-wrapper-control a:hover {
+.nav-wrapper-control a:focus,
+.nav-wrapper-control a:hover {
   color: var(--color-content-main);
 }
 
@@ -2040,25 +2040,25 @@ textarea {
   );
 }
 
-.cover-active .nav-header .nav-wrapper-control {
+.cover-active .nav-wrapper-control {
   color: white;
 }
 
-.menu-active .nav-header .nav-wrapper-control {
+.menu-active .nav-wrapper-control {
   background: #222426;
   color: var(--color-content-secondary);
   border-color: #3b3d40;
 }
 
 @supports (-webkit-backdrop-filter: blur(2rem)) {
-  .menu-active .nav-header .nav-wrapper-control {
+  .menu-active .nav-wrapper-control {
     background: rgba(34, 36, 38, 0.9);
     -webkit-backdrop-filter: blur(2rem);
   }
 }
 
-.menu-active .nav-header .nav-wrapper-control a:focus,
-.menu-active .nav-header .nav-wrapper-control a:hover {
+.menu-active .nav-wrapper-control a:focus,
+.menu-active .nav-wrapper-control a:hover {
   color: var(--color-content-main-dark);
 }
 
@@ -2092,6 +2092,12 @@ textarea {
       background: rgba(34, 36, 38, 0.9);
       -webkit-backdrop-filter: blur(2rem);
     }
+  }
+}
+
+@media only screen and (max-width: 640px) {
+  .menu-active .nav-header .nav-wrapper {
+    padding-top: 6rem;
   }
 }
 

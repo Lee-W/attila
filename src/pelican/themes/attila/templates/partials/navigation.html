@@ -8,14 +8,14 @@
 
     {% include "partials/navigation-items.html" %}
   </nav>
+</div>
 
-  <div class="nav-wrapper-control">
-    <div class="inner">
-      <a class="nav-menu" role="button"><i class="fa-solid fa-bars" aria-hidden="true"></i>Menu</a>
-      {% if PAGEFIND_ENABLED|default(True) %}
-      <button class="nav-search" title="Search" aria-label="Search"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
-      {% endif %}
-    </div>
+<div class="nav-wrapper-control">
+  <div class="inner">
+    <a class="nav-menu" role="button"><i class="fa-solid fa-bars" aria-hidden="true"></i>Menu</a>
+    {% if PAGEFIND_ENABLED|default(True) %}
+    <button class="nav-search" title="Search" aria-label="Search"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+    {% endif %}
   </div>
 </div>
 
