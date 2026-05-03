@@ -1,3 +1,9 @@
+## v2.7.8 (2026-05-03)
+
+### Fix
+
+- fix mobile search button not receiving click events in Firefox and Safari
+
 ## v2.7.7 (2026-04-29)
 
 ### Fix
