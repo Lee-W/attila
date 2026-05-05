@@ -1,0 +1,85 @@
+{# <!-- Choosing locale --> #}
+{% if OG_LOCALE %}
+  {% set default_locale = OG_LOCALE %}
+{% else %}
+  {% set default_locale = 'en_US' %}
+{% endif %}
+
+{# <!-- Choosing cover image --> #}
+{% if page.og_image %}
+  {% if page.og_image|lower|truncate(4, True, '') == "http" %}
+    {% set selected_cover = page.og_image %}
+  {% elif page.og_image.startswith('/') %}
+    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+page.og_image %}
+  {% else %}
+    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+"/"+page.og_image %}
+  {% endif %}
+{% elif page.cover %}
+  {% if page.cover|lower|truncate(4, True, '') == "http" %}
+    {% set selected_cover = page.cover %}
+  {% elif page.cover.startswith('/') %}
+    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+page.cover %}
+  {% else %}
+    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+"/"+page.cover %}
+  {% endif %}
+{% elif HEADER_COVER %}
+  {% if HEADER_COVER|lower|truncate(4, True, '') == "http" %}
+    {% set selected_cover = HEADER_COVER %}
+  {% elif HEADER_COVER.startswith('/') %}
+    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+HEADER_COVER %}
+  {% else %}
+    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+"/"+HEADER_COVER %}
+  {% endif %}
+{% elif HOME_COVER %}
+  {% if HOME_COVER|lower|truncate(4, True, '') == "http" %}
+    {% set selected_cover = HOME_COVER %}
+  {% elif HOME_COVER.startswith('/') %}
+    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+HOME_COVER %}
+  {% else %}
+    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+"/"+HOME_COVER %}
+  {% endif %}
+{% else %}
+  {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+"/"+THEME_STATIC_DIR+"/images/home-bg.jpg" %}
+{% endif %}
+
+{# <!-- Choosing description --> #}
+{% if page.summary %}
+    {% set description = page.summary|striptags|truncate(140) %}
+{% elif page.headline %}
+    {% set description = page.headline %}
+{% else %}
+    {% set description = '' %}
+{% endif %}
+
+<!-- Open Graph -->
+{% for admin in FACEBOOK_ADMINS %}
+  <meta property="fb:admins" content="{{ admin }}" />
+{% endfor %}
+<meta prefix="og: http://ogp.me/ns#" property="og:site_name" content="{{ SITENAME }}"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:title" content="{{ page.title|striptags|e }}"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:description" content="{{ description }}"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:locale" content="{{ page.metadata.get('og_locale', default_locale) }}"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:url" content="{{ SITEURL }}/{{ page.url }}"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:type" content="article"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:image" content="{{ selected_cover }}">
+
+<!-- Twitter Card -->
+{% for name,link in SOCIAL if name.lower() in ['twitter'] %}
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@{{ link|replace('http://', 'https://')|replace('https://twitter.com/', '') }}">
+  <meta name="twitter:title" content="{{ page.title|striptags|e }}">
+  <meta name="twitter:url" content="{{ SITEURL }}/{{ page.url }}">
+  <meta name="twitter:description" content="{{ description }}">
+
+  {% if page.twitter_image %}
+    {% if page.twitter_image|lower|truncate(4, True, '') == "http" %}
+      <meta name="twitter:image:src" content="{{ page.twitter_image }}">
+    {% elif page.twitter_image.startswith('/') %}
+      <meta name="twitter:image:src" content="{{ SITEURL }}{{ page.twitter_image }}">
+    {% else %}
+      <meta name="twitter:image:src" content="{{ SITEURL }}/{{ page.twitter_image }}">
+    {% endif %}
+  {% else %}
+    <meta name="twitter:image:src" content="{{ selected_cover }}">
+  {% endif %}
+{% endfor %}

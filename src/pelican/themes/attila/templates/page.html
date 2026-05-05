@@ -1,4 +1,10 @@
-{% extends "index.html" %}
+{% extends "base.html" %}
+
+{% block head %}
+  {{ super() }}
+  {% include "partials/og_page.html" %}
+  {% include "partials/jsonld.html" %}
+{% endblock %}
 
 {% block title %}{{ page.title }}{% endblock title %}
 
