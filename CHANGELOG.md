@@ -1,3 +1,9 @@
+## v2.8.0 (2026-05-05)
+
+### Feat
+
+- add og_page.html template for self-contained page metadata
+
 ## v2.7.8 (2026-05-03)
 
 ### Fix
