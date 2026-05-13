@@ -3942,6 +3942,11 @@ pre {
   opacity: 1;
 }
 
+/* footnote spacing */
+.post-content .footnote ol li p {
+  margin-bottom: 0.5rem;
+}
+
 /* Respect reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
   *,
