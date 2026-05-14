@@ -141,6 +141,11 @@
         {% elif selected_color %}
           <div class="post-cover cover" style="background-color: {{ selected_color }}">
         {% endif %}
+        {% if article.tags %}
+        <aside class="post-tags">
+          {% for tag in article.tags %}<a href="{{ SITEURL }}/{{ tag.url }}">{{ tag | escape }}</a>{% if not loop.last %}{% endif %}{% endfor %}
+        </aside>
+        {% endif %}
       </div>
     </header>
 {% endblock header %}
@@ -162,12 +167,6 @@
 
           <section class="post-footer" {{post_footer_inline_style}}>
             {% include 'partials/post_share.html' %}
-
-            {% if article.tags %}
-            <aside class="post-tags">
-              {% for tag in article.tags %}<a href="{{ SITEURL }}/{{ tag.url }}">{{ tag | escape }}</a>{% if not loop.last %}{% endif %}{% endfor %}
-            </aside>
-            {% endif %}
 
             {% if CC_LICENSE %}
             <aside class="post-license">

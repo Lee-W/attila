@@ -3069,6 +3069,24 @@ textarea {
   color: white;
 }
 
+.post-header .post-tags {
+  position: relative;
+  z-index: 10;
+  margin-top: 2rem;
+  float: none;
+  max-width: none;
+}
+
+.has-cover .post-header .post-tags a {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.has-cover .post-header .post-tags a:focus,
+.has-cover .post-header .post-tags a:hover {
+  background: rgba(255, 255, 255, 0.35);
+}
+
 .post-excerpt {
   margin: 1em 0 0;
   font-family: var(--font-secondary);
