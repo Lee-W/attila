@@ -1,3 +1,9 @@
+## v2.9.1 (2026-05-26)
+
+### Fix
+
+- fix search modal not opening on iOS Safari
+
 ## v2.9.0 (2026-05-14)
 
 ### Feat
