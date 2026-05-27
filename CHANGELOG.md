@@ -1,3 +1,9 @@
+## v2.11.0 (2026-05-27)
+
+### Feat
+
+- **template**: add hover anchor links to article headings
+
 ## v2.10.0 (2026-05-27)
 
 ### Feat
