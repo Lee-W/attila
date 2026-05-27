@@ -1,0 +1,13 @@
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".post-content h2, .post-content h3, .post-content h4").forEach((heading) => {
+    if (!heading.id) return;
+    const anchor = document.createElement("a");
+    anchor.href = "#" + heading.id;
+    anchor.className = "heading-anchor";
+    anchor.setAttribute("aria-hidden", "true");
+    anchor.textContent = "#";
+    heading.appendChild(anchor);
+  });
+});
+</script>

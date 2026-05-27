@@ -722,6 +722,23 @@ textarea {
   font-weight: inherit;
 }
 
+.post-content h2 .heading-anchor,
+.post-content h3 .heading-anchor,
+.post-content h4 .heading-anchor {
+  margin-left: 0.4em;
+  color: var(--color-primary);
+  opacity: 0;
+  text-decoration: none;
+  font-weight: 400;
+  transition: opacity 0.15s ease;
+}
+
+.post-content h2:hover .heading-anchor,
+.post-content h3:hover .heading-anchor,
+.post-content h4:hover .heading-anchor {
+  opacity: 1;
+}
+
 .post-content p {
   font-family: var(--font-secondary);
   margin: 0 0 4rem;

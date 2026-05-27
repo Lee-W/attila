@@ -271,6 +271,7 @@
 
 {% block scripts %}
 {{ super() }}
+{% include 'partials/heading_anchor_script.html' %}
 <!-- Add MathJax and FontAwesome for Asciidoc -->
 {% if article.source_path and article.source_path.lower().endswith(('.adoc','.asciidoc')) %}
 <script>
