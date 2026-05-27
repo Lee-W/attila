@@ -1,0 +1,6 @@
+{% if RANDOM_ARTICLE_BUTTON | default(False) and "pelican.plugins.random_article" in PLUGINS %}
+{% set _random_path = RANDOM_ARTICLE_SAVE_AS | default("random/index.html") | replace("index.html", "") %}
+<aside class="post-random">
+  <a href="{{ SITEURL }}/{{ _random_path }}">🎲 {% trans %}Read a random article{% endtrans %}</a>
+</aside>
+{% endif %}

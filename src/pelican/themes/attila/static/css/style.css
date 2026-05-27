@@ -971,6 +971,34 @@ textarea {
   background: var(--color-background-secondary);
 }
 
+.post-content details {
+  margin: 0 0 2rem;
+  border: 1px solid var(--color-background-contrast);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.post-content summary {
+  padding: 1rem 1.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  background: var(--color-background-secondary);
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.post-content summary:hover {
+  background: var(--color-background-contrast);
+}
+
+.post-content details[open] > summary {
+  border-bottom: 1px solid var(--color-background-contrast);
+}
+
+.post-content details > *:not(summary):not(pre):not(.highlight) {
+  padding: 0 1.5rem;
+}
+
 .post-content img {
   display: block;
   max-width: 100%;
@@ -3496,6 +3524,30 @@ textarea {
   font-size: 1.6em;
   line-height: 2rem;
   color: var(--color-content-secondary);
+}
+
+.post-random {
+  border-top: 1px solid var(--color-background-contrast);
+  padding: 3rem 0;
+  text-align: center;
+}
+
+.post-random a {
+  display: inline-block;
+  padding: 1rem 3rem;
+  border: 2px solid var(--color-background-contrast);
+  border-radius: 25px;
+  color: var(--color-content-secondary);
+  text-decoration: none;
+  font-size: 2em;
+  font-weight: 500;
+  transition: all ease-out 0.2s;
+}
+
+.post-random a:focus,
+.post-random a:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
 }
 
 .pagination {

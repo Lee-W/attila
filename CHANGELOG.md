@@ -1,3 +1,9 @@
+## v2.10.0 (2026-05-27)
+
+### Feat
+
+- add random article button (requires pelican-random-article plugin, opt-in via `RANDOM_ARTICLE_BUTTON = True`)
+
 ## v2.9.1 (2026-05-26)
 
 ### Fix

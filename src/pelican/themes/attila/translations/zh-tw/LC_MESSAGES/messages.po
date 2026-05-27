@@ -46,3 +46,6 @@ msgstr "淺色主題"
 
 msgid "This post is part %(index)s of the \"%(name)s\" series:"
 msgstr "本文是「%(name)s」系列的第 %(index)s 篇："
+
+msgid "Read a random article"
+msgstr "隨機閱讀一篇文章"
