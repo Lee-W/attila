@@ -2,6 +2,143 @@
 
 ### Feat
 
+- add random article button and style details elements
+
+## v2.9.1 (2026-05-26)
+
+### Fix
+
+- fix search modal not opening on iOS Safari
+
+## v2.9.0 (2026-05-14)
+
+### Feat
+
+- move tags to the top
+
+## v2.8.1 (2026-05-13)
+
+### Fix
+
+- footnote style
+
+## v2.8.0 (2026-05-05)
+
+### Feat
+
+- add og_page.html template for self-contained page metadata
+
+## v2.7.8 (2026-05-03)
+
+### Fix
+
+- fix mobile search button not receiving click events in Firefox and Safari
+
+## v2.7.7 (2026-04-29)
+
+### Fix
+
+- set table boarder for better visibility
+
+## v2.7.6 (2026-04-29)
+
+### Fix
+
+- keep single-line code blocks below the copy button
+
+## v2.7.5 (2026-04-29)
+
+### Fix
+
+- simplify post table borders and align with theme tokens
+
+## v2.7.4 (2026-04-27)
+
+### Fix
+
+- tighten figcaption spacing and remove decorative line
+
+## v2.7.3 (2026-04-26)
+
+### Fix
+
+- AUTHOR_META key handling and avatar/cover display
+
+## v2.7.2 (2026-04-25)
+
+### Fix
+
+- pin leaflet version with SRI, add reduced motion and lazy loading
+- remove unused fonts, update vendored fonts to CDN, fix hardcoded paths
+- update highlight.js theme to v11 scopes with dark mode support
+- modernize outdated dependencies, remove jQuery, and clean up HTML/CSS
+- color for series posts in dark mode
+- modernize outdated dependencies and remove jQuery
+
+## v2.7.1 (2026-04-20)
+
+### Fix
+
+- i18n, UX and series_list parsing issue
+
+## v2.7.0 (2026-04-18)
+
+### Feat
+
+- **UX**: upgrade pagefind version and improve search UX (now we don't need a separate search page!)
+
+## v2.6.2 (2026-04-18)
+
+### Fix
+
+- restore lang-specific font sizes for Firefox only
+
+## v2.6.1 (2026-04-17)
+
+### Fix
+
+- remove en and zh-tw separate size setup
+
+## v2.6.0 (2026-04-17)
+
+### Feat
+
+- add CC license display, comments intro, and improve navigation
+
+## v2.5.0 (2026-04-17)
+
+### Feat
+
+- improve language button display
+
+## v2.4.0 (2026-04-16)
+
+### Feat
+
+- modernize UI and add i18n support
+
+## v2.3.0 (2026-04-15)
+
+### Feat
+
+- add umami support
+
+## v2.2.1 (2026-03-14)
+
+### Fix
+
+- fix heatmap path
+
+## v2.2.0 (2026-03-14)
+
+### Feat
+
+- add pelican-osm, pelican-heatmap support
+
+## v2.10.0 (2026-05-27)
+
+### Feat
+
 - add random article button (requires pelican-random-article plugin, opt-in via `RANDOM_ARTICLE_BUTTON = True`)
 
 ## v2.9.1 (2026-05-26)
