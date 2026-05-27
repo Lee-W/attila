@@ -1,3 +1,9 @@
+## v2.11.1 (2026-05-27)
+
+### Fix
+
+- **css,template**: improve search button tap target and add open() fallback for Firefox mobile
+
 ## v2.11.0 (2026-05-27)
 
 ### Feat
