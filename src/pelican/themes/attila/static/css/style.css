@@ -2069,6 +2069,7 @@ textarea {
   border: 0;
   cursor: pointer;
   width: auto;
+  min-width: 44px;
   text-align: right;
 }
 
