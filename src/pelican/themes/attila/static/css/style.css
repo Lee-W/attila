@@ -4040,6 +4040,53 @@ pre {
   margin-bottom: 0.5rem;
 }
 
+/* Pages index card grid */
+.pages-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.pages-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 1.25rem;
+  background: var(--color-background-secondary);
+  border: 1px solid var(--color-background-contrast);
+  border-radius: 8px;
+  text-decoration: none;
+  color: var(--color-content-main);
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.pages-card:hover {
+  border-color: var(--color-primary);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  text-decoration: none;
+}
+
+.pages-card-icon {
+  font-size: 1.5em;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.pages-card-title {
+  display: block;
+  font-size: 1em;
+  font-weight: 600;
+  color: var(--color-content-main);
+}
+
+.pages-card-desc {
+  display: block;
+  font-size: 0.8em;
+  color: var(--color-content-secondary);
+  margin: 0.25em 0 0;
+}
+
 /* Respect reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
   *,
