@@ -1033,6 +1033,11 @@ textarea {
   margin: 0 0 4rem;
 }
 
+.post-content iframe[src*="spotify"] {
+  display: block;
+  margin: 0 0 4rem;
+}
+
 .post-content form p {
   margin: 0 0 2rem;
 }
