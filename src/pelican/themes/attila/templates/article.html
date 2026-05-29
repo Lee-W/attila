@@ -105,7 +105,7 @@
 
             <figure class="post-meta-avatar avatar">
               <a class="author-avatar" href="{{ SITEURL }}/{{ author.url }}">
-                <img class="author-profile-image" src="{{author_avatar}}" alt="{{ author_name }}" />
+                <img class="author-profile-image" src="{{author_avatar}}" alt="{{ author_name }}" decoding="async" />
               </a>
             </figure>
           {% endfor %}
@@ -133,9 +133,9 @@
         {% if selected_cover %}
           <div class="post-cover cover">
             {% if "image_process" is plugin_enabled %}
-              <img class="image-process-large-photo" src="{{ selected_cover }}" alt="{{ current_title }}" />
+              <img class="image-process-large-photo" src="{{ selected_cover }}" alt="{{ current_title }}" decoding="async" />
             {% else %}
-              <img src="{{ selected_cover }}" alt="{{ current_title }}" />
+              <img src="{{ selected_cover }}" alt="{{ current_title }}" decoding="async" />
             {% endif %}
           </div>
         {% elif selected_color %}
@@ -175,7 +175,7 @@
               {% for part in CC_LICENSE.slug.split('-') %}
                 <i class="fa-brands fa-creative-commons-{{ part }}" aria-hidden="true"></i>
               {% endfor %}
-              <span>{% trans %}Licensed under{% endtrans %} <a rel="license" href="{{ cc_url }}" target="_blank">{{ CC_LICENSE.name }} {{ CC_LICENSE.version }}</a></span>
+              <span>{% trans %}Licensed under{% endtrans %} <a rel="license noopener" href="{{ cc_url }}" target="_blank">{{ CC_LICENSE.name }} {{ CC_LICENSE.version }}</a></span>
             </aside>
             {% endif %}
 
@@ -194,7 +194,7 @@
                 {% endif %}
 
                 <figure class="post-author-avatar">
-                  <img src="{{author_avatar}}" alt="{{author_name}}" loading="lazy" />
+                  <img src="{{author_avatar}}" alt="{{author_name}}" loading="lazy" decoding="async" />
                 </figure>
               {% endif %}
                 <div class="post-author-bio">
@@ -210,19 +210,19 @@
                   {% endif %}
                   <!-- Social links in alphabet order. -->
                   {% if AUTHOR_META[author.name].facebook %}
-                    <span class="post-author-facebook"><a target="_blank" href="https://facebook.com/{{AUTHOR_META[author.name].facebook}}"><i class="fa-brands fa-facebook"></i> Facebook</a></span>
+                    <span class="post-author-facebook"><a target="_blank" rel="noopener" href="https://facebook.com/{{AUTHOR_META[author.name].facebook}}"><i class="fa-brands fa-facebook"></i> Facebook</a></span>
                   {% endif %}
                   {% if AUTHOR_META[author.name].github %}
-                    <span class="post-author-github"><a target="_blank" href="https://github.com/{{AUTHOR_META[author.name].github}}"><i class="fa-brands fa-github"></i> GitHub</a></span>
+                    <span class="post-author-github"><a target="_blank" rel="noopener" href="https://github.com/{{AUTHOR_META[author.name].github}}"><i class="fa-brands fa-github"></i> GitHub</a></span>
                   {% endif %}
                   {% if AUTHOR_META[author.name].linkedin %}
-                    <span class="post-author-linkedin"><a target="_blank" href="https://www.linkedin.com/in/{{AUTHOR_META[author.name].linkedin}}"><i class="fa-brands fa-linkedin"></i> LinkedIn</a></span>
+                    <span class="post-author-linkedin"><a target="_blank" rel="noopener" href="https://www.linkedin.com/in/{{AUTHOR_META[author.name].linkedin}}"><i class="fa-brands fa-linkedin"></i> LinkedIn</a></span>
                   {% endif %}
                   {% if AUTHOR_META[author.name].twitter %}
-                    <span class="post-author-twitter"><a target="_blank" href="https://twitter.com/{{AUTHOR_META[author.name].twitter}}"><i class="fa-brands fa-x-twitter"></i> Twitter</a></span>
+                    <span class="post-author-twitter"><a target="_blank" rel="noopener" href="https://twitter.com/{{AUTHOR_META[author.name].twitter}}"><i class="fa-brands fa-x-twitter"></i> Twitter</a></span>
                   {% endif %}
                   {% if AUTHOR_META and AUTHOR_META[author.name] and AUTHOR_META[author.name].instagram %}
-                  <a target="_blank" href="https://instagram.com/{{AUTHOR_META[author.name].instagram}}"><i class="fa-brands fa-instagram"></i><span>Instagram</span></a>
+                  <a target="_blank" rel="noopener" href="https://instagram.com/{{AUTHOR_META[author.name].instagram}}"><i class="fa-brands fa-instagram"></i><span>Instagram</span></a>
                   {% endif %}
                 </div>
                 <div class="clear"></div>

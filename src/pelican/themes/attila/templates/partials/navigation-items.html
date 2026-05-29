@@ -20,7 +20,7 @@
   {% set fa_icons = {'facebook': 'fa-brands fa-facebook', 'twitter': 'fa-brands fa-x-twitter', 'linkedin': 'fa-brands fa-linkedin', 'github': 'fa-brands fa-github'} %}
   {% for name, link in SOCIAL if name.lower() in fa_icons %}
     <li class="nav-{{name.lower()}}">
-      <a aria-label="{{name|title}}" href="{{ link }}" target="_blank">
+      <a aria-label="{{name|title}}" href="{{ link }}" target="_blank" rel="noopener">
         <i class="{{ fa_icons[name.lower()] }}" aria-hidden="true"></i>
         <span>{{name}}</span>
       </a>
@@ -29,7 +29,7 @@
 
   {% for name, link in SOCIAL if name.lower() in ["rss", "rss-square", "feed"] %}
     <li class="nav-rss">
-      <a aria-label="RSS" href="{{ link }}" target="_blank">
+      <a aria-label="RSS" href="{{ link }}" target="_blank" rel="noopener">
         <i class="fa-solid fa-rss" aria-hidden="true"></i>
         <span>RSS</span>
       </a>
