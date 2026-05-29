@@ -11,7 +11,7 @@
 {% endif %}
 
 {% if PAGEFIND_ENABLED|default(True) %}
-  <link href="{{ SITEURL }}/pagefind/pagefind-component-ui.css" rel="stylesheet">
+  <link href="{{ STATIC_SITEURL|default(SITEURL) }}/pagefind/pagefind-component-ui.css" rel="stylesheet">
 {% endif %}
 
 {% for css in CSS_OVERRIDE|default([]) %}

@@ -1,5 +1,5 @@
 {% if PAGEFIND_ENABLED|default(True) %}
-  <script src="{{ SITEURL }}/pagefind/pagefind-component-ui.js" type="module"></script>
+  <script src="{{ STATIC_SITEURL|default(SITEURL) }}/pagefind/pagefind-component-ui.js" type="module"></script>
   <script>
   const openModal = async () => {
     await customElements.whenDefined('pagefind-modal');
