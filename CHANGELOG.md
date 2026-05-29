@@ -1,3 +1,13 @@
+## v2.12.0 (2026-05-29)
+
+### Feat
+
+- **css**: add pages index card grid layout
+
+### Fix
+
+- **css**: add spacing for Spotify iframe embeds in post content
+
 ## v2.11.1 (2026-05-27)
 
 ### Fix
