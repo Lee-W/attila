@@ -22,7 +22,7 @@
   "name": "{{ article.title|striptags|e }}{% if article.subtitle %} - {{ article.subtitle|striptags|e }}{% endif %}",
   "headline": "{{ article.title|striptags|e }}{% if article.subtitle %} - {{ article.subtitle|striptags|e }}{% endif %}",
   "datePublished": "{{ article.date }}",
-  "dateModified": "{{ article.modified }}",
+  {% if article.modified %}"dateModified": "{{ article.modified }}",{% endif %}
   "author": {
     "@type": "Person",
     "name": "{{ article.author.name|title }}",
@@ -30,6 +30,8 @@
   },
   "image": "{{ default_cover }}",
   "url": "{{ SITEURL }}/{{ article.url }}",
-  "description": "{{ description }}"
+  "description": "{{ description }}",
+  "publisher": { "@type": "Organization", "name": "{{ SITENAME|e }}" },
+  "mainEntityOfPage": { "@type": "WebPage", "@id": "{{ SITEURL }}/{{ article.url }}" }
 }
 </script>
