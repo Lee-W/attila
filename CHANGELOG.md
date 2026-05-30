@@ -1,3 +1,18 @@
+## v2.12.1 (2026-05-30)
+
+### Fix
+
+- **seo**: emit valid Article/OG metadata for rich results
+- **template**: load pagefind assets from site root on i18n subsites
+
+### Refactor
+
+- **css**: fluid heading sizes via clamp, drop redundant prefix
+
+### Perf
+
+- **template**: modernize markup — drop dead refs, defer JS, async images
+
 ## v2.12.0 (2026-05-29)
 
 ### Feat
