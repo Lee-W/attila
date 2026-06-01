@@ -1,3 +1,9 @@
+## v2.13.0 (2026-06-01)
+
+### Feat
+
+- **template**: support HTML in COMMENTS_INTRO via safe filter
+
 ## v2.12.1 (2026-05-30)
 
 ### Fix
