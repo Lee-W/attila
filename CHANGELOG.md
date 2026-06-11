@@ -1,3 +1,16 @@
+## v2.14.0 (2026-06-11)
+
+### Feat
+
+- **a11y**: add skip-to-content link
+- **template**: add footer_extra hook for plugin content above the footer
+- highlight code at build time with Pygments, drop highlight.js
+- **i18n**: add zh-tw translation for "On This Day"
+
+### Fix
+
+- apply saved theme before first paint
+
 ## v2.13.0 (2026-06-01)
 
 ### Feat
