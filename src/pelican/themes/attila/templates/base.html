@@ -39,6 +39,18 @@
 {% block head %}
   {% include "partials/head_meta.html" %}
 
+  {# Apply the saved theme before first paint to avoid a light-mode flash;
+     script.js re-applies it later and binds the toggle. #}
+  <script>
+    (function () {
+      var theme = localStorage.getItem("attila_theme");
+      if (theme === "dark" || theme === "light") {
+        document.documentElement.classList.add("theme-" + theme);
+        document.documentElement.style.colorScheme = theme;
+      }
+    })();
+  </script>
+
   <title>{% block title %}{{ SITENAME }}{% if SITESUBTITLE and SHOW_SITESUBTITLE_IN_HTML_TITLE|default(False) %} - {{ SITESUBTITLE }}{% endif
     %}{% endblock title %}</title>
 
