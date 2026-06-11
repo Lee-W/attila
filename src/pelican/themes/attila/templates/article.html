@@ -153,7 +153,7 @@
 {% block content %}
 
     <!-- Post content -->
-    <main class="content" data-pagefind-body>
+    <main id="site-main" class="content" data-pagefind-body>
         <article class="post">
         <div class="inner">
           <section class="post-content">
@@ -295,25 +295,6 @@
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     var post = document.querySelector('.post-content');
-
-    var mdSelector=".highlight pre code";
-    var rstSelector=".highlight pre code";
-    // For ":source-highlighter: highlight.js`" in asciidoc
-    var adocSelector="pre.highlight > code[data-lang]"
-    {% if article.source_path and article.source_path.lower().endswith(('.md','.markdown')) %}
-    var selector=mdSelector;
-    {% elif article.source_path and article.source_path.lower().endswith(('.rst','.rest')) %}
-    var selector=rstSelector;
-    {% elif article.source_path and article.source_path.lower().endswith(('.adoc','.asciidoc')) %}
-    var selector=adocSelector;
-    {% else %}
-    var selector=rstSelector;
-    {% endif %}
-
-    // Format code blocks only
-    document.querySelectorAll(selector).forEach(function(e) {
-      hljs.highlightElement(e);
-    });
 
     // Reading progress bar on window top
     function readingProgress() {
