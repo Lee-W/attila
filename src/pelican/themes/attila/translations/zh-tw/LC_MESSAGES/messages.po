@@ -52,3 +52,6 @@ msgstr "隨機閱讀一篇文章"
 
 msgid "On This Day"
 msgstr "歷史上的今天"
+
+msgid "Skip to content"
+msgstr "跳到主要內容"

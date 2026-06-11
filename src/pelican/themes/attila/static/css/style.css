@@ -717,6 +717,24 @@ html.menu-active {
   overflow-y: hidden;
 }
 
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  z-index: 100;
+  padding: 1rem 1.5rem;
+  background: var(--color-background-main);
+  color: var(--color-content-main);
+  font-size: 1.6rem;
+  text-decoration: none;
+  border: 1px solid var(--color-background-contrast);
+  border-radius: 4px;
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
 body {
   font-family: var(--font-primary);
   font-size: 1em;
