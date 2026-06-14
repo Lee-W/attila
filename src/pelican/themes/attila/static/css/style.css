@@ -2648,6 +2648,153 @@ textarea {
   }
 }
 
+/* Menu dropdown (grouped MENUITEMS) */
+@media only screen and (min-width: 641px) {
+  /* Let absolutely-positioned dropdown menus escape instead of being clipped
+     (overrides the horizontal-scroll overflow on .nav-menu-items). */
+  .nav-header ul.nav-menu-items {
+    overflow: visible;
+  }
+}
+
+.nav-header li.nav-dropdown {
+  position: relative;
+}
+
+/* High specificity (beats the .nav-header li button pill/CTA styling). */
+.nav-header li.nav-dropdown > .nav-dropdown-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 1rem 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 1.6em;
+  line-height: 2rem;
+  font-weight: 400;
+  color: var(--color-content-secondary);
+  transition: color linear 0.1s;
+}
+
+.nav-header li.nav-dropdown > .nav-dropdown-toggle:hover {
+  color: var(--color-content-lead);
+}
+
+.nav-header li.nav-dropdown.active > .nav-dropdown-toggle {
+  color: var(--color-content-main);
+  font-weight: 500;
+}
+
+/* On a cover, the active toggle sits over the dark cover image, so it must be
+   white like other active nav links (.cover-active .nav-header li.active a) —
+   the button isn't covered by that <a>-only rule. */
+@media only screen and (min-width: 640px) {
+  .cover-active .nav-header li.nav-dropdown.active > .nav-dropdown-toggle {
+    color: white;
+  }
+}
+
+.nav-dropdown-caret {
+  font-size: 0.6em;
+  transition: transform ease-out 0.15s;
+}
+
+.nav-header li.nav-dropdown.open .nav-dropdown-caret {
+  transform: rotate(180deg);
+}
+
+.nav-header .nav-dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin: 0;
+  padding: 4px 0;
+  list-style: none;
+  min-width: 12rem;
+  z-index: 600;
+  background: var(--color-background-main);
+  border: 1px solid var(--color-background-contrast);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.nav-header li.nav-dropdown.open .nav-dropdown-menu {
+  display: block;
+}
+
+.nav-header .nav-dropdown-menu li {
+  margin: 0;
+}
+
+.nav-header .nav-dropdown-menu li a {
+  display: block;
+  padding: 0.6rem 1.2rem;
+  font-size: 1.4em;
+  line-height: 1.6;
+  white-space: nowrap;
+  /* content-main (not secondary) so menu items stay prominent on the popup in
+     both themes; !important also overrides the .cover-active white nav-link
+     color on the light dropdown background (same trick as .nav-language-dropdown). */
+  color: var(--color-content-main) !important;
+}
+
+.nav-header .nav-dropdown-menu li a:before,
+.nav-header .nav-dropdown-menu li.active a:before {
+  content: none !important;
+  display: none !important;
+}
+
+.nav-header .nav-dropdown-menu li.active a,
+.nav-header .nav-dropdown-menu li a:hover {
+  color: var(--color-content-lead) !important;
+  background: var(--color-background-contrast);
+}
+
+@media only screen and (max-width: 640px) {
+  .nav-header li.nav-dropdown {
+    width: 100%;
+  }
+
+  .nav-header li.nav-dropdown > .nav-dropdown-toggle {
+    width: 100%;
+    justify-content: flex-start;
+    font-size: 2em;
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .nav-dropdown-caret {
+    display: none;
+  }
+
+  .nav-header .nav-dropdown-menu {
+    position: static;
+    display: block;
+    min-width: 0;
+    margin: 0;
+    padding: 0 0 0 2rem;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .nav-header .nav-dropdown-menu li a {
+    font-size: 1.7em;
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .nav-header .nav-dropdown-menu li.active a,
+  .nav-header .nav-dropdown-menu li a:hover {
+    color: white;
+    background: transparent;
+  }
+}
+
 .cover-active .nav-wrapper-control a {
   color: rgba(255, 255, 255, 0.8);
 }

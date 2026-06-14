@@ -177,6 +177,37 @@ document.addEventListener("DOMContentLoaded", () => {
 
   initLanguageDropdown();
 
+  // Menu dropdowns (grouped MENUITEMS)
+  const initMenuDropdowns = () => {
+    const toggles = document.querySelectorAll(".nav-dropdown-toggle");
+    if (!toggles.length) return;
+
+    const closeAll = (except) => {
+      document.querySelectorAll(".nav-dropdown.open").forEach((el) => {
+        if (el === except) return;
+        el.classList.remove("open");
+        el
+          .querySelector(".nav-dropdown-toggle")
+          ?.setAttribute("aria-expanded", "false");
+      });
+    };
+
+    toggles.forEach((toggle) => {
+      toggle.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const li = toggle.closest(".nav-dropdown");
+        const isOpen = li.classList.contains("open");
+        closeAll(li);
+        li.classList.toggle("open");
+        toggle.setAttribute("aria-expanded", String(!isOpen));
+      });
+    });
+
+    document.addEventListener("click", () => closeAll());
+  };
+
+  initMenuDropdowns();
+
   // Comments
   const initComments = () => {
     if (
