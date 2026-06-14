@@ -1,3 +1,9 @@
+## v2.15.0 (2026-06-14)
+
+### Feat
+
+- **nav**: support grouped MENUITEMS as dropdown menus
+
 ## v2.14.0 (2026-06-11)
 
 ### Feat
