@@ -25,7 +25,7 @@ It is ported from the ghost theme:
 - Featured posts (via [neighbors plugin](https://github.com/pelican-plugins/neighbors))  
 - Series posts (via [series plugin](https://github.com/pelican-plugins/series))
 - Reading progress for posts  
-- Automatic code syntax highlight (highlight.js 11 with dark mode support)
+- Automatic code syntax highlighting at build time via Pygments (light/dark adaptive, no client-side JS)
 - Disqus / [utterances](https://utteranc.es/) support
 - Google Analytics, GAUGES, Piwik  
 - Sharing buttons  
@@ -37,7 +37,8 @@ It is ported from the ghost theme:
 - [umami](https://umami.is/) support
 - Full-text search via [Pagefind](https://pagefind.app/) (Ctrl/Cmd+K)
 - Lazy loading for images
-- SRI (Subresource Integrity) for all CDN assets
+- Self-hosted web fonts (Libre Baskerville + Fira Sans) — no third-party font CDN, no tracking
+- SRI (Subresource Integrity) on third-party CSS/JS bundles (Font Awesome, Leaflet, MathJax)
 - No jQuery dependency — pure vanilla JavaScript
 
 ## Install
@@ -314,13 +315,9 @@ Full-text search is powered by [Pagefind](https://pagefind.app/) and enabled by 
 PAGEFIND_ENABLED = False
 ```
 
-### Google Fonts
+### Fonts
 
-Google Fonts (Montserrat and Lato) are loaded from the CDN by default. To disable:
-
-```python
-ALLOW_GOOGLE_FONTS = False
-```
+The theme ships self-hosted web fonts — **Libre Baskerville** (body) and **Fira Sans** (headings/UI) — bundled as `woff2` under `static/font/` and declared via `@font-face` in `style.css`. Nothing is fetched from a third-party font CDN, so there are no extra DNS lookups and no requests leaking to Google. To use different fonts, override the `font-family` declarations via `CSS_OVERRIDE`.
 
 ### Other Configuration
 
