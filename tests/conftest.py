@@ -283,3 +283,33 @@ def gen_category_and_html_from_name(default_writer: Writer, default_settings: Se
         writer=default_writer,
         settings=default_settings,
     )
+
+
+def _render_direct_template(name: str, settings: Settings) -> BeautifulSoup:
+    """Render a listing template (tags/authors/categories/archives) to HTML.
+
+    These index templates have no per-object fixture, so we build the article
+    generator context once and render the named template against it.
+    """
+    context = settings.copy()
+    context["generated_content"] = {}
+    context["static_links"] = set()
+    context["static_content"] = {}
+    context["localsiteurl"] = settings["SITEURL"]
+
+    generator = ArticlesGenerator(
+        context=context,
+        settings=settings,
+        path=CONTENT_DIR,
+        theme=settings["THEME"],
+        output_path=OUTPUT_DIR,
+    )
+    generator.env.install_null_translations()
+    generator.generate_context()
+    html = generator.get_template(name).render(generator.context)
+    return BeautifulSoup(html, "html.parser")
+
+
+@pytest.fixture
+def render_direct_template(default_settings: Settings) -> Callable:
+    return partial(_render_direct_template, settings=default_settings)
