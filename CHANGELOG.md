@@ -1,3 +1,29 @@
+## v2.16.0 (2026-06-15)
+
+### Feat
+
+- **a11y**: add color-scheme and theme-color meta tags
+
+### Fix
+
+- **nav**: make mobile dropdown menus collapsible
+- **css**: keep mobile menu links readable in light mode
+- **a11y**: give listing pages a #site-main skip-link target
+- **i18n**: set <html lang> from the article/page language
+- **head**: valid og:type and standard referrer policy
+- **template**: make footer credits left/right configurable
+- **seo**: emit valid JSON-LD with ISO 8601 dates
+
+### Refactor
+
+- **css**: author style.css from modular css-src sources
+
+### Perf
+
+- **images**: prioritize LCP cover images
+- **js**: throttle scroll handlers and de-inline article scripts
+- **fonts**: self-host web fonts instead of Google CDN
+
 ## v2.15.0 (2026-06-14)
 
 ### Feat
