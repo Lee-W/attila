@@ -15,23 +15,29 @@
     (article.summary|striptags|truncate(140) if article.summary else "")
 ) %}
 
+{% set title_full = article.title|striptags %}
+{% if article.subtitle %}{% set title_full = title_full ~ " - " ~ article.subtitle|striptags %}{% endif %}
+{% set article_url = SITEURL ~ "/" ~ article.url %}
+
+{# Values go through |tojson so quotes, ampersands and control characters
+   in titles/summaries can't break the JSON (or the surrounding <script>). #}
 <script type="application/ld+json">
 {
   "@context": "http://schema.org",
   "@type": "Article",
-  "name": "{{ article.title|striptags|e }}{% if article.subtitle %} - {{ article.subtitle|striptags|e }}{% endif %}",
-  "headline": "{{ article.title|striptags|e }}{% if article.subtitle %} - {{ article.subtitle|striptags|e }}{% endif %}",
-  "datePublished": "{{ article.date }}",
-  {% if article.modified %}"dateModified": "{{ article.modified }}",{% endif %}
+  "name": {{ title_full|tojson }},
+  "headline": {{ title_full|tojson }},
+  "datePublished": {{ article.date.isoformat()|tojson }},
+  {% if article.modified %}"dateModified": {{ article.modified.isoformat()|tojson }},{% endif %}
   "author": {
     "@type": "Person",
-    "name": "{{ article.author.name|title }}",
-    "url": "{{ SITEURL }}/{{ article.author.url }}"
+    "name": {{ (article.author.name|title)|tojson }},
+    "url": {{ (SITEURL ~ "/" ~ article.author.url)|tojson }}
   },
-  "image": "{{ default_cover }}",
-  "url": "{{ SITEURL }}/{{ article.url }}",
-  "description": "{{ description }}",
-  "publisher": { "@type": "Organization", "name": "{{ SITENAME|e }}" },
-  "mainEntityOfPage": { "@type": "WebPage", "@id": "{{ SITEURL }}/{{ article.url }}" }
+  "image": {{ default_cover|tojson }},
+  "url": {{ article_url|tojson }},
+  "description": {{ description|tojson }},
+  "publisher": { "@type": "Organization", "name": {{ SITENAME|tojson }} },
+  "mainEntityOfPage": { "@type": "WebPage", "@id": {{ article_url|tojson }} }
 }
 </script>

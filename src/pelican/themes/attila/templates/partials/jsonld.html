@@ -8,9 +8,9 @@
 {
   "@context": "http://schema.org",
   "@type": "Website",
-  "name": "{{ SITENAME }}",
-  "url": "{{ SITEURL }}/",
-  "image": "{{ default_cover }}",
-  "description": "{{ description }}"
+  "name": {{ SITENAME|tojson }},
+  "url": {{ (SITEURL ~ "/")|tojson }},
+  "image": {{ default_cover|tojson }},
+  "description": {{ description|tojson }}
 }
 </script>
