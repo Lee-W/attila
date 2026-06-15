@@ -7,19 +7,15 @@
     <span class="nav-credits">
       {% if SHOW_CREDITS|default(True) %}
         {% if SHOW_CREDITS and SHOW_CREDITS.left %}
-          {% set left=SHOW_CREDITS.left %}
-        {% else %}
-          {% set left %}{% trans %}Theme{% endtrans %} <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a> &bull;{% endset %}
-        {% endif %}
-        {% if SHOW_CREDITS and SHOW_CREDITS.right %}
-          {% set right=SHOW_CREDITS.right %}
+          {% set left = SHOW_CREDITS.left %}
         {% else %}
           {% set pelican_link %}<a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a>{% endset %}
           {% set attila_link %}<a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a>{% endset %}
           {% set left %}{% trans pelican=pelican_link, attila=attila_link %}Published with {{ pelican }} &bull; Theme {{ attila }} &bull;{% endtrans %}{% endset %}
         {% endif %}
+        {% set right = SHOW_CREDITS.right if (SHOW_CREDITS and SHOW_CREDITS.right) else "" %}
 
-        {{ left }}
+        {{ left }} {{ right }}
       {% endif %}
     </span>
   </nav>
