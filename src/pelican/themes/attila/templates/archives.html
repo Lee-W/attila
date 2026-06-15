@@ -54,7 +54,7 @@
 {% endblock header %}
 
 {% block content %}
-  <div class="archives-page">
+  <main id="site-main" class="archives-page">
     <div class="inner">
       {% set ns = namespace(cur_year=-1) %}
       {% for article in articles %}
@@ -71,5 +71,5 @@
         </div>
       {% endfor %}
     </div>
-  </div>
+  </main>
 {% endblock content %}

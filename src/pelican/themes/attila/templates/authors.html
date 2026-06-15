@@ -53,6 +53,7 @@
 {% endblock header %}
 
 {% block content %}
+  <main id="site-main">
     {% for author, articles in authors|sort %}
         {% set author_name = author.name | title  %}
         {% if AUTHOR_META and author.name in AUTHOR_META %}
@@ -74,4 +75,5 @@
       <hr>
       {% endif %}
     {% endfor %}
+  </main>
 {% endblock content %}

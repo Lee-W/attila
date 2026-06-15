@@ -53,6 +53,7 @@
 {% endblock header %}
 
 {% block content %}
+  <main id="site-main">
   {% for category, articles in categories |sort %}
   <!-- style="padding-top: 2.0em; font-size: 1.66em;" -->
     <article class="post">
@@ -65,4 +66,5 @@
       </div>
     </article>
   {% endfor %}
+  </main>
 {% endblock content %}
