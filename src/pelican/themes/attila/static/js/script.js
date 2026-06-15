@@ -1,6 +1,28 @@
 document.addEventListener("DOMContentLoaded", () => {
   const html = document.documentElement;
 
+  // Run all scroll/resize work behind a single requestAnimationFrame tick so
+  // we never do layout-thrashing work more than once per frame.
+  const scrollHandlers = [];
+  let ticking = false;
+  const runScrollHandlers = () => {
+    ticking = false;
+    scrollHandlers.forEach((fn) => fn());
+  };
+  const requestScrollTick = () => {
+    if (ticking) return;
+    ticking = true;
+    window.requestAnimationFrame(runScrollHandlers);
+  };
+  // Register a handler and run it once for its initial state.
+  const onScroll = (fn) => {
+    scrollHandlers.push(fn);
+    fn();
+  };
+  ["scroll", "resize", "orientationchange"].forEach((evt) =>
+    window.addEventListener(evt, requestScrollTick),
+  );
+
   // Menu
   const toggleMenu = () => html.classList.toggle("menu-active");
   document
@@ -13,30 +35,44 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Parallax cover
   const cover = document.querySelector(".cover");
-  let coverPosition = 0;
   const prefersReducedMotion = window.matchMedia(
     "(prefers-reduced-motion: reduce)",
   ).matches;
 
-  const updateParallax = () => {
-    if (!cover) return;
-    if (!prefersReducedMotion) {
-      const windowPosition = window.scrollY;
-      coverPosition =
-        windowPosition > 0 ? Math.floor(windowPosition * 0.25) : 0;
-      cover.style.transform = `translate3d(0, ${coverPosition}px, 0)`;
-    }
-    if (window.scrollY < cover.offsetHeight) {
-      html.classList.add("cover-active");
-    } else {
-      html.classList.remove("cover-active");
-    }
-  };
+  if (cover) {
+    onScroll(() => {
+      if (!prefersReducedMotion) {
+        const windowPosition = window.scrollY;
+        const coverPosition =
+          windowPosition > 0 ? Math.floor(windowPosition * 0.25) : 0;
+        cover.style.transform = `translate3d(0, ${coverPosition}px, 0)`;
+      }
+      if (window.scrollY < cover.offsetHeight) {
+        html.classList.add("cover-active");
+      } else {
+        html.classList.remove("cover-active");
+      }
+    });
+  }
 
-  updateParallax();
-  window.addEventListener("scroll", updateParallax);
-  window.addEventListener("resize", updateParallax);
-  window.addEventListener("orientationchange", updateParallax);
+  // Reading progress bar (article pages only)
+  const post = document.querySelector(".post-content");
+  const progressBar = document.querySelector(".progress-bar");
+  const progressContainer = document.querySelector(".progress-container");
+  if (post && progressBar && progressContainer) {
+    onScroll(() => {
+      const postRect = post.getBoundingClientRect();
+      const postBottom = postRect.top + window.scrollY + post.offsetHeight;
+      const viewportHeight = window.innerHeight;
+      const progress =
+        100 -
+        ((postBottom - (window.scrollY + viewportHeight) + viewportHeight / 3) /
+          (postBottom - viewportHeight + viewportHeight / 3)) *
+          100;
+      progressBar.style.width = progress + "%";
+      progressContainer.classList.toggle("complete", progress > 100);
+    });
+  }
 
   // Gallery
   const gallery = () => {
@@ -153,6 +189,16 @@ document.addEventListener("DOMContentLoaded", () => {
       toggle.setAttribute("aria-expanded", "false");
     });
 
+    // Escape closes the dropdown and returns focus to the toggle.
+    document.addEventListener("keydown", (e) => {
+      if (e.key !== "Escape") return;
+      const li = toggle.closest(".nav-languages");
+      if (!li.classList.contains("open")) return;
+      li.classList.remove("open");
+      toggle.setAttribute("aria-expanded", "false");
+      toggle.focus();
+    });
+
     // For links with data-fallback, check if target exists; fall back if 404
     document
       .querySelectorAll(".nav-language-dropdown li a[data-fallback]")
@@ -204,6 +250,15 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     document.addEventListener("click", () => closeAll());
+
+    // Escape closes any open dropdown and returns focus to its toggle.
+    document.addEventListener("keydown", (e) => {
+      if (e.key !== "Escape") return;
+      const open = document.querySelector(".nav-dropdown.open");
+      if (!open) return;
+      closeAll();
+      open.querySelector(".nav-dropdown-toggle")?.focus();
+    });
   };
 
   initMenuDropdowns();
