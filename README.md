@@ -344,6 +344,10 @@ UTTERANCES_LABEL = "blog-comment"
 Always open an issue before sending a PR. Discuss the problem/feature first.  
 If it's a good improvement, submit your PR. Otherwise, fork Attila and build your own theme.
 
+### CSS
+
+`static/css/style.css` is **generated** — edit the modules in [`css-src/`](css-src/) and run `uv run poe build-css` to regenerate it. A test (`tests/test_css_build.py`) fails if the two ever drift apart.
+
 ## Copyright & License
 
 Copyright (c) 2015-2016 Peter Amende — MIT License  

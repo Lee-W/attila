@@ -86,6 +86,10 @@ test.cmd = "pytest"
 all.help = "Run all tasks"
 all.sequence = ["format", "lint", "check-commit", "test"]
 
+[tool.poe.tasks.build-css]
+help = "Regenerate static/css/style.css from the css-src/ modules"
+shell = "cat css-src/*.css > src/pelican/themes/attila/static/css/style.css"
+
 [tool.poe.tasks.compile-i18n]
 shell = """
 find src/pelican/themes/attila/translations -name "*.po" | while read po; do
