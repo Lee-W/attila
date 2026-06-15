@@ -33,7 +33,7 @@
 {% endif %}
 
 <!DOCTYPE html>
-<html lang="{{ DEFAULT_LANG|default('en') }}"{% if PAGEFIND_ENABLED|default(True) %} class="has-search"{% endif %}>
+<html lang="{% if article %}{{ article.lang }}{% elif page %}{{ page.lang }}{% else %}{{ DEFAULT_LANG|default('en') }}{% endif %}"{% if PAGEFIND_ENABLED|default(True) %} class="has-search"{% endif %}>
 
 <head>
 {% block head %}
