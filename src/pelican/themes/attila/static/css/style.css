@@ -188,7 +188,6 @@ td,
 th {
   padding: 0;
 }
-
 :root {
   color-scheme: light dark;
   --color-primary: #d95736;
@@ -223,7 +222,6 @@ th {
     --color-content-secondary: #909499;
   }
 }
-
 /* Libre Baskerville v24 — italic 400, normal 400, normal 700.
    Self-hosted woff2 (downloaded from Google Fonts) live in ../font/. */
 /* latin-ext */
@@ -384,7 +382,6 @@ th {
     U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212,
     U+2215, U+FEFF, U+FFFD;
 }
-
 /* Pygments theme — light/dark adaptive (One Light / One Dark palettes).
    Highlighting happens at build time; no client-side highlighter is loaded. */
 .highlight {
@@ -692,7 +689,6 @@ th {
   color: #e06c75;
   background: rgba(224, 108, 117, 0.1);
 }
-
 :root {
   --font-primary: "Fira Sans", sans-serif;
   --font-secondary: "Libre Baskerville", serif;
@@ -2772,13 +2768,12 @@ textarea {
     color: rgba(255, 255, 255, 0.7);
   }
 
-  .nav-dropdown-caret {
-    display: none;
-  }
-
+  /* The submenu collapses inline on mobile. We don't force display here, so
+     the base rules apply: hidden until .nav-dropdown.open is toggled (by
+     script.js, same as desktop). The caret stays visible as the
+     expand/collapse affordance and rotates via the .open caret rule. */
   .nav-header .nav-dropdown-menu {
     position: static;
-    display: block;
     min-width: 0;
     margin: 0;
     padding: 0 0 0 2rem;

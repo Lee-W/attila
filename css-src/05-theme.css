@@ -2077,13 +2077,12 @@ textarea {
     color: rgba(255, 255, 255, 0.7);
   }
 
-  .nav-dropdown-caret {
-    display: none;
-  }
-
+  /* The submenu collapses inline on mobile. We don't force display here, so
+     the base rules apply: hidden until .nav-dropdown.open is toggled (by
+     script.js, same as desktop). The caret stays visible as the
+     expand/collapse affordance and rotates via the .open caret rule. */
   .nav-header .nav-dropdown-menu {
     position: static;
-    display: block;
     min-width: 0;
     margin: 0;
     padding: 0 0 0 2rem;
