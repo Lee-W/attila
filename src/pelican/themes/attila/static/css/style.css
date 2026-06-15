@@ -224,14 +224,15 @@ th {
   }
 }
 
-/* Libre Baskerville v24 — italic 400, normal 400, normal 700 */
+/* Libre Baskerville v24 — italic 400, normal 400, normal 700.
+   Self-hosted woff2 (downloaded from Google Fonts) live in ../font/. */
 /* latin-ext */
 @font-face {
   font-family: "Libre Baskerville";
   font-style: italic;
   font-weight: 400;
   font-display: swap;
-  src: url(https://fonts.gstatic.com/s/librebaskerville/v24/kmKWZrc3Hgbbcjq75U4uslyuy4kn0qNccR04_RUJeby2OU36SjNDlufweKgfqIfzTg.woff2)
+  src: url(../font/libre-baskerville-italic-latin-ext.woff2)
     format("woff2");
   unicode-range:
     U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304,
@@ -244,7 +245,7 @@ th {
   font-style: italic;
   font-weight: 400;
   font-display: swap;
-  src: url(https://fonts.gstatic.com/s/librebaskerville/v24/kmKWZrc3Hgbbcjq75U4uslyuy4kn0qNccR04_RUJeby2OU36SjNNlufweKgfqIc.woff2)
+  src: url(../font/libre-baskerville-italic-latin.woff2)
     format("woff2");
   unicode-range:
     U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
@@ -257,7 +258,7 @@ th {
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url(https://fonts.gstatic.com/s/librebaskerville/v24/kmKnZrc3Hgbbcjq75U4uslyuy4kn0qNXaxMaC82U-ro.woff2)
+  src: url(../font/libre-baskerville-normal-latin-ext.woff2)
     format("woff2");
   unicode-range:
     U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304,
@@ -270,7 +271,7 @@ th {
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url(https://fonts.gstatic.com/s/librebaskerville/v24/kmKnZrc3Hgbbcjq75U4uslyuy4kn0qNZaxMaC82U.woff2)
+  src: url(../font/libre-baskerville-normal-latin.woff2)
     format("woff2");
   unicode-range:
     U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
@@ -283,7 +284,7 @@ th {
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url(https://fonts.gstatic.com/s/librebaskerville/v24/kmKnZrc3Hgbbcjq75U4uslyuy4kn0qNXaxMaC82U-ro.woff2)
+  src: url(../font/libre-baskerville-normal-latin-ext.woff2)
     format("woff2");
   unicode-range:
     U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304,
@@ -296,7 +297,7 @@ th {
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url(https://fonts.gstatic.com/s/librebaskerville/v24/kmKnZrc3Hgbbcjq75U4uslyuy4kn0qNZaxMaC82U.woff2)
+  src: url(../font/libre-baskerville-normal-latin.woff2)
     format("woff2");
   unicode-range:
     U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
@@ -311,7 +312,7 @@ th {
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url(https://fonts.gstatic.com/s/firasans/v18/va9E4kDNxMZdWfMOD5VvmYjLazX3dGTP.woff2)
+  src: url(../font/fira-sans-400-latin-ext.woff2)
     format("woff2");
   unicode-range:
     U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304,
@@ -324,7 +325,7 @@ th {
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url(https://fonts.gstatic.com/s/firasans/v18/va9E4kDNxMZdWfMOD5Vvl4jLazX3dA.woff2)
+  src: url(../font/fira-sans-400-latin.woff2)
     format("woff2");
   unicode-range:
     U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
@@ -337,7 +338,7 @@ th {
   font-style: normal;
   font-weight: 500;
   font-display: swap;
-  src: url(https://fonts.gstatic.com/s/firasans/v18/va9B4kDNxMZdWfMOD5VnZKveSBf6Xl7Gl3LX.woff2)
+  src: url(../font/fira-sans-500-latin-ext.woff2)
     format("woff2");
   unicode-range:
     U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304,
@@ -350,7 +351,7 @@ th {
   font-style: normal;
   font-weight: 500;
   font-display: swap;
-  src: url(https://fonts.gstatic.com/s/firasans/v18/va9B4kDNxMZdWfMOD5VnZKveRhf6Xl7Glw.woff2)
+  src: url(../font/fira-sans-500-latin.woff2)
     format("woff2");
   unicode-range:
     U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
@@ -363,7 +364,7 @@ th {
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url(https://fonts.gstatic.com/s/firasans/v18/va9B4kDNxMZdWfMOD5VnLK3eSBf6Xl7Gl3LX.woff2)
+  src: url(../font/fira-sans-700-latin-ext.woff2)
     format("woff2");
   unicode-range:
     U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304,
@@ -376,7 +377,7 @@ th {
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url(https://fonts.gstatic.com/s/firasans/v18/va9B4kDNxMZdWfMOD5VnLK3eRhf6Xl7Glw.woff2)
+  src: url(../font/fira-sans-700-latin.woff2)
     format("woff2");
   unicode-range:
     U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
@@ -3913,11 +3914,6 @@ textarea {
 /* Custom CSS for pelican attila */
 
 /* css for post author */
-/* TODO: Media css 480px
-.post-author-avatar {
-    margin: -0.25em 0 0 0.5em
-}
-*/
 .post-author {
   position: relative;
   margin: 2em 0 0;
