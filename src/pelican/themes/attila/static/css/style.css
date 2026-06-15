@@ -2388,6 +2388,10 @@ textarea {
   .nav-header .nav-menu-items li a {
     font-size: 2em;
     padding-left: 0;
+    /* The slide-in mobile menu always has a dark background (see
+       .nav-header .nav-wrapper below), so links must stay light even in
+       light mode — matching the .active and :hover overrides. */
+    color: rgba(255, 255, 255, 0.9);
   }
 
   .nav-header li a:before,
@@ -2786,12 +2790,14 @@ textarea {
 
   .nav-header .nav-dropdown-menu li a {
     font-size: 1.7em;
-    color: rgba(255, 255, 255, 0.7);
+    /* !important to beat the base .nav-dropdown-menu li a color (also
+       !important), which is dark and would vanish on the dark mobile panel. */
+    color: rgba(255, 255, 255, 0.7) !important;
   }
 
   .nav-header .nav-dropdown-menu li.active a,
   .nav-header .nav-dropdown-menu li a:hover {
-    color: white;
+    color: white !important;
     background: transparent;
   }
 }
