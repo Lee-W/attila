@@ -1,0 +1,24 @@
+<script src="{{ STATIC_SITEURL|default(SITEURL) }}/{{ THEME_STATIC_DIR }}/js/littlefoot.js" defer></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  // littlefoot ships as a UMD bundle; the global is the exports namespace,
+  // so the factory lives on `.littlefoot` (or `.default`), not the object itself.
+  const lf = window.littlefoot &&
+    (window.littlefoot.littlefoot || window.littlefoot.default || window.littlefoot);
+  if (typeof lf === "function") {
+    // Hover to open on desktop; tap to toggle on touch. dismissOnUnhover closes
+    // it shortly after the cursor leaves. littlefoot also hover-tracks the popover
+    // itself, so moving from the marker onto the popover keeps it open — provided
+    // the gap is small (see the tightened popover margin in the stylesheet).
+    lf({
+      activateOnHover: true,
+      hoverDelay: 50,
+      dismissOnUnhover: true,
+      dismissDelay: 150,
+      allowMultiple: false,
+      buttonTemplate:
+        '<button class="littlefoot__button" id="<% reference %>" title="See Footnote <% number %>"><% number %></button>',
+    });
+  }
+});
+</script>
