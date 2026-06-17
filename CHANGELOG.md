@@ -1,3 +1,9 @@
+## v2.17.0 (2026-06-17)
+
+### Feat
+
+- **footnote**: add littlefoot popover footnotes
+
 ## v2.16.0 (2026-06-15)
 
 ### Feat
