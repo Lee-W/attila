@@ -1,5 +1,5 @@
 {% set content_html = article.content if article else (page.content if page else "") %}
-{% set needs_osm = "pelican.plugins.osm" in PLUGINS and 'class="osm-map' in content_html %}
+{% set needs_osm = "pelican.plugins.osm" in PLUGINS and ('class="osm-map' in content_html or 'class="osm-place-list' in content_html) %}
 {% set needs_heatmap = "pelican.plugins.heatmap" in PLUGINS and 'id="writing-heatmap"' in content_html %}
 
 <link rel="stylesheet" href="{{ STATIC_SITEURL|default(SITEURL) }}/{{ THEME_STATIC_DIR }}/css/style.css">

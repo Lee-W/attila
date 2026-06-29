@@ -145,6 +145,15 @@ class TestBaseLayout:
         assert plugin_soup.select_one('link[href*="pelican_heatmap"]') is not None
         assert plugin_soup.select_one('script[src*="pelican_heatmap"]') is not None
 
+        _, place_list_soup = gen_article_and_html_from_rst(
+            rst_path="content/article_with_osm_place_list.rst",
+            settings=default_settings,
+        )
+        assert place_list_soup.select_one('link[href*="leaflet"]') is not None
+        assert place_list_soup.select_one('script[src*="leaflet"]') is not None
+        assert place_list_soup.select_one('link[href*="pelican_osm"]') is not None
+        assert place_list_soup.select_one('script[src*="pelican_osm"]') is not None
+
     def test_language_switcher_keeps_visible_label(
         self,
         default_settings: Settings,
