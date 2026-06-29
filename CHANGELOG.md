@@ -1,3 +1,21 @@
+## v3.0.0 (2026-06-29)
+
+### BREAKING CHANGE
+
+- Pagefind search now requires explicit opt-in. Existing
+sites that had search working must add "pelican.themes.attila.pagefind"
+to PLUGINS and set PAGEFIND_ENABLED = True; otherwise search silently
+stops working.
+
+### Feat
+
+- **theme**: modernize icons, search, images, i18n
+
+### Fix
+
+- **theme**: scope metadata and plugin assets per page
+- **pagination**: flex layout with SVG icons, fix overlap
+
 ## v2.17.0 (2026-06-17)
 
 ### Feat
