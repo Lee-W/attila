@@ -1,20 +1,20 @@
 <ul class="nav-menu-items">
   {% for title, link in MENUITEMS %}
     {% if link is string %}
-      <li class="nav-{{title}} {%if current_url == link %}active{% endif %}" role="presentation"><a href="{{ link }}"><span>{{ title }}</span></a></li>
+      <li class="nav-{{title}} {%if current_url == link %}active{% endif %}"><a href="{{ link }}"{% if current_url == link %} aria-current="page"{% endif %}><span>{{ title }}</span></a></li>
     {% else %}
       {% set ns = namespace(active=False) %}
       {% for subtitle, sublink in link %}
         {% if current_url == sublink %}{% set ns.active = True %}{% endif %}
       {% endfor %}
-      <li class="nav-dropdown {% if ns.active %}active{% endif %}" role="presentation">
-        <button type="button" class="nav-dropdown-toggle" aria-expanded="false" aria-haspopup="true">
+      <li class="nav-dropdown {% if ns.active %}active{% endif %}">
+        <button type="button" class="nav-dropdown-toggle" aria-expanded="false" aria-controls="nav-dropdown-{{ loop.index }}">
           <span>{{ title }}</span>
-          <i class="fa-solid fa-chevron-down nav-dropdown-caret" aria-hidden="true"></i>
+          {{ icons.icon("chevron-down", "nav-dropdown-caret") }}
         </button>
-        <ul class="nav-dropdown-menu" role="menu">
+        <ul id="nav-dropdown-{{ loop.index }}" class="nav-dropdown-menu">
           {% for subtitle, sublink in link %}
-            <li class="{% if current_url == sublink %}active{% endif %}" role="presentation"><a href="{{ sublink }}" role="menuitem"><span>{{ subtitle }}</span></a></li>
+            <li class="{% if current_url == sublink %}active{% endif %}"><a href="{{ sublink }}"{% if current_url == sublink %} aria-current="page"{% endif %}><span>{{ subtitle }}</span></a></li>
           {% endfor %}
         </ul>
       </li>
@@ -23,23 +23,23 @@
 
   {% if SHOW_PAGES_ON_MENU | default(True) %}
     {% for p in pages %}
-      <li{% if p == page %} class="nav-{{p.slug}} active"{% endif %} role="presentation"><a href="{{ SITEURL }}/{{ p.url }}"><span>{{ p.title }}</span></a></li>
+      <li{% if p == page %} class="nav-{{p.slug}} active"{% endif %}><a href="{{ SITEURL }}/{{ p.url }}"{% if p == page %} aria-current="page"{% endif %}><span>{{ p.title }}</span></a></li>
     {% endfor %}
   {% endif %}
 
   {% if SHOW_CATEGORIES_ON_MENU | default(False) %}
     {% for cat, null in categories %}
-      <li{% if cat == category %} class="nav-{{cat.slug}} active"{% endif %} role="presentation"><a href="{{ SITEURL }}/{{ cat.url }}"><span>{{ cat }}</span></a></li>
+      <li{% if cat == category %} class="nav-{{cat.slug}} active"{% endif %}><a href="{{ SITEURL }}/{{ cat.url }}"{% if cat == category %} aria-current="page"{% endif %}><span>{{ cat }}</span></a></li>
     {% endfor %}
   {% endif %}
 </ul>
 
 <ul class="nav-meta">
-  {% set fa_icons = {'facebook': 'fa-brands fa-facebook', 'twitter': 'fa-brands fa-x-twitter', 'linkedin': 'fa-brands fa-linkedin', 'github': 'fa-brands fa-github'} %}
+  {% set fa_icons = {'facebook': 'facebook', 'twitter': 'x-twitter', 'linkedin': 'linkedin', 'github': 'github'} %}
   {% for name, link in SOCIAL if name.lower() in fa_icons %}
     <li class="nav-{{name.lower()}}">
       <a aria-label="{{name|title}}" href="{{ link }}" target="_blank" rel="noopener">
-        <i class="{{ fa_icons[name.lower()] }}" aria-hidden="true"></i>
+        {{ icons.icon(fa_icons[name.lower()]) }}
         <span>{{name}}</span>
       </a>
     </li>
@@ -48,17 +48,17 @@
   {% for name, link in SOCIAL if name.lower() in ["rss", "rss-square", "feed"] %}
     <li class="nav-rss">
       <a aria-label="RSS" href="{{ link }}" target="_blank" rel="noopener">
-        <i class="fa-solid fa-rss" aria-hidden="true"></i>
+        {{ icons.icon("rss") }}
         <span>RSS</span>
       </a>
     </li>
   {% endfor %}
 
-  {% if PAGEFIND_ENABLED|default(True) %}
+  {% if PAGEFIND_ENABLED|default(False) %}
   <li class="nav-search">
-    <button type="button" title="{% trans %}Search{% endtrans %}" aria-label="{% trans %}Search{% endtrans %}">
-      <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
-      <span>{% trans %}Search{% endtrans %}</span>
+    <button type="button" title="{{ i18n.t('Search') }}" aria-label="{{ i18n.t('Search') }}">
+      {{ icons.icon("search") }}
+      <span>{{ i18n.t("Search") }}</span>
     </button>
   </li>
   {% endif %}
@@ -69,10 +69,11 @@
   {% if LANGUAGES|default([]) %}
     {% set lang_names = LANGUAGE_NAMES|default({}) %}
     <li class="nav-languages">
-      <button class="nav-language-toggle" aria-expanded="false" aria-haspopup="listbox">
-        <i class="fa-solid fa-language nav-language-icon" data-lang="{{ lang_names.get(DEFAULT_LANG) or DEFAULT_LANG }}"></i>
+      <button type="button" class="nav-language-toggle" aria-label="Language" aria-expanded="false" aria-controls="nav-language-menu">
+        {{ icons.icon("language", "nav-language-icon") }}
+        <span class="nav-language-label">{{ lang_names.get(page_lang) or page_lang }}</span>
       </button>
-      <ul class="nav-language-dropdown" role="listbox">
+      <ul id="nav-language-menu" class="nav-language-dropdown">
         {% for lang_name, lang_url in LANGUAGES %}
           {% set base = lang_url[:-1] if lang_url[-1:] == '/' else lang_url %}
           {% set ns = namespace(target_url=('/' if not base else base), show=True) %}
@@ -96,7 +97,7 @@
                 {% set ns.target_url = '/' ~ trans[0].url %}
               {% else %}
                 {% set fallback_url = '/' if not base else base ~ '/' %}
-                <li role="option">
+                <li>
                   <a href="{{ base ~ ('/' if page.url[0:1] != '/' else '') ~ page.url }}" data-fallback="{{ fallback_url }}">{{ lang_names.get(lang_name) or lang_name }}</a>
                 </li>
                 {% set ns.show = False %}
@@ -106,7 +107,7 @@
             {# Category may not exist in target language — link to category page with fallback to home #}
             {% set cat_url = base ~ ('/' if category.url[0:1] != '/' else '') ~ category.url %}
             {% set fallback_url = '/' if not base else base ~ '/' %}
-            <li role="option">
+            <li>
               <a href="{{ cat_url }}" data-fallback="{{ fallback_url }}">{{ lang_names.get(lang_name) or lang_name }}</a>
             </li>
             {% set ns.show = False %}
@@ -114,7 +115,7 @@
             {# Tag may not exist in target language — link to tag page with fallback to home #}
             {% set tag_url = base ~ ('/' if tag.url[0:1] != '/' else '') ~ tag.url %}
             {% set fallback_url = '/' if not base else base ~ '/' %}
-            <li role="option">
+            <li>
               <a href="{{ tag_url }}" data-fallback="{{ fallback_url }}">{{ lang_names.get(lang_name) or lang_name }}</a>
             </li>
             {% set ns.show = False %}
@@ -122,7 +123,7 @@
             {# Author may not exist in target language — link to author page with fallback to home #}
             {% set author_url = base ~ ('/' if author.url[0:1] != '/' else '') ~ author.url %}
             {% set fallback_url = '/' if not base else base ~ '/' %}
-            <li role="option">
+            <li>
               <a href="{{ author_url }}" data-fallback="{{ fallback_url }}">{{ lang_names.get(lang_name) or lang_name }}</a>
             </li>
             {% set ns.show = False %}
@@ -134,8 +135,8 @@
             {% endif %}
           {% endif %}
           {% if ns.show %}
-          <li role="option">
-            <a href="{{ ns.target_url }}">{{ lang_names.get(lang_name) or lang_name }}</a>
+          <li>
+            <a href="{{ ns.target_url }}"{% if lang_name == (article.lang if article else page.lang if page else DEFAULT_LANG) %} aria-current="page"{% endif %}>{{ lang_names.get(lang_name) or lang_name }}</a>
           </li>
           {% endif %}
         {% endfor %}
@@ -144,10 +145,10 @@
   {% endif %}
 
   <li class="nav-theme">
-    <a class="js-theme" href="#" title="{% trans %}Toggle theme{% endtrans %}" aria-label="{% trans %}Toggle theme{% endtrans %}" data-system="{% trans %}System theme{% endtrans %}" data-dark="{% trans %}Dark theme{% endtrans %}" data-light="{% trans %}Light theme{% endtrans %}">
-      <i class="fa-regular fa-sun theme-icon-system" aria-hidden="true"></i>
-      <i class="fa-solid fa-sun theme-icon-light" aria-hidden="true"></i>
-      <i class="fa-solid fa-moon theme-icon-dark" aria-hidden="true"></i>
-    </a>
+    <button type="button" class="js-theme" title="{{ i18n.t('Toggle theme') }}" aria-label="{{ i18n.t('Toggle theme') }}" aria-pressed="false" data-system="{{ i18n.t('System theme') }}" data-dark="{{ i18n.t('Dark theme') }}" data-light="{{ i18n.t('Light theme') }}">
+      {{ icons.icon("sun-outline", "theme-icon-system") }}
+      {{ icons.icon("sun", "theme-icon-light") }}
+      {{ icons.icon("moon", "theme-icon-dark") }}
+    </button>
   </li>
 </ul>

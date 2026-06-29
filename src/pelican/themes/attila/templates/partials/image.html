@@ -1,0 +1,9 @@
+{% macro cover(src, alt, class_name="", srcset=None, width=None, height=None) -%}
+  {%- set image_srcset = srcset or COVER_IMAGE_SRCSET|default(None) -%}
+  {%- set image_width = width or COVER_IMAGE_WIDTH|default(None) -%}
+  {%- set image_height = height or COVER_IMAGE_HEIGHT|default(None) -%}
+<img{% if class_name %} class="{{ class_name }}"{% endif %} src="{{ src }}" alt="{{ alt }}"
+     {% if image_srcset %}srcset="{{ image_srcset }}" {% endif %}sizes="{{ COVER_IMAGE_SIZES|default('100vw') }}"
+     {% if image_width %}width="{{ image_width }}" {% endif %}{% if image_height %}height="{{ image_height }}" {% endif %}
+     fetchpriority="high" decoding="async" />
+{%- endmacro %}

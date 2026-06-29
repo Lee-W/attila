@@ -3,13 +3,13 @@
   <div class="inner">
     <div class="box pagination-box">
       {% if articles_page.has_previous() %}
-      <a title="{% trans %}Newer Posts{% endtrans %}" class="pagination-next" href="{{ SITEURL }}/{{ articles_previous_page.url }}"><i class="fa-solid fa-arrow-left"></i> <span class="pagination-label">{% trans %}Newer Posts{% endtrans %}</span></a>
+      <a title="{{ i18n.t('Newer Posts') }}" class="pagination-next" href="{{ SITEURL }}/{{ articles_previous_page.url }}">{{ icons.icon("arrow-left") }} <span class="pagination-label">{{ i18n.t("Newer Posts") }}</span></a>
       {% endif %}
 
-      <span class="pagination-info">{% trans current=articles_page.number, total=articles_paginator.num_pages %}Page {{ current }} of {{ total }}{% endtrans %}</span>
+      <span class="pagination-info">{{ i18n.t("Page %(current)s of %(total)s", current=articles_page.number, total=articles_paginator.num_pages) }}</span>
 
       {% if articles_page.has_next() %}
-      <a title="{% trans %}Older Posts{% endtrans %}" class="pagination-prev" href="{{ SITEURL }}/{{ articles_next_page.url }}"><span class="pagination-label">{% trans %}Older Posts{% endtrans %}</span> <i class="fa-solid fa-arrow-right"></i></a>
+      <a title="{{ i18n.t('Older Posts') }}" class="pagination-prev" href="{{ SITEURL }}/{{ articles_next_page.url }}"><span class="pagination-label">{{ i18n.t("Older Posts") }}</span> {{ icons.icon("arrow-right") }}</a>
       {% endif %}
     </div>
   </div>

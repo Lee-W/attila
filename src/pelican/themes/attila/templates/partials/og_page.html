@@ -48,7 +48,7 @@
 {% elif page.headline %}
     {% set description = page.headline %}
 {% else %}
-    {% set description = '' %}
+    {% set description = SITE_DESCRIPTION|default('') %}
 {% endif %}
 
 <!-- Open Graph -->
@@ -57,7 +57,7 @@
 {% endfor %}
 <meta prefix="og: http://ogp.me/ns#" property="og:site_name" content="{{ SITENAME }}"/>
 <meta prefix="og: http://ogp.me/ns#" property="og:title" content="{{ page.title|striptags|e }}"/>
-<meta prefix="og: http://ogp.me/ns#" property="og:description" content="{{ description }}"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:description" content="{{ description|e }}"/>
 <meta prefix="og: http://ogp.me/ns#" property="og:locale" content="{{ page.metadata.get('og_locale', default_locale) }}"/>
 <meta prefix="og: http://ogp.me/ns#" property="og:url" content="{{ SITEURL }}/{{ page.url }}"/>
 <meta prefix="og: http://ogp.me/ns#" property="og:type" content="article"/>
@@ -69,7 +69,7 @@
   <meta name="twitter:site" content="@{{ link|replace('http://', 'https://')|replace('https://twitter.com/', '') }}">
   <meta name="twitter:title" content="{{ page.title|striptags|e }}">
   <meta name="twitter:url" content="{{ SITEURL }}/{{ page.url }}">
-  <meta name="twitter:description" content="{{ description }}">
+  <meta name="twitter:description" content="{{ description|e }}">
 
   {% if page.twitter_image %}
     {% if page.twitter_image|lower|truncate(4, True, '') == "http" %}

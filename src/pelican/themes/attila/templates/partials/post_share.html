@@ -1,11 +1,11 @@
 <div class="post-share">
-  <span class="post-info-label">{% trans %}Share{% endtrans %}</span>
+  <span class="post-info-label">{{ i18n.t("Share") }}</span>
    <a title="Twitter"
       aria-label="Twitter"
       class="twitter"
       href="https://twitter.com/share?text={{ article.title|striptags|e }}{% if article.subtitle %} - {{ article.subtitle|striptags|e }}{% endif %}&amp;url={{ SITEURL }}/{{ article.url }}"
       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235'); return false;">
-     <i class="fab fa-twitter" aria-hidden="true"></i>
+     {{ icons.icon("twitter") }}
      <span class="hidden">Twitter</span>
    </a>
 
@@ -14,7 +14,7 @@
       class="facebook"
       href="https://www.facebook.com/sharer/sharer.php?u={{ SITEURL }}/{{ article.url }}"
       onclick="window.open(this.href, 'facebook-share', 'width=580,height=296'); return false;">
-     <i class="fa-brands fa-facebook" aria-hidden="true"></i>
+     {{ icons.icon("facebook") }}
      <span class="hidden">Facebook</span>
    </a>
 
@@ -23,7 +23,7 @@
       class="linkedin"
       href="https://www.linkedin.com/shareArticle?mini=true&amp;url={{ SITEURL }}/{{ article.url }}&amp;title={{ article.title }}"
       onclick="window.open(this.href, 'linkedin-share', 'width=930,height=720'); return false;">
-     <i class="fa-brands fa-linkedin" aria-hidden="true"></i>
+     {{ icons.icon("linkedin") }}
      <span class="hidden">LinkedIn</span>
    </a>
 
@@ -33,7 +33,7 @@
       class="mastodon"
       href="https://{{ POST_SHARE_MASTODON_DOMAIN }}/share?text={{ article.title|urlencode }}%20{{ (SITEURL ~ '/' ~ article.url)|urlencode }}"
       onclick="window.open(this.href, 'mastodon-share', 'width=930,height=720'); return false;">
-     <i class="fa-brands fa-mastodon fa-xl" aria-hidden="true" style="color: #74C0FC;"></i>
+     {{ icons.icon("mastodon") }}
      <span class="hidden">Mastodon</span>
    </a>
    {% endif %}
@@ -42,7 +42,7 @@
       aria-label="Email"
       class="email"
       href="mailto:?subject={{ article.title }}&amp;body={{ SITEURL }}/{{ article.url }}">
-     <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+     {{ icons.icon("email") }}
      <span class="hidden">Email</span>
    </a>
   <div class="clear"></div>

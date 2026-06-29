@@ -1,6 +1,7 @@
 {% extends "base.html" %}
+{% import "partials/i18n.html" as i18n with context %}
 
-{% block title %}{{ SITENAME }} - {% trans %}Pages{% endtrans %}{% endblock %}
+{% block title %}{{ SITENAME }} - {{ i18n.t("Pages") }}{% endblock %}
 
 {# <!-- Choosing cover image --> #}
 {% if HEADER_COVER %}
@@ -24,8 +25,8 @@
 {% if pages %}
 {% set body_class='pages-template' %}
 {% set current_url='/' ~ PAGES_URL|default('pages/') %}
-{% set current_title=SITENAME+' - '+_('Pages') %}
-{% set current_display_title=_('Pages') %}
+{% set current_title=SITENAME+' - '+i18n.t('Pages') %}
+{% set current_display_title=i18n.t('Pages') %}
 {% endif %}
 
 {% block header %}
@@ -34,10 +35,10 @@
     <header class="blog-header {% if selected_cover or selected_color %} has-cover {% endif %}">
       <div class="inner">
         <h1 class="post-title">{{ current_display_title }}</h1>
-        <span class="blog-description">{% trans count=pages|count %}Pages: {{ count }}{% endtrans %}</span>
+        <span class="blog-description">{{ i18n.t("Pages: %(count)s", count=pages|count) }}</span>
         {% if selected_cover %}
           <div class="post-cover cover">
-            <img src="{{ selected_cover }}" alt="{{ current_title }}" fetchpriority="high" decoding="async" />
+            {{ images.cover(selected_cover, current_title) }}
           </div>
         {% elif selected_color %}
           <div class="post-cover cover" style="background-color: {{ selected_color }}">

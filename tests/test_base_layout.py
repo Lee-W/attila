@@ -67,3 +67,64 @@ class TestBaseLayout:
         )
         nav_footer = soup.find(name="div", attrs={"class": "nav-footer"})
         assert nav_footer is not None
+
+    def test_navigation_controls_use_native_buttons(
+        self,
+        default_settings: Settings,
+        gen_article_and_html_from_rst: Callable,
+    ):
+        _, soup = gen_article_and_html_from_rst(
+            rst_path="content/article_with_og_image.rst",
+            settings=default_settings,
+        )
+        menu = soup.select_one("button.nav-menu")
+        close = soup.select_one("button.nav-close")
+        theme = soup.select_one("button.js-theme")
+        assert menu is not None and menu["aria-expanded"] == "false"
+        assert close is not None
+        assert theme is not None and theme["aria-pressed"] == "false"
+        assert not soup.select('[role="menu"], [role="listbox"], [role="option"]')
+
+    def test_icons_are_local_and_do_not_load_font_awesome_css(
+        self,
+        default_settings: Settings,
+        gen_article_and_html_from_rst: Callable,
+    ):
+        _, soup = gen_article_and_html_from_rst(
+            rst_path="content/article_with_og_image.rst",
+            settings=default_settings,
+        )
+        stylesheets = [
+            link.get("href", "") for link in soup.select('link[rel="stylesheet"]')
+        ]
+        assert not any(
+            "font-awesome" in href or "fontawesome" in href for href in stylesheets
+        )
+        assert soup.select_one('svg.icon use[href*="/icons/icons.svg#"]') is not None
+
+    def test_search_assets_only_render_when_enabled(
+        self,
+        default_settings: Settings,
+        gen_article_and_html_from_rst: Callable,
+    ):
+        _, soup = gen_article_and_html_from_rst(
+            rst_path="content/article_with_og_image.rst",
+            settings=default_settings,
+        )
+        assert not soup.select('[src*="/pagefind/"], [href*="/pagefind/"]')
+
+    def test_language_switcher_keeps_visible_label(
+        self,
+        default_settings: Settings,
+        gen_article_and_html_from_rst: Callable,
+    ):
+        default_settings["LANGUAGES"] = [("en", "/"), ("zh-tw", "/zh-tw/")]
+        default_settings["LANGUAGE_NAMES"] = {
+            "en": "English",
+            "zh-tw": "台灣漢語",
+        }
+        _, soup = gen_article_and_html_from_rst(
+            rst_path="content/article_with_og_image.rst",
+            settings=default_settings,
+        )
+        assert soup.select_one(".nav-language-label").get_text(strip=True) == "English"

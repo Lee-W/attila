@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% set article_description = article.headline|default(None) or article.summary|default('')|striptags|truncate(160) or SITE_DESCRIPTION|default('') %}
+
 {% block title %}{{ article.title|striptags|e }}{% if article.subtitle %} - {{ article.subtitle|striptags|e }}{% endif %}{% endblock %}
 
 {# <!-- Choosing cover image --> #}
@@ -41,12 +43,8 @@
     <meta name="keywords" content="{{keyword}}" >
   {% endfor %}
 
-  {% if description %}
-    <meta name="description" content="{{ description }}">
-  {% elif article.headline %}
-    <meta name="description" content="{{ article.headline }}">
-  {% elif article.summary %}
-    <meta name="description" content="{{ article.summary|striptags|truncate(140) }}">
+  {% if article_description %}
+    <meta name="description" content="{{ article_description|e }}">
   {% endif %}
 
   {% for author in article.authors %}
@@ -103,11 +101,11 @@
               {% endif %}
             {% endif %}
 
-            <figure class="post-meta-avatar avatar">
+            {% if author_avatar %}<figure class="post-meta-avatar avatar">
               <a class="author-avatar" href="{{ SITEURL }}/{{ author.url }}">
                 <img class="author-profile-image" src="{{author_avatar}}" alt="{{ author_name }}" decoding="async" />
               </a>
-            </figure>
+            </figure>{% endif %}
           {% endfor %}
           </div>
 
@@ -120,9 +118,9 @@
             {{ author_name }}
           {% endfor %}
           </h4>
-          <time datetime="{{ article.locale_date }}">{{ article.locale_date }}</time>
+          <time datetime="{{ article.date.isoformat() }}">{{ article.locale_date }}</time>
           {% if article.modified and SHOW_ARTICLE_MODIFIED_TIME|default(False) %}
-          &bull; <time datetime="{{ article.locale_modified }}"> Updated on {{ article.locale_modified }}</time>
+          &bull; <time datetime="{{ article.modified.isoformat() }}"> Updated on {{ article.locale_modified }}</time>
           {% endif %}
           {% if article.statistics and 'read_mins' in article.statistics %}
           &bull; {{ article.statistics['read_mins'] }} min read
@@ -133,9 +131,9 @@
         {% if selected_cover %}
           <div class="post-cover cover">
             {% if "image_process" is plugin_enabled %}
-              <img class="image-process-large-photo" src="{{ selected_cover }}" alt="{{ current_title }}" fetchpriority="high" decoding="async" />
+              {{ images.cover(selected_cover, current_title, "image-process-large-photo", article.cover_srcset|default(None), article.cover_width|default(None), article.cover_height|default(None)) }}
             {% else %}
-              <img src="{{ selected_cover }}" alt="{{ current_title }}" fetchpriority="high" decoding="async" />
+              {{ images.cover(selected_cover, current_title, srcset=article.cover_srcset|default(None), width=article.cover_width|default(None), height=article.cover_height|default(None)) }}
             {% endif %}
           </div>
         {% elif selected_color %}
@@ -171,11 +169,11 @@
             {% if CC_LICENSE %}
             <aside class="post-license">
               {% set cc_url = "https://creativecommons.org/licenses/" ~ CC_LICENSE.slug ~ "/" ~ CC_LICENSE.version ~ "/" %}
-              <i class="fa-brands fa-creative-commons" aria-hidden="true"></i>
+              {{ icons.icon("creative-commons") }}
               {% for part in CC_LICENSE.slug.split('-') %}
-                <i class="fa-brands fa-creative-commons-{{ part }}" aria-hidden="true"></i>
+                {{ icons.icon("creative-commons-" ~ part) }}
               {% endfor %}
-              <span>{% trans %}Licensed under{% endtrans %} <a rel="license noopener" href="{{ cc_url }}" target="_blank">{{ CC_LICENSE.name }} {{ CC_LICENSE.version }}</a></span>
+              <span>{{ i18n.t("Licensed under") }} <a rel="license noopener" href="{{ cc_url }}" target="_blank">{{ CC_LICENSE.name }} {{ CC_LICENSE.version }}</a></span>
             </aside>
             {% endif %}
 
@@ -203,26 +201,26 @@
                     <p class="post-author-about">{{AUTHOR_META[author.name].bio}}</p>
                   {% endif %}
                   {% if AUTHOR_META[author.name].location %}
-                    <span class="post-author-location"><i class="fa-solid fa-location-dot"></i> {{AUTHOR_META[author.name].location}}</span>
+                    <span class="post-author-location">{{ icons.icon("location") }} {{AUTHOR_META[author.name].location}}</span>
                   {% endif %}
                   {% if AUTHOR_META[author.name].website %}
-                    <span class="post-author-website"><a href="{{AUTHOR_META[author.name].website}}"><i class="fa-solid fa-globe"></i> Website</a></span>
+                    <span class="post-author-website"><a href="{{AUTHOR_META[author.name].website}}">{{ icons.icon("globe") }} Website</a></span>
                   {% endif %}
                   <!-- Social links in alphabet order. -->
                   {% if AUTHOR_META[author.name].facebook %}
-                    <span class="post-author-facebook"><a target="_blank" rel="noopener" href="https://facebook.com/{{AUTHOR_META[author.name].facebook}}"><i class="fa-brands fa-facebook"></i> Facebook</a></span>
+                    <span class="post-author-facebook"><a target="_blank" rel="noopener" href="https://facebook.com/{{AUTHOR_META[author.name].facebook}}">{{ icons.icon("facebook") }} Facebook</a></span>
                   {% endif %}
                   {% if AUTHOR_META[author.name].github %}
-                    <span class="post-author-github"><a target="_blank" rel="noopener" href="https://github.com/{{AUTHOR_META[author.name].github}}"><i class="fa-brands fa-github"></i> GitHub</a></span>
+                    <span class="post-author-github"><a target="_blank" rel="noopener" href="https://github.com/{{AUTHOR_META[author.name].github}}">{{ icons.icon("github") }} GitHub</a></span>
                   {% endif %}
                   {% if AUTHOR_META[author.name].linkedin %}
-                    <span class="post-author-linkedin"><a target="_blank" rel="noopener" href="https://www.linkedin.com/in/{{AUTHOR_META[author.name].linkedin}}"><i class="fa-brands fa-linkedin"></i> LinkedIn</a></span>
+                    <span class="post-author-linkedin"><a target="_blank" rel="noopener" href="https://www.linkedin.com/in/{{AUTHOR_META[author.name].linkedin}}">{{ icons.icon("linkedin") }} LinkedIn</a></span>
                   {% endif %}
                   {% if AUTHOR_META[author.name].twitter %}
-                    <span class="post-author-twitter"><a target="_blank" rel="noopener" href="https://twitter.com/{{AUTHOR_META[author.name].twitter}}"><i class="fa-brands fa-x-twitter"></i> Twitter</a></span>
+                    <span class="post-author-twitter"><a target="_blank" rel="noopener" href="https://twitter.com/{{AUTHOR_META[author.name].twitter}}">{{ icons.icon("x-twitter") }} Twitter</a></span>
                   {% endif %}
                   {% if AUTHOR_META and AUTHOR_META[author.name] and AUTHOR_META[author.name].instagram %}
-                  <a target="_blank" rel="noopener" href="https://instagram.com/{{AUTHOR_META[author.name].instagram}}"><i class="fa-brands fa-instagram"></i><span>Instagram</span></a>
+                  <a target="_blank" rel="noopener" href="https://instagram.com/{{AUTHOR_META[author.name].instagram}}">{{ icons.icon("instagram") }}<span>Instagram</span></a>
                   {% endif %}
                 </div>
                 <div class="clear"></div>
@@ -238,20 +236,20 @@
             {% if article.next_article %}
             <a class="post-nav-next" href="{{ SITEURL }}/{{ article.next_article.url}}">
               <section class="post-nav-teaser">
-                <i class="fa-solid fa-arrow-left"></i>
+                {{ icons.icon("arrow-left") }}
                   <h2 class="post-nav-title">{{ article.next_article.title }}</h2>
                 <p class="post-nav-excerpt">{{ article.next_article.summary|striptags|truncate(90) }}</p>
-                <p class="post-nav-meta"><time datetime="{{ article.next_article.locale_date }}">{{ article.next_article.locale_date }}</time></p>
+                <p class="post-nav-meta"><time datetime="{{ article.next_article.date.isoformat() }}">{{ article.next_article.locale_date }}</time></p>
               </section>
             </a>
             {% endif %}
             {% if article.prev_article %}
             <a class="post-nav-prev" href="{{ SITEURL }}/{{ article.prev_article.url}}">
               <section class="post-nav-teaser">
-                <i class="fa-solid fa-arrow-right"></i>
+                {{ icons.icon("arrow-right") }}
                   <h2 class="post-nav-title">{{ article.prev_article.title }}</h2>
                 <p class="post-nav-excerpt">{{ article.prev_article.summary|striptags|truncate(90) }}</p>
-                <p class="post-nav-meta"><time datetime="{{ article.prev_article.locale_date }}">{{ article.prev_article.locale_date }}</time></p>
+                <p class="post-nav-meta"><time datetime="{{ article.prev_article.date.isoformat() }}">{{ article.prev_article.locale_date }}</time></p>
               </section>
             </a>
             {% endif %}

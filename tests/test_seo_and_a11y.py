@@ -65,6 +65,45 @@ class TestJsonLd:
         assert '"He said"' in data["name"]
 
 
+class TestArticleMetadata:
+    def test_visible_dates_use_iso_datetime_values(
+        self,
+        default_settings: Settings,
+        gen_article_and_html_from_rst: Callable,
+    ):
+        _, soup = gen_article_and_html_from_rst(
+            rst_path="content/article_with_og_image.rst",
+            settings=default_settings,
+        )
+        published = soup.select_one(".post-meta time")
+        assert "T" in published["datetime"]
+
+    def test_description_falls_back_to_site_description(
+        self,
+        default_settings: Settings,
+        gen_page_and_html_from_rst: Callable,
+    ):
+        default_settings["SITE_DESCRIPTION"] = "Fallback site description"
+        _, soup = gen_page_and_html_from_rst(
+            rst_path="content/pages/page_without_cover_image.rst",
+            settings=default_settings,
+        )
+        assert soup.select_one('meta[property="og:description"]')["content"] == (
+            "Fallback site description"
+        )
+
+    def test_missing_author_avatar_does_not_emit_empty_image(
+        self,
+        default_settings: Settings,
+        gen_article_and_html_from_rst: Callable,
+    ):
+        _, soup = gen_article_and_html_from_rst(
+            rst_path="content/article_with_og_image.rst",
+            settings=default_settings,
+        )
+        assert not soup.select('img[src=""]')
+
+
 class TestFooterCredits:
     def test_custom_left_and_right_both_render(
         self,

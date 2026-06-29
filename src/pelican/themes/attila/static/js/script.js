@@ -24,14 +24,24 @@ document.addEventListener("DOMContentLoaded", () => {
   );
 
   // Menu
-  const toggleMenu = () => html.classList.toggle("menu-active");
-  document
-    .querySelectorAll("#menu, .nav-menu, .nav-close")
-    .forEach((el) => el.addEventListener("click", toggleMenu));
-  window.addEventListener("resize", () => html.classList.remove("menu-active"));
-  window.addEventListener("orientationchange", () =>
-    html.classList.remove("menu-active"),
-  );
+  const menuToggle = document.querySelector(".nav-menu");
+  const menuClose = document.querySelector(".nav-close");
+  const setMenuOpen = (open, returnFocus = false) => {
+    html.classList.toggle("menu-active", open);
+    menuToggle?.setAttribute("aria-expanded", String(open));
+    if (returnFocus) menuToggle?.focus();
+  };
+  menuToggle?.addEventListener("click", () => {
+    setMenuOpen(!html.classList.contains("menu-active"));
+  });
+  menuClose?.addEventListener("click", () => setMenuOpen(false, true));
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && html.classList.contains("menu-active")) {
+      setMenuOpen(false, true);
+    }
+  });
+  window.addEventListener("resize", () => setMenuOpen(false));
+  window.addEventListener("orientationchange", () => setMenuOpen(false));
 
   // Parallax cover
   const cover = document.querySelector(".cover");
@@ -99,6 +109,8 @@ document.addEventListener("DOMContentLoaded", () => {
       html.style.colorScheme = "dark";
       localStorage.setItem("attila_theme", "dark");
       toggle.setAttribute("title", toggle.getAttribute("data-dark"));
+      toggle.setAttribute("aria-label", toggle.getAttribute("data-dark"));
+      toggle.setAttribute("aria-pressed", "true");
     };
 
     const setLight = () => {
@@ -107,6 +119,8 @@ document.addEventListener("DOMContentLoaded", () => {
       html.style.colorScheme = "light";
       localStorage.setItem("attila_theme", "light");
       toggle.setAttribute("title", toggle.getAttribute("data-light"));
+      toggle.setAttribute("aria-label", toggle.getAttribute("data-light"));
+      toggle.setAttribute("aria-pressed", "false");
     };
 
     const systemPref = () => {
@@ -168,10 +182,9 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
     if (best.li) {
-      best.li.setAttribute("aria-selected", "true");
-      toggle
-        .querySelector(".nav-language-icon")
-        ?.setAttribute("data-lang", best.text);
+      best.li.querySelector("a")?.setAttribute("aria-current", "page");
+      const label = toggle.querySelector(".nav-language-label");
+      if (label) label.textContent = best.text;
     }
 
     toggle.addEventListener("click", (e) => {
@@ -180,6 +193,15 @@ document.addEventListener("DOMContentLoaded", () => {
       const isOpen = li.classList.contains("open");
       li.classList.toggle("open");
       toggle.setAttribute("aria-expanded", String(!isOpen));
+    });
+
+    toggle.addEventListener("keydown", (e) => {
+      if (e.key !== "ArrowDown") return;
+      e.preventDefault();
+      const li = toggle.closest(".nav-languages");
+      li.classList.add("open");
+      toggle.setAttribute("aria-expanded", "true");
+      li.querySelector(".nav-language-dropdown a")?.focus();
     });
 
     document.addEventListener("click", () => {
@@ -206,8 +228,7 @@ document.addEventListener("DOMContentLoaded", () => {
         link.addEventListener("click", (e) => {
           const href = link.getAttribute("href");
           const fallback = link.getAttribute("data-fallback");
-          if (link.closest("li").getAttribute("aria-selected") === "true")
-            return;
+          if (link.getAttribute("aria-current") === "page") return;
 
           e.preventDefault();
           fetch(href, { method: "HEAD" })
@@ -246,6 +267,16 @@ document.addEventListener("DOMContentLoaded", () => {
         closeAll(li);
         li.classList.toggle("open");
         toggle.setAttribute("aria-expanded", String(!isOpen));
+      });
+
+      toggle.addEventListener("keydown", (e) => {
+        if (e.key !== "ArrowDown") return;
+        e.preventDefault();
+        const li = toggle.closest(".nav-dropdown");
+        closeAll(li);
+        li.classList.add("open");
+        toggle.setAttribute("aria-expanded", "true");
+        li.querySelector(".nav-dropdown-menu a")?.focus();
       });
     });
 

@@ -11,7 +11,7 @@
         {% else %}
           {% set pelican_link %}<a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a>{% endset %}
           {% set attila_link %}<a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a>{% endset %}
-          {% set left %}{% trans pelican=pelican_link, attila=attila_link %}Published with {{ pelican }} &bull; Theme {{ attila }} &bull;{% endtrans %}{% endset %}
+          {% set left %}{{ i18n.t("Published with %(pelican)s &bull; Theme %(attila)s &bull;", pelican=pelican_link, attila=attila_link) }}{% endset %}
         {% endif %}
         {% set right = SHOW_CREDITS.right if (SHOW_CREDITS and SHOW_CREDITS.right) else "" %}
 

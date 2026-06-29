@@ -52,12 +52,12 @@
       <div class="inner">
         <div class="archive archive-tag box archive-box">
           <span class="archive-info">
-            <span class="archive-type">{% trans %}Tag{% endtrans %}</span>
+            <span class="archive-type">{{ i18n.t("Tag") }}</span>
             <span class="archive-count">
             {% if articles|count == 1 %}
-            {{ articles|count }} {% trans %}Post{% endtrans %}
+            {{ articles|count }} {{ i18n.t("Post") }}
             {% else %}
-            {{ articles|count }} {% trans %}Posts{% endtrans %}
+            {{ articles|count }} {{ i18n.t("Posts") }}
             {% endif %}
             </span>
           </span>
@@ -70,9 +70,9 @@
         {% if selected_cover %}
           <div class="blog-cover cover">
             {% if "image_process" is plugin_enabled %}
-              <img class="image-process-large-photo" src="{{ selected_cover }}" alt="{{ current_title }}" fetchpriority="high" decoding="async" />
+              {{ images.cover(selected_cover, current_title, "image-process-large-photo") }}
             {% else %}
-              <img src="{{ selected_cover }}" alt="{{ current_title }}" fetchpriority="high" decoding="async" />
+              {{ images.cover(selected_cover, current_title) }}
             {% endif %}
           </div>
         {% elif selected_color %}

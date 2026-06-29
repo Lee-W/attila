@@ -46,7 +46,11 @@
 {% if article.headline %}
     {% set description = article.headline %}
 {% elif article.summary %}
-    {% set description = article.summary|striptags|truncate(140) %}
+    {% set description = article.summary|striptags|truncate(160) %}
+{% elif SITE_DESCRIPTION %}
+    {% set description = SITE_DESCRIPTION %}
+{% else %}
+    {% set description = '' %}
 {% endif %}
 
 <!-- Open Graph -->
@@ -55,7 +59,7 @@
 {% endfor %}
 <meta prefix="og: http://ogp.me/ns#" property="og:site_name" content="{{ SITENAME }}"/>
 <meta prefix="og: http://ogp.me/ns#" property="og:title" content="{{ article.title|striptags|e }}{% if article.subtitle %} - {{ article.subtitle|striptags|e }}{% endif %}"/>
-<meta prefix="og: http://ogp.me/ns#" property="og:description" content="{{ description }}"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:description" content="{{ description|e }}"/>
 <meta prefix="og: http://ogp.me/ns#" property="og:locale" content="{{ article.metadata.get('og_locale', default_locale) }}"/>
 <meta prefix="og: http://ogp.me/ns#" property="og:url" content="{{ SITEURL }}/{{ article.url }}"/>
 <meta prefix="og: http://ogp.me/ns#" property="og:type" content="article"/>
@@ -91,5 +95,5 @@
     <meta name="twitter:image:src" content="{{ selected_cover }}">
   {% endif %}
 
-  <meta name="twitter:description" content="{{ description }}">
+  <meta name="twitter:description" content="{{ description|e }}">
 {% endfor %}

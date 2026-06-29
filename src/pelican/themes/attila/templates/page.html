@@ -60,9 +60,9 @@
         {% if selected_cover %}
           <div class="post-cover cover">
             {% if "image_process" is plugin_enabled %}
-              <img class="image-process-large-photo" src="{{ selected_cover }}" alt="{{ current_title }}" fetchpriority="high" decoding="async" />
+              {{ images.cover(selected_cover, current_title, "image-process-large-photo", page.cover_srcset|default(None), page.cover_width|default(None), page.cover_height|default(None)) }}
             {% else %}
-              <img src="{{ selected_cover }}" alt="{{ current_title }}" fetchpriority="high" decoding="async" />
+              {{ images.cover(selected_cover, current_title, srcset=page.cover_srcset|default(None), width=page.cover_width|default(None), height=page.cover_height|default(None)) }}
             {% endif %}
           </div>
         {% elif selected_color %}
@@ -73,7 +73,7 @@
 
 {% block content %}
   <!-- Post content -->
-  <main id="site-main" class="content">
+  <main id="site-main" class="content" data-pagefind-body>
       <article class="post">
       <div class="inner">
           <section class="post-content">

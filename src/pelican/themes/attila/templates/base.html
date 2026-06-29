@@ -1,3 +1,12 @@
+{% set page_lang = article.lang if article else page.lang if page else DEFAULT_LANG|default('en') %}
+{# These imports are visible inside base.html's own blocks, but NOT in child
+   templates that {% extends %} it — Jinja import namespaces don't cross into
+   the child's template scope. Child listing pages (archives/categories/tags/
+   pages/authors) that call i18n.t in {% block title %} / template-level {% set %}
+   must therefore re-import i18n themselves. #}
+{% import "partials/icon.html" as icons with context %}
+{% import "partials/i18n.html" as i18n with context %}
+{% import "partials/image.html" as images with context %}
 {# set body context #}
 {% if not body_class %}
 
@@ -33,7 +42,7 @@
 {% endif %}
 
 <!DOCTYPE html>
-<html lang="{% if article %}{{ article.lang }}{% elif page %}{{ page.lang }}{% else %}{{ DEFAULT_LANG|default('en') }}{% endif %}"{% if PAGEFIND_ENABLED|default(True) %} class="has-search"{% endif %}>
+<html lang="{{ page_lang }}"{% if PAGEFIND_ENABLED|default(False) %} class="has-search"{% endif %}>
 
 <head>
 {% block head %}
@@ -81,7 +90,7 @@
 </head>
 
 <body class="{{body_class}}">
-  <a class="skip-link" href="#site-main">{% trans %}Skip to content{% endtrans %}</a>
+  <a class="skip-link" href="#site-main">{{ i18n.t("Skip to content") }}</a>
   {% include "partials/navigation.html" %}
 
   <section id="wrapper" class="page-wrapper">
@@ -94,7 +103,7 @@
 
   {% include "partials/body_scripts.html" %}
 
-  {% if PAGEFIND_ENABLED|default(True) %}
+  {% if PAGEFIND_ENABLED|default(False) %}
     <pagefind-modal></pagefind-modal>
   {% endif %}
 

@@ -1,6 +1,6 @@
 {% if article.series %}
 <div class="series">
-  <p>{% trans index=article.series.index, name=article.series.name %}This post is part {{ index }} of the "{{ name }}" series:{% endtrans %}</p>
+  <p>{{ i18n.t('This post is part %(index)s of the "%(name)s" series:', index=article.series.index, name=article.series.name) }}</p>
   <ol class="parts">
   {% for part_article in article.series.all %}
     <li {% if part_article == article %}class="active"{% endif %}>

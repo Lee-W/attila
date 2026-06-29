@@ -11,6 +11,8 @@ Original repository:
 
 This repository is a maintained fork that includes additional features, fixes, and packaging improvements.
 
+The bundled icon sprite contains selected Font Awesome Free 6.7.2 icons and is distributed under its included license at `static/icons/LICENSE.txt`.
+
 ## Overview
 A content-focused responsive theme for [Pelican](https://github.com/getpelican/pelican).
 
@@ -38,7 +40,8 @@ It is ported from the ghost theme:
 - Full-text search via [Pagefind](https://pagefind.app/) (Ctrl/Cmd+K)
 - Lazy loading for images
 - Self-hosted web fonts (Libre Baskerville + Fira Sans) — no third-party font CDN, no tracking
-- SRI (Subresource Integrity) on third-party CSS/JS bundles (Font Awesome, Leaflet, MathJax)
+- Local SVG icon sprite — no render-blocking icon CDN
+- SRI (Subresource Integrity) on third-party CSS/JS bundles (Leaflet, MathJax)
 - No jQuery dependency — pure vanilla JavaScript
 
 ## Install
@@ -309,11 +312,36 @@ COMMENTS_INTRO = "Comments are moderated. Be kind."
 
 ### Search
 
-Full-text search is powered by [Pagefind](https://pagefind.app/) and enabled by default. Users can open the search modal by clicking the search icon or pressing `Ctrl+K` / `Cmd+K`. To disable:
+Full-text search is powered by [Pagefind](https://pagefind.app/). Attila includes a Pelican post-build hook that creates the search bundle after Pelican finishes writing the site, so a separate Node.js build step is not required.
+
+Install Pagefind's extended Python package (recommended for Chinese and Japanese content), then enable Attila's hook:
+
+```sh
+pip install 'pagefind[extended]>=1.5.2'
+```
 
 ```python
-PAGEFIND_ENABLED = False
+PLUGINS = [
+    # ...your other plugins...
+    "pelican.themes.attila.pagefind",
+]
+PAGEFIND_ENABLED = True
 ```
+
+Users can open the generated search modal by clicking the search icon or pressing `Ctrl+K` / `Cmd+K`. Search is disabled by default so sites that do not install Pagefind never emit broken `/pagefind/` asset links. Set `PAGEFIND_VERBOSE = True` to show Pagefind's detailed indexing output.
+
+### Responsive Cover Images
+
+Cover images always emit a `sizes` attribute. For manually generated derivatives, provide a `srcset` globally or per article/page:
+
+```python
+COVER_IMAGE_SRCSET = "/images/cover-640.jpg 640w, /images/cover-1280.jpg 1280w"
+COVER_IMAGE_SIZES = "100vw"
+COVER_IMAGE_WIDTH = 1280
+COVER_IMAGE_HEIGHT = 720
+```
+
+Article and page metadata may override these with `cover_srcset`, `cover_width`, and `cover_height`. When using `pelican-image-process`, keep the existing `large-photo` responsive-image transformation; Attila supplies the `image-process-large-photo` class and preserves the generated `srcset`.
 
 ### Fonts
 

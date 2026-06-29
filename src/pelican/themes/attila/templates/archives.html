@@ -1,6 +1,7 @@
 {% extends "base.html" %}
+{% import "partials/i18n.html" as i18n with context %}
 
-{% block title %}{{ SITENAME }} - {% trans %}Archives{% endtrans %}{% endblock %}
+{% block title %}{{ SITENAME }} - {{ i18n.t("Archives") }}{% endblock %}
 
 {% if HEADER_COVER %}
   {% if HEADER_COVER|lower|truncate(4, True, '') == "http" %}
@@ -28,8 +29,8 @@
 {% set body_class='archives-template' %}
 {% set _as = ARCHIVES_SAVE_AS|default('') %}
 {% set current_url = ('/' ~ _as[:-10] if _as[-10:] == 'index.html' else '/' ~ _as) if _as else '/' ~ ARCHIVES_URL|default('archives/') %}
-{% set current_title=SITENAME+' - '+_('Archives') %}
-{% set current_display_title=_('Archives') %}
+{% set current_title=SITENAME+' - '+i18n.t('Archives') %}
+{% set current_display_title=i18n.t('Archives') %}
 {% endif %}
 
 {% block header %}
@@ -41,9 +42,9 @@
       {% if selected_cover %}
         <div class="post-cover cover">
           {% if "image_process" is plugin_enabled %}
-            <img class="image-process-large-photo" src="{{ selected_cover }}" alt="{{ current_title }}" fetchpriority="high" decoding="async" />
+            {{ images.cover(selected_cover, current_title, "image-process-large-photo") }}
           {% else %}
-            <img src="{{ selected_cover }}" alt="{{ current_title }}" fetchpriority="high" decoding="async" />
+            {{ images.cover(selected_cover, current_title) }}
           {% endif %}
         </div>
       {% elif selected_color %}

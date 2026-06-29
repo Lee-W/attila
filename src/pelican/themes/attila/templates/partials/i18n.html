@@ -1,0 +1,43 @@
+{% macro t(message, current=None, total=None, count=None, index=None, name=None, pelican=None, attila=None) -%}
+  {%- set lang = page_lang|default(DEFAULT_LANG)|lower|replace('_', '-') -%}
+  {%- set zh = lang == 'zh-tw' -%}
+  {#- gettext branch: only reached if a caller still loads jinja2.ext.i18n. The default JINJA_ENVIRONMENT no longer does, so normal builds take the branches below; this is kept for compatibility and exercised by test_i18n.py. -#}
+  {%- if _ is defined -%}
+    {{- _(message, current=current, total=total, count=count, index=index, name=name, pelican=pelican, attila=attila) -}}
+  {%- elif zh -%}
+    {%- if message == "Newer Posts" -%}較新文章
+    {%- elif message == "Older Posts" -%}較舊文章
+    {%- elif message == "Page %(current)s of %(total)s" -%}第 {{ current }} 頁，共 {{ total }} 頁
+    {%- elif message in ["Post", "Posts"] -%}篇文章
+    {%- elif message == "Category" -%}分類
+    {%- elif message == "Categories" -%}分類
+    {%- elif message == "Tag" -%}標籤
+    {%- elif message == "Tags" -%}標籤
+    {%- elif message == "Author" -%}作者
+    {%- elif message == "Authors" -%}作者
+    {%- elif message == "Archives" -%}文章彙整
+    {%- elif message == "Pages" -%}頁面
+    {%- elif message == "Pages: %(count)s" -%}頁面：{{ count }}
+    {%- elif message == "Share" -%}分享
+    {%- elif message == "Search" -%}搜尋
+    {%- elif message == "Toggle theme" -%}切換主題
+    {%- elif message == "System theme" -%}系統主題
+    {%- elif message == "Dark theme" -%}深色主題
+    {%- elif message == "Light theme" -%}淺色主題
+    {%- elif message == "This post is part %(index)s of the \"%(name)s\" series:" -%}本文是「{{ name }}」系列的第 {{ index }} 篇：
+    {%- elif message == "Read a random article" -%}隨機閱讀一篇文章
+    {%- elif message == "Skip to content" -%}跳到主要內容
+    {%- elif message == "Article Series" -%}文章系列
+    {%- elif message == "Licensed under" -%}採用授權條款
+    {%- elif message == "Published with %(pelican)s &bull; Theme %(attila)s &bull;" -%}以 {{ pelican }} 建立 &bull; 主題：{{ attila }} &bull;
+    {%- else -%}{{ message }}
+    {%- endif -%}
+  {%- else -%}
+    {%- if message == "Page %(current)s of %(total)s" -%}Page {{ current }} of {{ total }}
+    {%- elif message == "Pages: %(count)s" -%}Pages: {{ count }}
+    {%- elif message == "This post is part %(index)s of the \"%(name)s\" series:" -%}This post is part {{ index }} of the "{{ name }}" series:
+    {%- elif message == "Published with %(pelican)s &bull; Theme %(attila)s &bull;" -%}Published with {{ pelican }} &bull; Theme {{ attila }} &bull;
+    {%- else -%}{{ message }}
+    {%- endif -%}
+  {%- endif -%}
+{%- endmacro %}

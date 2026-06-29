@@ -66,7 +66,6 @@ def _gen_article_and_html_from_rst(
         theme=settings["THEME"],
         output_path=OUTPUT_DIR,
     )
-    generator.env.install_null_translations()
     generator.generate_context()
 
     def _has_the_same_slug(other: Article) -> bool:
@@ -118,7 +117,6 @@ def _gen_author_and_html_from_name(
         theme=settings["THEME"],
         output_path=OUTPUT_DIR,
     )
-    generator.env.install_null_translations()
     generator.generate_context()
     generator.generate_authors(writer.write_file)
 
@@ -167,7 +165,6 @@ def _gen_page_and_html_from_rst(
         theme=settings["THEME"],
         output_path=OUTPUT_DIR,
     )
-    generator.env.install_null_translations()
     generator.generate_context()
 
     def _has_the_same_slug(other: Page) -> bool:
@@ -215,7 +212,6 @@ def _gen_tag_and_html_from_name(
         theme=settings["THEME"],
         output_path=OUTPUT_DIR,
     )
-    generator.env.install_null_translations()
     generator.generate_context()
     generator.generate_tags(writer.write_file)
 
@@ -257,7 +253,6 @@ def _gen_category_and_html_from_name(name: str, writer: Writer, settings: Settin
         theme=settings["THEME"],
         output_path=OUTPUT_DIR,
     )
-    generator.env.install_null_translations()
     generator.generate_context()
     generator.generate_categories(writer.write_file)
 
@@ -304,7 +299,6 @@ def _render_direct_template(name: str, settings: Settings) -> BeautifulSoup:
         theme=settings["THEME"],
         output_path=OUTPUT_DIR,
     )
-    generator.env.install_null_translations()
     generator.generate_context()
     html = generator.get_template(name).render(generator.context)
     return BeautifulSoup(html, "html.parser")

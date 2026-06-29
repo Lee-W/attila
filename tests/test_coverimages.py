@@ -20,6 +20,24 @@ class TestArticleCoverImage:
         selected_img = selected.find(name="img")
         assert selected_img is not None
         assert f"{default_settings['SITEURL']}{result.cover}" in selected_img["src"]
+        assert selected_img["sizes"] == "100vw"
+
+    def test_article_cover_accepts_responsive_metadata(
+        self,
+        default_settings: Settings,
+        gen_article_and_html_from_rst: Callable,
+    ):
+        default_settings["COVER_IMAGE_SRCSET"] = "small.jpg 640w, large.jpg 1280w"
+        default_settings["COVER_IMAGE_WIDTH"] = 1280
+        default_settings["COVER_IMAGE_HEIGHT"] = 720
+        _, soup = gen_article_and_html_from_rst(
+            rst_path="content/article_with_cover_image.rst",
+            settings=default_settings,
+        )
+        image = soup.select_one(".post-cover img")
+        assert image["srcset"] == default_settings["COVER_IMAGE_SRCSET"]
+        assert image["width"] == "1280"
+        assert image["height"] == "720"
 
     def test_article_header_cover(
         self,

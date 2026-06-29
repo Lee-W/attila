@@ -34,9 +34,9 @@
         {% if selected_cover %}
           <div class="post-cover cover">
             {% if "image_process" is plugin_enabled %}
-              <img class="image-process-large-photo" src="{{ selected_cover }}" alt="Archives for {{ period | reverse | join (' ') }}" fetchpriority="high" decoding="async" />
+              {{ images.cover(selected_cover, "Archives for " ~ period|reverse|join(' '), "image-process-large-photo") }}
             {% else %}
-              <img src="{{ selected_cover }}" alt="Archives for {{ period | reverse | join (' ') }}" fetchpriority="high" decoding="async" />
+              {{ images.cover(selected_cover, "Archives for " ~ period|reverse|join(' ')) }}
             {% endif %}
           </div>
         {% elif selected_color %}

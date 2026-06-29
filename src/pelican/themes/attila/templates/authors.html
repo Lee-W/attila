@@ -1,6 +1,7 @@
 {% extends "index.html" %}
+{% import "partials/i18n.html" as i18n with context %}
 
-{% block title %}{{ SITENAME }} - {% trans %}Authors{% endtrans %}{% endblock title %}
+{% block title %}{{ SITENAME }} - {{ i18n.t("Authors") }}{% endblock title %}
 
 {% if HEADER_COVER %}
   {% if HEADER_COVER|lower|truncate(4, True, '') == "http" %}
@@ -27,8 +28,8 @@
 {% if authors %}
 {% set body_class='authors-template' %}
 {% set current_url='/' ~ AUTHORS_URL|default('authors/') %}
-{% set current_title=SITENAME+' - '+_('Authors') %}
-{% set current_display_title=_('Authors') %}
+{% set current_title=SITENAME+' - '+i18n.t('Authors') %}
+{% set current_display_title=i18n.t('Authors') %}
 {% endif %}
 
 {% block header %}
@@ -40,9 +41,9 @@
         {% if selected_cover %}
           <div class="post-cover cover">
             {% if "image_process" is plugin_enabled %}
-              <img class="image-process-large-photo" src="{{ selected_cover }}" alt="{{ current_title }}" fetchpriority="high" decoding="async" />
+              {{ images.cover(selected_cover, current_title, "image-process-large-photo") }}
             {% else %}
-              <img src="{{ selected_cover }}" alt="{{ current_title }}" fetchpriority="high" decoding="async" />
+              {{ images.cover(selected_cover, current_title) }}
             {% endif %}
           </div>
         {% elif selected_color %}
