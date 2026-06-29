@@ -1,3 +1,9 @@
+## v3.0.1 (2026-06-29)
+
+### Fix
+
+- **osm**: load assets for place lists
+
 ## v3.0.0 (2026-06-29)
 
 ### BREAKING CHANGE
