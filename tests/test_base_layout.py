@@ -113,6 +113,38 @@ class TestBaseLayout:
         )
         assert not soup.select('[src*="/pagefind/"], [href*="/pagefind/"]')
 
+    def test_plugin_assets_only_render_for_matching_content(
+        self,
+        default_settings: Settings,
+        gen_article_and_html_from_rst: Callable,
+    ):
+        default_settings["PLUGINS"] = [
+            *default_settings["PLUGINS"],
+            "pelican.plugins.osm",
+            "pelican.plugins.heatmap",
+        ]
+
+        _, plain_soup = gen_article_and_html_from_rst(
+            rst_path="content/article_with_og_image.rst",
+            settings=default_settings,
+        )
+        assert not plain_soup.select(
+            '[src*="leaflet"], [href*="leaflet"], '
+            '[src*="pelican_osm"], [href*="pelican_osm"], '
+            '[src*="pelican_heatmap"], [href*="pelican_heatmap"]'
+        )
+
+        _, plugin_soup = gen_article_and_html_from_rst(
+            rst_path="content/article_with_plugin_markup.rst",
+            settings=default_settings,
+        )
+        assert plugin_soup.select_one('link[href*="leaflet"]') is not None
+        assert plugin_soup.select_one('script[src*="leaflet"]') is not None
+        assert plugin_soup.select_one('link[href*="pelican_osm"]') is not None
+        assert plugin_soup.select_one('script[src*="pelican_osm"]') is not None
+        assert plugin_soup.select_one('link[href*="pelican_heatmap"]') is not None
+        assert plugin_soup.select_one('script[src*="pelican_heatmap"]') is not None
+
     def test_language_switcher_keeps_visible_label(
         self,
         default_settings: Settings,

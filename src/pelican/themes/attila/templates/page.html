@@ -1,7 +1,12 @@
 {% extends "base.html" %}
 
+{% set page_description = page.headline|default(None) or page.summary|default('')|striptags|truncate(160) or SITE_DESCRIPTION|default('') %}
+
 {% block head %}
   {{ super() }}
+  {% if page_description %}
+    <meta name="description" content="{{ page_description|e }}">
+  {% endif %}
   {% include "partials/og_page.html" %}
   {% include "partials/jsonld.html" %}
 {% endblock %}

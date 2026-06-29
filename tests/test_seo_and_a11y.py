@@ -66,6 +66,26 @@ class TestJsonLd:
 
 
 class TestArticleMetadata:
+    def test_content_pages_emit_one_description(
+        self,
+        default_settings: Settings,
+        gen_article_and_html_from_rst: Callable,
+        gen_page_and_html_from_rst: Callable,
+    ):
+        default_settings["SITE_DESCRIPTION"] = "Fallback site description"
+
+        _, article_soup = gen_article_and_html_from_rst(
+            rst_path="content/article_with_og_image.rst",
+            settings=default_settings,
+        )
+        _, page_soup = gen_page_and_html_from_rst(
+            rst_path="content/pages/page_without_cover_image.rst",
+            settings=default_settings,
+        )
+
+        assert len(article_soup.select('meta[name="description"]')) == 1
+        assert len(page_soup.select('meta[name="description"]')) == 1
+
     def test_visible_dates_use_iso_datetime_values(
         self,
         default_settings: Settings,

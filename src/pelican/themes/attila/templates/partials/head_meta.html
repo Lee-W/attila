@@ -10,6 +10,6 @@
 <meta name="google-site-verification" content="{{ GOOGLE_SITE_VERIFICATION }}">
 {% endif %}
 
-{% if SITE_DESCRIPTION %}
-<meta name="description" content="{{SITE_DESCRIPTION}}" />
+{% if SITE_DESCRIPTION and not article and not page %}
+<meta name="description" content="{{ SITE_DESCRIPTION }}" />
 {% endif %}

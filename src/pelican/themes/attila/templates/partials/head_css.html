@@ -1,11 +1,15 @@
+{% set content_html = article.content if article else (page.content if page else "") %}
+{% set needs_osm = "pelican.plugins.osm" in PLUGINS and 'class="osm-map' in content_html %}
+{% set needs_heatmap = "pelican.plugins.heatmap" in PLUGINS and 'id="writing-heatmap"' in content_html %}
+
 <link rel="stylesheet" href="{{ STATIC_SITEURL|default(SITEURL) }}/{{ THEME_STATIC_DIR }}/css/style.css">
 
-{% if "pelican.plugins.osm" in PLUGINS %}
+{% if needs_osm %}
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha512-Zcn6bjR/8RZbLEpLIeOwNtzREBAJnUKESxces60Mpoj+2okopSAcSUIUOseddDm0cxnGQzxIR7vJgsLZbdLE3w==" crossorigin="anonymous">
   <link rel="stylesheet" href="{{ SITEURL }}/static/pelican_osm/css/osm-map.css">
 {% endif %}
 
-{% if "pelican.plugins.heatmap" in PLUGINS %}
+{% if needs_heatmap %}
   <link rel="stylesheet" href="{{ SITEURL }}/static/heatmap/pelican_heatmap.css">
 {% endif %}
 
