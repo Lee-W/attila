@@ -69,3 +69,11 @@ repos:
   - id: taplo-format
   repo: https://github.com/ComPWA/taplo-pre-commit
   rev: v0.9.3
+- hooks:
+  - id: build-css
+    name: Rebuild static/css/style.css from css-src/
+    entry: uv run poe build-css
+    language: system
+    files: ^css-src/.*\.css$
+    pass_filenames: false
+  repo: local
