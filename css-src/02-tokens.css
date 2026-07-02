@@ -2,33 +2,24 @@
   color-scheme: light dark;
   --color-primary: #d95736;
   --color-primary-active: #bf4526;
-  --color-background-main: #fff;
-  --color-background-secondary: #f7f8fa;
-  --color-background-contrast: #e1e3e6;
-  --color-background-overlay: rgba(37, 40, 43, 0.9);
-  --color-content-lead: #000;
-  --color-content-main: #222426;
-  --color-content-secondary: #73777d;
+  --color-background-main: light-dark(#fff, #222426);
+  --color-background-secondary: light-dark(#f7f8fa, #1d1f20);
+  --color-background-contrast: light-dark(#e1e3e6, #3b3d40);
+  --color-background-overlay: light-dark(rgba(37, 40, 43, 0.9), rgba(9, 10, 13, 0.9));
+  --color-content-lead: light-dark(#000, #fff);
+  --color-content-main: light-dark(#222426, #e1e3e6);
+  --color-content-secondary: light-dark(#73777d, #909499);
+  --radius-small: 4px;
+  --radius-medium: 8px;
+  --radius-pill: 999px;
+}
+
+/* The JS toggle sets an inline color-scheme; these keep forced themes
+   working when that script has not run yet. */
+.theme-light:root {
+  color-scheme: light;
 }
 
 .theme-dark:root {
-  --color-background-main: #222426;
-  --color-background-secondary: #1d1f20;
-  --color-background-contrast: #3b3d40;
-  --color-background-overlay: rgba(9, 10, 13, 0.9);
-  --color-content-lead: #fff;
-  --color-content-main: #e1e3e6;
-  --color-content-secondary: #909499;
-}
-
-@media (prefers-color-scheme: dark) {
-  html:not(.theme-light):root {
-    --color-background-main: #222426;
-    --color-background-secondary: #1d1f20;
-    --color-background-contrast: #3b3d40;
-    --color-background-overlay: rgba(9, 10, 13, 0.9);
-    --color-content-lead: #fff;
-    --color-content-main: #e1e3e6;
-    --color-content-secondary: #909499;
-  }
+  color-scheme: dark;
 }

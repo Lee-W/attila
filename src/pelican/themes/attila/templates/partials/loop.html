@@ -19,6 +19,9 @@
             <a class="post-card-category" href="{{ SITEURL }}/{{ primary_tag.url }}">{{ (CATEGORY_TRANSLATIONS|default({})).get(primary_tag.name, primary_tag.name) }}</a>
           {% endif %}
           <time class="post-card-date" datetime="{{ article.date.isoformat() }}">{{ article.date.strftime("%Y/%m/%d") }}</time>
+          {% if SHOW_READTIME_IN_ARTICLE_SUMMARY|default(False) and article.readtime is defined %}
+            <span class="post-card-readtime">{{ i18n.t("%(count)s min read", count=article.readtime) }}</span>
+          {% endif %}
         </div>
 
         <h2 class="post-title">

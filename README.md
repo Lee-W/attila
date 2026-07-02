@@ -38,6 +38,8 @@ It is ported from the ghost theme:
 - OpenStreetMap (via [osm plugin](https://pypi.org/project/pelican-osm/))
 - [umami](https://umami.is/) support
 - Full-text search via [Pagefind](https://pagefind.app/) (Ctrl/Cmd+K)
+- CJK-aware reading time and word count (`pelican.themes.attila.readtime`)
+- Print stylesheet — hides site chrome, prints external link URLs
 - Lazy loading for images
 - Self-hosted web fonts (Libre Baskerville + Fira Sans) — no third-party font CDN, no tracking
 - Local SVG icon sprite — no render-blocking icon CDN
@@ -329,6 +331,38 @@ PAGEFIND_ENABLED = True
 ```
 
 Users can open the generated search modal by clicking the search icon or pressing `Ctrl+K` / `Cmd+K`. Search is disabled by default so sites that do not install Pagefind never emit broken `/pagefind/` asset links. Set `PAGEFIND_VERBOSE = True` to show Pagefind's detailed indexing output.
+
+### Reading Time
+
+Attila ships a CJK-aware reading-time plugin. Unlike word-per-minute plugins that split on whitespace (and therefore count an entire Chinese article as a handful of words), it counts CJK characters and non-CJK words separately and converts each with its own reading speed:
+
+```python
+PLUGINS = [
+    # ...your other plugins...
+    "pelican.themes.attila.readtime",
+]
+```
+
+With the plugin enabled, the article page meta line shows the estimated reading time and the word count (CJK characters + non-CJK words). Speeds default to 300 CJK characters and 250 words per minute and can be tuned:
+
+```python
+READTIME_CJK_CPM = 300  # CJK characters per minute
+READTIME_WPM = 250      # non-CJK words per minute
+SHOW_READTIME_IN_ARTICLE_SUMMARY = True  # also show it on post cards in listings
+```
+
+Articles rendered by the [post_stats](https://github.com/pelican-plugins/post-stats) plugin keep working: its `read_mins` value is shown when Attila's plugin is not enabled.
+
+For multilingual weekday and month names, give every language an explicit locale. Python's locale is process-global, so a bare format string can otherwise inherit the locale of the previously processed article (for example, rendering `日` instead of `Sun` in English):
+
+```python
+DATE_FORMATS = {
+    "en": ("en_US.UTF-8", "%a, %d %b %Y"),
+    "zh-tw": ("zh_TW.UTF-8", "%Y/%m/%d（%a）"),
+}
+```
+
+The configured locales must be installed on the build host.
 
 ### Responsive Cover Images
 

@@ -122,7 +122,12 @@
           {% if article.modified and SHOW_ARTICLE_MODIFIED_TIME|default(False) %}
           &bull; <time datetime="{{ article.modified.isoformat() }}"> Updated on {{ article.locale_modified }}</time>
           {% endif %}
-          {% if article.statistics and 'read_mins' in article.statistics %}
+          {% if article.readtime is defined %}
+          &bull; {{ i18n.t("%(count)s min read", count=article.readtime) }}
+          {% if article.readtime_word_count is defined %}
+          &bull; {{ i18n.t("%(count)s words", count="{:,}".format(article.readtime_word_count|int)) }}
+          {% endif %}
+          {% elif article.statistics and 'read_mins' in article.statistics %}
           &bull; {{ article.statistics['read_mins'] }} min read
           {% elif article.stats and 'read_mins' in article.stats %}
           &bull; {{ article.stats['read_mins'] }} min read

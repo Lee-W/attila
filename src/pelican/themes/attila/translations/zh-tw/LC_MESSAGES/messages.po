@@ -55,3 +55,9 @@ msgstr "歷史上的今天"
 
 msgid "Skip to content"
 msgstr "跳到主要內容"
+
+msgid "%(count)s min read"
+msgstr "閱讀時間約 %(count)s 分鐘"
+
+msgid "%(count)s words"
+msgstr "共 %(count)s 字"

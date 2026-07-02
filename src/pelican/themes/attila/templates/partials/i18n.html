@@ -29,12 +29,16 @@
     {%- elif message == "Skip to content" -%}跳到主要內容
     {%- elif message == "Article Series" -%}文章系列
     {%- elif message == "Licensed under" -%}採用授權條款
+    {%- elif message == "%(count)s min read" -%}閱讀時間約 {{ count }} 分鐘
+    {%- elif message == "%(count)s words" -%}共 {{ count }} 字
     {%- elif message == "Published with %(pelican)s &bull; Theme %(attila)s &bull;" -%}以 {{ pelican }} 建立 &bull; 主題：{{ attila }} &bull;
     {%- else -%}{{ message }}
     {%- endif -%}
   {%- else -%}
     {%- if message == "Page %(current)s of %(total)s" -%}Page {{ current }} of {{ total }}
     {%- elif message == "Pages: %(count)s" -%}Pages: {{ count }}
+    {%- elif message == "%(count)s min read" -%}{{ count }} min read
+    {%- elif message == "%(count)s words" -%}{{ count }} words
     {%- elif message == "This post is part %(index)s of the \"%(name)s\" series:" -%}This post is part {{ index }} of the "{{ name }}" series:
     {%- elif message == "Published with %(pelican)s &bull; Theme %(attila)s &bull;" -%}Published with {{ pelican }} &bull; Theme {{ attila }} &bull;
     {%- else -%}{{ message }}

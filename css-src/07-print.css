@@ -1,0 +1,44 @@
+/* Print stylesheet — strip site chrome, keep the article readable on paper. */
+@media print {
+  /* !important outranks the inline color-scheme set by the theme toggle. */
+  :root {
+    color-scheme: light !important;
+  }
+
+  .skip-link,
+  .nav-header,
+  .nav-footer,
+  .nav-close,
+  .progress-container,
+  .post-cover,
+  .post-share,
+  .post-random,
+  .post-comments,
+  .post-nav,
+  .pagination,
+  .extra-pagination,
+  .heading-anchor {
+    display: none !important;
+  }
+
+  .post-content a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    word-break: break-all;
+  }
+
+  pre,
+  blockquote,
+  figure,
+  table,
+  img {
+    break-inside: avoid;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    break-after: avoid;
+  }
+}
