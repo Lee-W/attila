@@ -1,3 +1,9 @@
+## v3.1.0 (2026-07-03)
+
+### Feat
+
+- **theme**: improve reading and display experience
+
 ## v3.0.1 (2026-06-29)
 
 ### Fix
