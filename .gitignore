@@ -114,3 +114,6 @@ venv.bak/
 # ruff
 .ruff_cache
 tests/output
+
+# local design handoff reference — never commit
+design_handoff_attila_refresh/
