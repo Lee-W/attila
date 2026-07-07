@@ -1,3 +1,9 @@
+## v3.2.0 (2026-07-07)
+
+### Feat
+
+- **theme**: refresh Attila layout
+
 ## v3.1.0 (2026-07-03)
 
 ### Feat
