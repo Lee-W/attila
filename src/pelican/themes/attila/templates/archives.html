@@ -3,59 +3,30 @@
 
 {% block title %}{{ SITENAME }} - {{ i18n.t("Archives") }}{% endblock %}
 
-{% if HEADER_COVER %}
-  {% if HEADER_COVER|lower|truncate(4, True, '') == "http" %}
-    {% set selected_cover = HEADER_COVER %}
-  {% elif HEADER_COVER.startswith('/') %}
-    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+HEADER_COVER %}
-  {% else %}
-    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+"/"+HEADER_COVER %}
-  {% endif %}
-{% elif HOME_COVER %}
-  {% if HOME_COVER|lower|truncate(4, True, '') == "http" %}
-    {% set selected_cover = HOME_COVER %}
-  {% elif HOME_COVER.startswith('/') %}
-    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+HOME_COVER %}
-  {% else %}
-    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+"/"+HOME_COVER %}
-  {% endif %}
+{% set _cover_src = HEADER_COVER or HOME_COVER %}
+{% if _cover_src %}
+  {% set banner_cover = _cover_src if _cover_src|lower|truncate(4, True, '') == "http" else (STATIC_SITEURL|default(SITEURL)) + ("" if _cover_src.startswith('/') else "/") + _cover_src %}
 {% elif HEADER_COLOR %}
-  {% set selected_color = HEADER_COLOR %}
+  {% set banner_color = HEADER_COLOR %}
+{% endif %}
+
+{% if dates %}
+{% set body_class = 'archives-template' %}
+{% set _as = ARCHIVES_SAVE_AS|default('') %}
+{% set current_url = ('/' ~ _as[:-10] if _as[-10:] == 'index.html' else '/' ~ _as) if _as else '/' ~ ARCHIVES_URL|default('archives/') %}
 {% endif %}
 
 {% block canonical_url %}<link href="{{ SITEURL }}/{{ARCHIVES_URL|default('archives/')}}" rel="canonical" />{% endblock canonical_url %}
 
-{% if dates %}
-{% set body_class='archives-template' %}
-{% set _as = ARCHIVES_SAVE_AS|default('') %}
-{% set current_url = ('/' ~ _as[:-10] if _as[-10:] == 'index.html' else '/' ~ _as) if _as else '/' ~ ARCHIVES_URL|default('archives/') %}
-{% set current_title=SITENAME+' - '+i18n.t('Archives') %}
-{% set current_display_title=i18n.t('Archives') %}
-{% endif %}
-
 {% block header %}
-  <!-- Page Header -->
-  <!-- Set your background image for this header on the line below. -->
-  <header class="blog-header {% if selected_cover or selected_color %} has-cover {% endif %}">
-    <div class="inner">
-      <h1 class="post-title">{{ current_display_title }}</h1>
-      {% if selected_cover %}
-        <div class="post-cover cover">
-          {% if "image_process" is plugin_enabled %}
-            {{ images.cover(selected_cover, current_title, "image-process-large-photo") }}
-          {% else %}
-            {{ images.cover(selected_cover, current_title) }}
-          {% endif %}
-        </div>
-      {% elif selected_color %}
-        <div class="post-cover cover" style="background-color: {{ selected_color }}">
-      {% endif %}
-    </div>
-  </header>
+  {% set banner_title = i18n.t("Archives") %}
+  {% set banner_sub = i18n.t("%(count)s Posts", count=articles|count) %}
+  {% include "partials/listing_banner.html" %}
 {% endblock header %}
 
 {% block content %}
-  <main id="site-main" class="archives-page">
+<div id="index" class="container">
+  <main id="site-main" class="content archives-page">
     <div class="inner">
       {% set ns = namespace(cur_year=-1) %}
       {% for article in articles %}
@@ -63,14 +34,15 @@
           {% set ns.cur_year = article.date.year %}
           <h2 class="archives-year">{{ ns.cur_year }}</h2>
         {% endif %}
-        <div class="archive-entry">
+        <a class="archive-entry" href="{{ SITEURL }}/{{ article.url }}">
           <time class="archive-date">{{ article.date|strftime("%m/%d") }}</time>
-          <a class="archive-title" href="{{ SITEURL }}/{{ article.url }}">
+          <span class="archive-title">
             {{ article.title|striptags|e }}
-            {% if article.subtitle %}<span class="archive-subtitle">— {{ article.subtitle|striptags|e }}</span>{% endif %}
-          </a>
-        </div>
+            {% if article.subtitle %}<span class="archive-subtitle">{{ article.subtitle|striptags|e }}</span>{% endif %}
+          </span>
+        </a>
       {% endfor %}
     </div>
   </main>
+</div>
 {% endblock content %}

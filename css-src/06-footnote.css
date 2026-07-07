@@ -38,16 +38,16 @@
   display: inline-block;
   width: auto;
   height: auto;
-  min-width: 1em;
-  margin: 0 0.1em;
-  padding: 0.1em 0.3em;
+  min-width: 1.4em;
+  margin: 0 0.15em;
+  padding: 0.05em 0.5em;
   border: 0;
-  border-radius: 0.4em;
-  background: transparent;
-  color: var(--color-primary);
-  font-size: 0.78em;
+  border-radius: var(--radius-pill);
+  background: var(--brand);
+  color: #fff;
+  font-size: 0.7em;
   font-weight: 700;
-  line-height: 1;
+  line-height: 1.5;
   vertical-align: super;
   text-align: center;
   cursor: pointer;
@@ -69,8 +69,8 @@
 .post-content .littlefoot__button.is-active,
 .post-content .littlefoot__button:focus,
 .post-content .littlefoot__button:hover {
-  background: transparent;
-  color: var(--color-primary-active);
+  background: var(--brand-active);
+  color: #fff;
 }
 
 /* Popover body links shouldn't carry the theme's inset underline box-shadow. */

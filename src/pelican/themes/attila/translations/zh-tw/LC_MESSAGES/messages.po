@@ -61,3 +61,27 @@ msgstr "閱讀時間約 %(count)s 分鐘"
 
 msgid "%(count)s words"
 msgstr "共 %(count)s 字"
+
+msgid "Article Series"
+msgstr "系列文章"
+
+msgid "Tags"
+msgstr "標籤"
+
+msgid "Categories"
+msgstr "分類"
+
+msgid "Archives"
+msgstr "歸檔"
+
+msgid "Authors"
+msgstr "作者"
+
+msgid "%(count)s Posts"
+msgstr "%(count)s 篇文章"
+
+msgid "Older"
+msgstr "較舊"
+
+msgid "Newer"
+msgstr "較新"

@@ -89,7 +89,7 @@
 {% endblock head %}
 </head>
 
-<body class="{{body_class}}">
+<body class="{{body_class}} site-{{ SITE_VARIANT|default('blog') }}">
   <a class="skip-link" href="#site-main">{{ i18n.t("Skip to content") }}</a>
   {% include "partials/navigation.html" %}
 

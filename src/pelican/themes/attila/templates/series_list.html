@@ -4,14 +4,17 @@
 {% set _ss = SERIES_LIST_SAVE_AS|default('') %}
 {% set current_url = ('/' ~ _ss[:-10] if _ss[-10:] == 'index.html' else '/' ~ _ss) if _ss else '/' ~ SERIES_LIST_URL|default('series/') %}
 
+{% block header %}
+  {% set banner_title = i18n.t("Article Series") %}
+  {% include "partials/listing_banner.html" %}
+{% endblock header %}
+
 {% block content %}
   <!-- Post content -->
   <main id="site-main" class="content">
     <article class="post">
       <div class="inner">
         <section class="post-content">
-          <h1>{{ i18n.t("Article Series") }}</h1>
-
           {# Build series dict from articles to work around the series plugin
              global variable being overwritten across i18n subsites #}
           {% set ns = namespace(seen={}) %}
@@ -21,12 +24,16 @@
             {% endif %}
           {% endfor %}
 
+          <ul class="series-index">
           {% for series_name, first_article in ns.seen.items() %}
-          <li>
-            <a href="{{ SITEURL }}/{{ first_article.url }}">{{ series_name }}</a>
-          </li>
+            <li class="series-index-item">
+              <a class="series-index-link" href="{{ SITEURL }}/{{ first_article.url }}">
+                <span class="series-index-name">{{ series_name }}</span>
+                <span class="series-index-count">{{ first_article.series.all|length }}</span>
+              </a>
+            </li>
           {% endfor %}
-
+          </ul>
         </section>
       </div>
     </article>

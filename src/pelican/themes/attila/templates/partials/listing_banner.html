@@ -1,0 +1,23 @@
+{# Compact banner + category tabs, shared by the home / category / tag listings.
+   Caller may set: banner_title, banner_sub, banner_cover (url), banner_color. #}
+{% import "partials/i18n.html" as i18n with context %}
+{% import "partials/image.html" as images with context %}
+
+<header class="site-banner{% if banner_cover or banner_color %} has-cover{% endif %}">
+  {% if banner_cover %}
+    <div class="blog-cover cover">
+      {% if "image_process" is plugin_enabled %}
+        {{ images.cover(banner_cover, banner_title|default(SITENAME), "image-process-large-photo") }}
+      {% else %}
+        {{ images.cover(banner_cover, banner_title|default(SITENAME)) }}
+      {% endif %}
+    </div>
+  {% elif banner_color %}
+    <div class="blog-cover cover" style="background-color: {{ banner_color }}"></div>
+  {% endif %}
+
+  <div class="inner">
+    <h1 class="banner-title">{{ banner_title|default(SITENAME) }}</h1>
+    {% if banner_sub %}<p class="banner-sub">{{ banner_sub }}</p>{% endif %}
+  </div>
+</header>

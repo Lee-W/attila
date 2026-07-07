@@ -2,15 +2,16 @@
 <nav class="pagination" aria-label="Pagination">
   <div class="inner">
     <div class="box pagination-box">
-      {% if articles_page.has_previous() %}
-      <a title="{{ i18n.t('Newer Posts') }}" class="pagination-next" href="{{ SITEURL }}/{{ articles_previous_page.url }}">{{ icons.icon("arrow-left") }}<span class="pagination-label">{{ i18n.t("Newer Posts") }}</span></a>
-      {% endif %}
+      {# Direction matches the in-article prev/next: older on the LEFT, newer on the RIGHT. #}
+      {% if articles_page.has_next() %}
+      <a title="{{ i18n.t('Older Posts') }}" class="pagination-next" href="{{ SITEURL }}/{{ articles_next_page.url }}">{{ icons.icon("arrow-left") }}<span class="pagination-label">{{ i18n.t("Older Posts") }}</span></a>
+      {% else %}<span></span>{% endif %}
 
       <span class="pagination-info">{{ i18n.t("Page %(current)s of %(total)s", current=articles_page.number, total=articles_paginator.num_pages) }}</span>
 
-      {% if articles_page.has_next() %}
-      <a title="{{ i18n.t('Older Posts') }}" class="pagination-prev" href="{{ SITEURL }}/{{ articles_next_page.url }}"><span class="pagination-label">{{ i18n.t("Older Posts") }}</span>{{ icons.icon("arrow-right") }}</a>
-      {% endif %}
+      {% if articles_page.has_previous() %}
+      <a title="{{ i18n.t('Newer Posts') }}" class="pagination-prev" href="{{ SITEURL }}/{{ articles_previous_page.url }}"><span class="pagination-label">{{ i18n.t("Newer Posts") }}</span>{{ icons.icon("arrow-right") }}</a>
+      {% else %}<span></span>{% endif %}
     </div>
   </div>
 </nav>

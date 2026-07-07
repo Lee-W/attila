@@ -1,7 +1,23 @@
 :root {
   color-scheme: light dark;
-  --color-primary: #d95736;
-  --color-primary-active: #bf4526;
+
+  /* Brand — the single hue each site overrides. The default below is the blog
+     (brick) brand; travlog sets its own --brand (+ header-chrome tokens) in a
+     small CSS_OVERRIDE file. Keep this the one knob sites touch. */
+  --brand: #b3573a;
+  --brand-active: #9c4227;
+
+  /* Brand used as TEXT: on the dark theme the raw brand is too close to the
+     background, so brighten it in dark mode (derives from --brand, so travlog's
+     override flows through). Use for links / category / month labels, not for
+     brand-coloured backgrounds. */
+  --brand-text: light-dark(var(--brand), color-mix(in srgb, var(--brand) 52%, #ffffff));
+
+  /* The existing theme rules are all wired to --color-primary; alias it to the
+     brand so overriding --brand recolours the whole theme in one move. */
+  --color-primary: var(--brand);
+  --color-primary-active: var(--brand-active);
+
   --color-background-main: light-dark(#fff, #222426);
   --color-background-secondary: light-dark(#f7f8fa, #1d1f20);
   --color-background-contrast: light-dark(#e1e3e6, #3b3d40);
@@ -12,6 +28,34 @@
   --radius-small: 4px;
   --radius-medium: 8px;
   --radius-pill: 999px;
+
+  /* ---------------------------------------------------------------------
+     Refresh design tokens (blog + travlog reskin). Shared, site-neutral;
+     light value = design spec, dark value = derived equivalent so the
+     theme's dark toggle keeps working. See css-src/05a-refresh.css.
+     --------------------------------------------------------------------- */
+  --ink-body: light-dark(#3d3c38, #e0ded7); /* body copy */
+  --ink-title: light-dark(#212220, #f5f4f1); /* headings / list titles */
+  --ink-muted: light-dark(#8b8a84, #c7c3b9); /* subtitles */
+  --ink-faint: light-dark(#a6a49e, #b2aea4); /* meta / dates */
+  --paper: light-dark(#fdfdfc, #17191a); /* page canvas */
+  --footer-bg: light-dark(#f6f5f3, #1c1e1f);
+  --rule: light-dark(#ececea, #33363a); /* hairlines / separators */
+  --tag-bg: light-dark(#f2f1ee, #2b2e31);
+  --tag-ink: light-dark(#77766f, #c2beb4);
+  --code-bg: #1d2023; /* dark in both modes on purpose (= top bar) */
+  --code-ink: #c8cdd3;
+
+  --font-mono: ui-monospace, "IBM Plex Mono", "SFMono-Regular", "Menlo", monospace;
+
+  /* Brand-adjacent tints (blog defaults; travlog overrides --brand + these). */
+  --brand-quote: light-dark(#faf6f4, #241c18); /* blockquote wash */
+  --header-meta: #e0947a; /* category label on the dark header */
+
+  /* Article/banner dark chrome (travlog overrides these to its greens). */
+  --topbar-bg: #1d2023;
+  --banner-grad: linear-gradient(150deg, #23272c, #15181b);
+  --header-scrim: 21, 24, 27; /* rgb seed for the cover overlay gradient */
 }
 
 /* The JS toggle sets an inline color-scheme; these keep forced themes

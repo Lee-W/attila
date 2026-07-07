@@ -1,80 +1,48 @@
-{% extends "index.html" %}
+{% extends "base.html" %}
 {% import "partials/i18n.html" as i18n with context %}
 
 {% block title %}{{ SITENAME }} - {{ i18n.t("Authors") }}{% endblock title %}
 
-{% if HEADER_COVER %}
-  {% if HEADER_COVER|lower|truncate(4, True, '') == "http" %}
-    {% set selected_cover = HEADER_COVER %}
-  {% elif HEADER_COVER.startswith('/') %}
-    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+HEADER_COVER %}
-  {% else %}
-    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+"/"+HEADER_COVER %}
-  {% endif %}
-{% elif HOME_COVER %}
-  {% if HOME_COVER|lower|truncate(4, True, '') == "http" %}
-    {% set selected_cover = HOME_COVER %}
-  {% elif HOME_COVER.startswith('/') %}
-    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+HOME_COVER %}
-  {% else %}
-    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+"/"+HOME_COVER %}
-  {% endif %}
+{% set _cover_src = HEADER_COVER or HOME_COVER %}
+{% if _cover_src %}
+  {% set banner_cover = _cover_src if _cover_src|lower|truncate(4, True, '') == "http" else (STATIC_SITEURL|default(SITEURL)) + ("" if _cover_src.startswith('/') else "/") + _cover_src %}
 {% elif HEADER_COLOR %}
-  {% set selected_color = HEADER_COLOR %}
+  {% set banner_color = HEADER_COLOR %}
+{% endif %}
+
+{% if authors %}
+{% set body_class = 'authors-template' %}
+{% set current_url = '/' ~ AUTHORS_URL|default('authors/') %}
 {% endif %}
 
 {% block canonical_url %}<link href="{{ SITEURL }}/{{ AUTHORS_URL|default('authors/') }}" rel="canonical" />{% endblock canonical_url %}
 
-{% if authors %}
-{% set body_class='authors-template' %}
-{% set current_url='/' ~ AUTHORS_URL|default('authors/') %}
-{% set current_title=SITENAME+' - '+i18n.t('Authors') %}
-{% set current_display_title=i18n.t('Authors') %}
-{% endif %}
-
 {% block header %}
-    <!-- Page Header -->
-    <!-- Set your background image for this header on the line below. -->
-    <header class="blog-header {% if selected_cover or selected_color %} has-cover {% endif %}">
-      <div class="inner">
-        <h1 class="post-title">{{ current_display_title }}</h1>
-        {% if selected_cover %}
-          <div class="post-cover cover">
-            {% if "image_process" is plugin_enabled %}
-              {{ images.cover(selected_cover, current_title, "image-process-large-photo") }}
-            {% else %}
-              {{ images.cover(selected_cover, current_title) }}
-            {% endif %}
-          </div>
-        {% elif selected_color %}
-          <div class="post-cover cover" style="background-color: {{ selected_color }}">
-        {% endif %}
-      </div>
-    </header>
+  {% set banner_title = i18n.t("Authors") %}
+  {% include "partials/listing_banner.html" %}
 {% endblock header %}
 
 {% block content %}
-  <main id="site-main">
-    {% for author, articles in authors|sort %}
-        {% set author_name = author.name | title  %}
-        {% if AUTHOR_META and author.name in AUTHOR_META %}
-            {% set author_name = AUTHOR_META[author.name].name or author.name %}
-        {% endif %}
-
-      <article class="post">
-        <div class="inner">
-          <div class="archive">
-            <div class="archive-links">
-              <a href="{{ SITEURL }}/{{ author.url }}" rel="bookmark">
-                <h2>{{ author_name }} ({{ articles|count }})</h2>
+<div id="index" class="container">
+  <main id="site-main" class="content">
+    <article class="post">
+      <div class="inner">
+        <section class="post-content">
+          <ul class="series-index">
+          {% for author, articles in authors|sort %}
+            {% set author_name = author.name | title %}
+            {% if AUTHOR_META and author.name in AUTHOR_META and AUTHOR_META[author.name].name %}{% set author_name = AUTHOR_META[author.name].name %}{% endif %}
+            <li>
+              <a class="series-index-link" href="{{ SITEURL }}/{{ author.url }}">
+                <span class="series-index-name">{{ author_name }}</span>
+                <span class="series-index-count">{{ articles|count }}</span>
               </a>
-            </div>
-          </div>
-        </div>
-      </article>
-      {% if not loop.last %}
-      <hr>
-      {% endif %}
-    {% endfor %}
+            </li>
+          {% endfor %}
+          </ul>
+        </section>
+      </div>
+    </article>
   </main>
+</div>
 {% endblock content %}

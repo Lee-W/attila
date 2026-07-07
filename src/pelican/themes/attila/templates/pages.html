@@ -3,55 +3,43 @@
 
 {% block title %}{{ SITENAME }} - {{ i18n.t("Pages") }}{% endblock %}
 
-{# <!-- Choosing cover image --> #}
-{% if HEADER_COVER %}
-  {% if HEADER_COVER|lower|truncate(4, True, '') == "http" %}
-    {% set selected_cover = HEADER_COVER %}
-  {% else %}
-    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+"/"+HEADER_COVER %}
-  {% endif %}
-{% elif HOME_COVER %}
-  {% if HOME_COVER|lower|truncate(4, True, '') == "http" %}
-    {% set selected_cover = HOME_COVER %}
-  {% else %}
-    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+"/"+HOME_COVER %}
-  {% endif %}
+{% set _cover_src = HEADER_COVER or HOME_COVER %}
+{% if _cover_src %}
+  {% set banner_cover = _cover_src if _cover_src|lower|truncate(4, True, '') == "http" else (STATIC_SITEURL|default(SITEURL)) + ("" if _cover_src.startswith('/') else "/") + _cover_src %}
 {% elif HEADER_COLOR %}
-  {% set selected_color = HEADER_COLOR %}
+  {% set banner_color = HEADER_COLOR %}
+{% endif %}
+
+{% if pages %}
+{% set body_class = 'pages-template' %}
+{% set current_url = '/' ~ PAGES_URL|default('pages/') %}
 {% endif %}
 
 {% block canonical_url %}<link href="{{ SITEURL }}/{{PAGES_URL|default('pages/')}}" rel="canonical" />{% endblock canonical_url %}
 
-{% if pages %}
-{% set body_class='pages-template' %}
-{% set current_url='/' ~ PAGES_URL|default('pages/') %}
-{% set current_title=SITENAME+' - '+i18n.t('Pages') %}
-{% set current_display_title=i18n.t('Pages') %}
-{% endif %}
-
 {% block header %}
-    <!-- Page Header -->
-    <!-- Set your background image for this header on the line below. -->
-    <header class="blog-header {% if selected_cover or selected_color %} has-cover {% endif %}">
-      <div class="inner">
-        <h1 class="post-title">{{ current_display_title }}</h1>
-        <span class="blog-description">{{ i18n.t("Pages: %(count)s", count=pages|count) }}</span>
-        {% if selected_cover %}
-          <div class="post-cover cover">
-            {{ images.cover(selected_cover, current_title) }}
-          </div>
-        {% elif selected_color %}
-          <div class="post-cover cover" style="background-color: {{ selected_color }}">
-        {% endif %}
-      </div>
-    </header>
+  {% set banner_title = i18n.t("Pages") %}
+  {% include "partials/listing_banner.html" %}
 {% endblock header %}
 
 {% block content %}
-
 <div id="index" class="container">
   <main id="site-main" class="content">
-    {% include "partials/loop.html" %}
+    <article class="post">
+      <div class="inner">
+        <section class="post-content">
+          <ul class="series-index">
+          {% for page in pages %}
+            <li>
+              <a class="series-index-link" href="{{ SITEURL }}/{{ page.url }}">
+                <span class="series-index-name">{{ page.title }}</span>
+              </a>
+            </li>
+          {% endfor %}
+          </ul>
+        </section>
+      </div>
+    </article>
   </main>
 </div>
 {% endblock content %}

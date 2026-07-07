@@ -95,7 +95,7 @@ class TestArticleMetadata:
             rst_path="content/article_with_og_image.rst",
             settings=default_settings,
         )
-        published = soup.select_one(".post-meta time")
+        published = soup.select_one(".post-head-date time")
         assert "T" in published["datetime"]
 
     def test_description_falls_back_to_site_description(

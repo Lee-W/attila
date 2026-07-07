@@ -1,10 +1,42 @@
 {% macro comments_script_utterances(repo, id, label, theme) %}
-<script src="https://utteranc.es/client.js"
-        data-repo="{{ repo }}"
-        data-issue-term="{{ id }}"
-        data-label="{{ label }}"
-        data-theme="{{ theme }}"
-        crossorigin="anonymous"
-        async>
+{# Load utterances with a light/dark theme matching the site, and keep it in
+   sync when the reader toggles the theme (the `theme` arg is only a fallback —
+   the real value is resolved client-side against the current colour scheme). #}
+<div id="utterances-mount"></div>
+<script>
+  (function () {
+    var root = document.documentElement;
+    function isDark() {
+      return root.classList.contains("theme-dark") ||
+        (!root.classList.contains("theme-light") &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches);
+    }
+    function utTheme() { return isDark() ? "github-dark" : "github-light"; }
+
+    var s = document.createElement("script");
+    s.src = "https://utteranc.es/client.js";
+    s.setAttribute("data-repo", "{{ repo }}");
+    s.setAttribute("data-issue-term", "{{ id }}");
+    {% if label %}s.setAttribute("data-label", "{{ label }}");{% endif %}
+    s.setAttribute("data-theme", utTheme());
+    s.crossOrigin = "anonymous";
+    s.async = true;
+    document.getElementById("utterances-mount").appendChild(s);
+
+    // Re-theme the comments iframe whenever the site's light/dark class changes.
+    var last = utTheme();
+    new MutationObserver(function () {
+      var now = utTheme();
+      if (now === last) return;
+      last = now;
+      var frame = document.querySelector(".utterances-frame");
+      if (frame) {
+        frame.contentWindow.postMessage(
+          { type: "set-theme", theme: now },
+          "https://utteranc.es"
+        );
+      }
+    }).observe(root, { attributes: true, attributeFilter: ["class"] });
+  })();
 </script>
 {% endmacro %}

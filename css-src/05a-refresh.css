@@ -1,0 +1,1345 @@
+/* =========================================================================
+   Refresh layer — blog + travlog high-fidelity reskin (design 4a / 5a / 6a).
+
+   Concatenated AFTER 05-theme.css, so equal-specificity rules here win by
+   source order (see css-src/README.md). All brand colour flows from --brand
+   (02-tokens.css); a site recolours everything by overriding --brand and the
+   header-chrome tokens in its own CSS_OVERRIDE file — no rule below hardcodes
+   a brand hue.
+
+   Typeface note: the mockup uses Noto Sans TC + IBM Plex Mono. Those are a
+   per-site font-loading choice; this layer only references --font-mono and the
+   theme's --font-primary, so wiring the exact faces later needs no CSS change.
+   ========================================================================= */
+
+/* ---- page canvas -------------------------------------------------------- */
+body {
+  background: var(--paper);
+  color: var(--ink-body);
+}
+
+/* .page-wrapper is a flex column; its items default to min-width:auto, so a
+   single wide descendant (code block, commit chart, long mono line) stretches
+   the whole column — and thus the header + article — past the viewport on
+   narrow screens. min-width:0 + overflow-x:clip cap each item's intrinsic width
+   so the column stays viewport-wide and content wraps. */
+.page-wrapper > * {
+  min-width: 0;
+  overflow-x: clip;
+}
+
+/* Shared 640px reading column. The header/banner keep their full-width dark
+   background; only the inner content is constrained + centred. Scoped to the
+   article/page body so it doesn't over-pad each card on the listing body. */
+.post-template .post > .inner,
+.page-template .post > .inner,
+.series-list-template .post > .inner,
+.categories-template .post > .inner,
+.authors-template .post > .inner,
+.pages-template .post > .inner {
+  box-sizing: border-box; /* keep padding inside width:100% so it can't overflow */
+  max-width: 868px; /* ~820 content + 24 side padding each side */
+  padding: 36px 24px 8px;
+}
+
+/* Listing body: same tight column width, vertical rhythm comes from the cards. */
+.home-template .post > .inner {
+  box-sizing: border-box;
+  max-width: 868px;
+  padding: 0 24px;
+}
+
+/* =========================================================================
+   1. Article header — collapse the full-screen hero into the compact dark
+      header with a dual-gradient scrim + brand underline.
+   ========================================================================= */
+.post-header,
+.post-header.has-cover {
+  display: flex;
+  align-items: center; /* centre the title block within the header */
+  padding: 60px 44px;
+  margin-bottom: 0;
+  background: var(--banner-grad);
+  border-bottom: 3px solid var(--brand); /* the brand divider band */
+  overflow: hidden;
+  text-shadow: none;
+}
+
+.post-header .inner {
+  text-align: center;
+}
+
+.post-header.has-cover .post-head-meta,
+.post-header.has-cover .post-title,
+.post-header.has-cover .post-subtitle-white {
+  text-shadow: 0 1px 16px rgba(0, 0, 0, 0.55);
+}
+
+/* Give the cover real presence — tall enough that landscape photos aren't
+   reduced to a sliver, but capped so it never becomes a full-screen hero. */
+.post-header.has-cover {
+  min-height: clamp(360px, 56vh, 620px);
+}
+
+.post-header .inner {
+  position: relative;
+  z-index: 10;
+  max-width: 820px;
+  padding: 0;
+}
+
+/* Cover image fills the header; dual scrim keeps the title legible over any
+   photo (top darken → mid clear → strong bottom darken). */
+.post-cover {
+  z-index: 1;
+}
+
+.post-cover:after {
+  height: 100%;
+  top: 0;
+  bottom: auto;
+  background: linear-gradient(
+    180deg,
+    rgba(var(--header-scrim), 0.46),
+    rgba(var(--header-scrim), 0.34) 50%,
+    rgba(var(--header-scrim), 0.72)
+  );
+}
+
+/* Meta (below the title): two clear tiers — a category kicker on top, then the
+   date · reading-time · word-count as one muted mono line. Keeps the three
+   kinds of info from blurring together. */
+.post-head-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  margin-top: 22px;
+}
+
+/* Category as a pill badge — reads clearly as "the category", distinct from the
+   date/stats line below it. */
+.post-head-cat {
+  display: inline-block;
+  padding: 6px 16px;
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--header-meta) 20%, transparent);
+  color: var(--header-meta);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-decoration: none;
+}
+
+.post-head-date {
+  font-family: var(--font-mono);
+  font-size: 17.5px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.post-header .post-title,
+.has-cover .post-title {
+  margin: 0;
+  font-size: 40px;
+  line-height: 1.35;
+  font-weight: 700;
+  color: #fff;
+}
+
+.post-subtitle-white {
+  display: block;
+  margin-top: 14px;
+  font-size: 22px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+/* Progress bar picks up the brand automatically via --color-primary. */
+
+/* =========================================================================
+   2. Article body typography
+   ========================================================================= */
+.post-content {
+  font-family: var(--font-primary); /* design uses a sans body, not the serif */
+  font-size: 19px;
+  line-height: 1.8;
+  color: var(--ink-body);
+}
+
+.post-content p,
+.post-content li,
+.post-content dl {
+  font-family: var(--font-primary);
+}
+
+.post-content p {
+  margin: 0 0 16px;
+}
+
+.post-content li {
+  margin-bottom: 4px;
+}
+
+/* Links: brand text + soft brand underline (replaces the inset box-shadow).
+   Uses --brand-text so links stay legible against the dark theme. */
+.post-content a {
+  color: var(--brand-text);
+  box-shadow: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--brand-text) 42%, transparent);
+}
+
+.post-content a:focus,
+.post-content a:hover {
+  box-shadow: none;
+  border-bottom-color: var(--brand-text);
+}
+
+.post-content h1,
+.post-content h2,
+.post-content h3,
+.post-content h4,
+.post-content h5,
+.post-content h6 {
+  color: var(--ink-title);
+  line-height: 1.4;
+}
+
+.post-content h1 {
+  font-size: 28px;
+  margin: 36px 0 16px;
+}
+
+.post-content h2 {
+  font-size: 23px;
+  font-weight: 700;
+  margin: 36px 0 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.post-content h3 {
+  font-size: 20px;
+  margin: 30px 0 12px;
+}
+
+.post-content h4,
+.post-content h5,
+.post-content h6 {
+  font-size: 17px;
+  margin: 26px 0 10px;
+}
+
+.post-content blockquote {
+  margin: 0 0 22px;
+  padding: 14px 22px;
+  border-inline-start: 3px solid var(--brand);
+  border-radius: 0 var(--radius-small) var(--radius-small) 0;
+  background: var(--brand-quote);
+  font-family: var(--font-primary);
+  font-style: normal;
+  font-size: 17px;
+  line-height: 1.85;
+  color: color-mix(in srgb, var(--brand) 22%, var(--ink-body));
+}
+
+.post-content hr {
+  margin: 0 0 22px;
+  background: var(--rule);
+}
+
+/* Inline code → soft chip; code blocks → the dark top-bar colour. Geometry of
+   the theme's line-number gutter is left intact; only colours/radius change. */
+.post-content code,
+.post-content tt {
+  top: 0;
+  margin: 0 2px;
+  padding: 2px 6px;
+  border: 0;
+  border-radius: var(--radius-small);
+  background: var(--tag-bg);
+  color: var(--ink-title);
+  font-size: 0.9em;
+}
+
+.post-content pre {
+  border: 0;
+  border-radius: var(--radius-medium);
+  background: var(--code-bg);
+  font-size: 13px;
+}
+
+.post-content pre code,
+.post-content pre tt {
+  background: transparent;
+  color: var(--code-ink);
+}
+
+/* Mermaid renders into <pre class="mermaid">; keep its own diagram colours by
+   not painting the dark code-block background/text over it. */
+.post-content pre.mermaid {
+  padding: 12px;
+  border: 0;
+  border-radius: var(--radius-medium);
+  /* Mermaid draws a light-theme diagram (dark strokes/text). On the dark page
+     those vanish, so give the block a light surface in dark mode. */
+  background: light-dark(transparent, #eef0f3);
+  color: inherit;
+  font-size: inherit;
+  text-align: center;
+}
+
+.post-content pre .lines {
+  background: var(--code-bg);
+  border-inline-end-color: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.post-content img {
+  border-radius: var(--radius-medium);
+}
+
+/* Collapsible <details> (pymdownx ??? blocks) — clean card with a comfortable
+   content area (the theme left the list flush against the bottom border). */
+.post-content details {
+  margin: 0 0 22px;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-medium);
+}
+
+.post-content summary {
+  padding: 14px 20px;
+  background: var(--tag-bg);
+  color: var(--ink-title);
+  font-weight: 700;
+}
+
+.post-content summary:hover {
+  background: var(--rule);
+}
+
+.post-content details[open] > summary {
+  border-bottom: 1px solid var(--rule);
+}
+
+.post-content details > *:not(summary):not(pre):not(.highlight) {
+  padding-inline: 20px;
+}
+
+.post-content details[open] > *:not(summary):first-of-type {
+  margin-top: 14px;
+}
+
+.post-content details > :last-child {
+  margin-bottom: 14px;
+}
+
+/* =========================================================================
+   3. Tags — flat neutral chips (replaces the brand pill)
+   ========================================================================= */
+.post-tags {
+  max-width: none;
+  float: none;
+  gap: 8px;
+  margin-top: 26px;
+}
+
+.post-tags a {
+  margin: 0;
+  padding: 5px 12px;
+  border-radius: var(--radius-small);
+  background: var(--tag-bg);
+  color: var(--tag-ink);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.8;
+}
+
+.post-tags a:focus,
+.post-tags a:hover {
+  background: var(--rule);
+  color: var(--ink-title);
+}
+
+/* On the dark article header, chips stay legible. */
+.has-cover .post-header .post-tags a {
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+}
+
+.has-cover .post-header .post-tags a:focus,
+.has-cover .post-header .post-tags a:hover {
+  background: rgba(255, 255, 255, 0.28);
+}
+
+/* =========================================================================
+   3b. Post footer — share row + license. The theme floats .post-share to 33%
+       width, which squeezes the "分享" label into a vertical stack and collides
+       with the license. Make it a plain full-width row, license stacked below.
+   ========================================================================= */
+.post-footer {
+  margin: 44px 0 24px;
+}
+
+.post-share {
+  max-width: none;
+  float: none;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.post-info-label {
+  margin-inline-end: 8px;
+  font-size: 16px;
+  line-height: 1.5;
+  white-space: nowrap;
+  color: var(--ink-muted);
+}
+
+.post-share a {
+  width: 36px;
+  height: 36px;
+  margin: 0;
+  font-size: 17px;
+  line-height: 36px;
+}
+
+.post-license {
+  clear: none;
+  margin-top: 18px;
+  font-size: 14px;
+}
+
+/* =========================================================================
+   4. Series box
+   ========================================================================= */
+.series {
+  margin-top: 26px;
+  padding: 20px 24px;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-medium);
+}
+
+.series > p {
+  margin: 0 0 12px;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  color: var(--ink-faint);
+}
+
+.series .parts {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.series .parts li {
+  margin: 0.35em 0;
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+.series .parts li a {
+  color: var(--ink-body);
+  box-shadow: none;
+  border: 0;
+  text-decoration: none;
+}
+
+.series .parts li.active a,
+.series .parts li a:hover {
+  color: var(--brand-text);
+  font-weight: 500;
+}
+
+/* =========================================================================
+   5. Prev / next — two-column grid, left = older, right = newer.
+   ========================================================================= */
+.post-nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 26px 0 30px;
+  border: 0;
+}
+
+.post-nav:after {
+  display: none;
+}
+
+/* The whole column is the link (not just the title), so the entire card is a
+   comfortable click/tap target. */
+.post-nav-col {
+  display: block;
+  padding: 12px 2px 4px;
+  border-top: 2px solid var(--ink-title);
+  color: inherit;
+  text-decoration: none;
+  box-shadow: none;
+  border-inline: 0;
+  border-bottom: 0;
+  transition: border-top-color 0.15s ease;
+}
+
+a.post-nav-col:hover {
+  border-top-color: var(--brand);
+}
+
+.post-nav-newer {
+  text-align: right;
+}
+
+/* Empty side (no older/newer post) reads as a faint placeholder. */
+.post-nav-col.is-empty {
+  border-top-color: var(--rule);
+}
+
+.post-nav-label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 16.5px;
+  color: var(--ink-faint);
+}
+
+.post-nav-title {
+  display: block;
+  margin: 0;
+  font-size: 16.5px;
+  font-weight: 700;
+  line-height: 1.5;
+  color: var(--ink-title);
+}
+
+a.post-nav-col:hover .post-nav-title {
+  color: var(--brand-text);
+}
+
+.post-nav-meta {
+  display: block;
+  margin: 4px 0 0;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--ink-faint);
+}
+
+/* =========================================================================
+   6. Home / listing — month-grouped rows (design 4a). All listing pages
+      (home, category, tag, author, archives, series, pages) share this via
+      partials/post_list.html + partials/listing_banner.html.
+   ========================================================================= */
+.post-card-readtime {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--ink-faint);
+}
+
+.site-banner .inner {
+  box-sizing: border-box;
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+#index .inner {
+  box-sizing: border-box;
+  max-width: 868px;
+  margin: 0 auto;
+  padding: 30px 24px 10px;
+}
+
+.post-row {
+  display: flex;
+  gap: 18px;
+  align-items: baseline;
+  padding: 18px 0;
+  border-bottom: 1px dashed var(--rule);
+}
+
+.post-row-day {
+  flex: none;
+  width: 32px;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--ink-faint);
+}
+
+.post-row-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.post-row-title {
+  margin: 0;
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1.5;
+  color: var(--ink-title);
+  overflow-wrap: anywhere; /* never let a long title overflow the column */
+}
+
+.post-row-title a {
+  color: inherit;
+  text-decoration: none;
+  box-shadow: none;
+  border: 0;
+}
+
+.post-row-title a:hover {
+  color: var(--brand-text);
+}
+
+.post-row-sub {
+  margin-inline-start: 8px;
+  font-size: 16.5px;
+  font-weight: 400;
+  color: var(--ink-muted);
+}
+
+.post-row-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
+  font-size: 14px;
+  color: var(--ink-faint);
+}
+
+.post-row-cat {
+  color: var(--brand-text);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+/* Pagination row on the listing. */
+#index .extra-pagination {
+  display: none; /* keep just the bottom pager, matching the design */
+}
+
+/* =========================================================================
+   7. Pagination
+   ========================================================================= */
+.pagination .pagination-info {
+  font-family: var(--font-mono);
+  color: var(--ink-faint);
+}
+
+.pagination a {
+  color: var(--brand-text);
+}
+
+/* =========================================================================
+   8. Listing banner — title / subtitle over an optional cover, used by every
+      listing page via partials/listing_banner.html.
+   ========================================================================= */
+.site-banner {
+  position: relative;
+  overflow: hidden;
+  padding: 38px 44px 0;
+  background: var(--banner-grad);
+}
+
+.site-banner .inner {
+  position: relative;
+  z-index: 10;
+}
+
+/* When a cover image/colour is set, it renders as a .blog-cover element behind
+   a dark scrim so the title / tabs stay legible. */
+.site-banner.has-cover {
+  padding-top: 52px;
+  min-height: 220px;
+}
+
+.site-banner .blog-cover {
+  z-index: 1;
+}
+
+.site-banner.has-cover .blog-cover:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    150deg,
+    rgba(var(--header-scrim), 0.42),
+    rgba(var(--header-scrim), 0.66)
+  );
+}
+
+.site-banner.has-cover .banner-title,
+.site-banner.has-cover .banner-sub {
+  text-shadow: 0 1px 14px rgba(0, 0, 0, 0.55);
+}
+
+.site-banner.has-cover .banner-sub {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.site-banner .banner-title {
+  margin: 0;
+  font-size: 37px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.site-banner .banner-sub {
+  margin: 12px 0 0;
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.66);
+}
+
+/* Month group header in the listing. */
+.post-month {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 20px 0 4px;
+}
+
+.post-month .post-month-label {
+  font-family: var(--font-mono);
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--brand-text);
+}
+
+.post-month .post-month-rule {
+  flex: 1;
+  height: 1px;
+  background: var(--rule);
+}
+
+/* Full-bleed photo + centred caption (travlog). */
+.post-content .full-photo {
+  margin: 0 0 10px;
+  border-radius: var(--radius-medium);
+  overflow: hidden;
+}
+
+.post-content .full-photo img {
+  display: block;
+  width: 100%;
+  border-radius: 0;
+}
+
+.post-content .full-photo-caption {
+  margin: 0 0 22px;
+  font-size: 12.5px;
+  text-align: center;
+  color: var(--ink-muted);
+}
+
+/* =========================================================================
+   8b. Series index page — styled list (was bare <li>s).
+   ========================================================================= */
+.series-index {
+  list-style: none;
+  margin: 14px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 14px;
+}
+
+/* Suppress the theme's dash bullet (.post-content ul > li:before) on this list. */
+.post-content .series-index > li:before {
+  content: none;
+  display: none;
+}
+
+.post-content .series-index > li {
+  margin: 0;
+}
+
+.series-index-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 22px 24px;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-medium);
+  color: var(--ink-title);
+  text-decoration: none;
+  box-shadow: none;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease;
+}
+
+.series-index-link:hover {
+  border-color: color-mix(in srgb, var(--brand) 45%, var(--rule));
+  background: var(--brand-quote);
+}
+
+/* Override the inherited .post-content a colour/underline so the card link
+   text reads as a heading, with the brand accent carried by the count pill. */
+.post-content .series-index-link {
+  color: var(--ink-title);
+  border-bottom: 0;
+}
+
+.post-content .series-index-link:hover .series-index-name {
+  color: var(--brand-text);
+}
+
+.series-index-name {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.series-index-count {
+  flex: none;
+  padding: 4px 13px;
+  border-radius: var(--radius-pill);
+  background: var(--brand);
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* =========================================================================
+   8c. "On this day" widget — align the plugin's output with the refresh.
+       Prefixed with `body` to win over the plugin stylesheet regardless of
+       load order.
+   ========================================================================= */
+body #on-this-day {
+  border-color: var(--rule);
+}
+
+body #on-this-day .inner {
+  max-width: 688px;
+  margin: 0 auto;
+  padding: 22px 24px;
+}
+
+body .on-this-day-label {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  color: var(--brand-text);
+}
+
+body .on-this-day-grid {
+  max-width: none;
+}
+
+body #on-this-day .post-nav-teaser {
+  padding: 11px 0;
+  gap: 16px;
+  border-top: 0;
+}
+
+body #on-this-day .post-nav-title {
+  font-size: 18.5px;
+  font-weight: 700;
+  color: var(--ink-title);
+}
+
+body #on-this-day .post-nav-meta {
+  font-family: var(--font-mono);
+  font-size: 15.5px;
+  color: var(--ink-faint);
+}
+
+/* Blogroll badges: show each at its natural size (the forced uniform height
+   upscaled/blurred the small retro buttons). */
+.post-content td img,
+.post-content th img {
+  height: auto;
+  width: auto;
+  max-width: none;
+  vertical-align: middle;
+}
+
+/* Mastodon share button was missing its brand colour (icon vanished on the
+   light page); give it the Mastodon purple like the other networks. */
+.post-share .mastodon {
+  background-color: #6364ff;
+}
+
+/* =========================================================================
+   8e. Tags index — cloud of chips sized by weight.
+   ========================================================================= */
+.tag-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: baseline;
+}
+
+.tag-pill {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  background: var(--tag-bg);
+  color: var(--ink-body);
+  text-decoration: none;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.tag-pill:hover {
+  background: var(--brand);
+  color: #fff;
+}
+
+.tag-pill .tag-count {
+  font-family: var(--font-mono);
+  font-size: 0.78em;
+  color: var(--ink-faint);
+}
+
+.tag-pill:hover .tag-count {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.tag-weight-1 { font-size: 14px; }
+.tag-weight-2 { font-size: 16px; }
+.tag-weight-3 { font-size: 18px; }
+.tag-weight-4 { font-size: 20.5px; }
+.tag-weight-5 { font-size: 23px; }
+
+/* =========================================================================
+   8f. Archives — year-grouped, clickable date rows.
+   ========================================================================= */
+.archives-page .archives-year {
+  margin: 30px 0 8px;
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--brand-text);
+}
+
+.archives-page .archives-year:first-child {
+  margin-top: 0;
+}
+
+.archive-entry {
+  display: flex;
+  gap: 16px;
+  align-items: baseline;
+  padding: 12px 2px;
+  border-bottom: 1px dashed var(--rule);
+  color: inherit;
+  text-decoration: none;
+}
+
+.archive-entry:hover .archive-title {
+  color: var(--brand-text);
+}
+
+.archive-date {
+  flex: none;
+  width: 52px;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--ink-faint);
+}
+
+.archive-title {
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--ink-title);
+}
+
+.archive-subtitle {
+  margin-inline-start: 8px;
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--ink-muted);
+}
+
+/* Author page profile strip (avatar + social links) above the article list. */
+.author-profile {
+  box-sizing: border-box;
+  max-width: 868px;
+  margin: 0 auto;
+  padding: 28px 24px 0;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.author-profile-avatar {
+  flex: none;
+  width: 56px;
+  height: 56px;
+  margin: 0;
+  border-radius: 100%;
+  overflow: hidden;
+}
+
+.author-profile-avatar img {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  object-fit: cover;
+  border-radius: 0;
+}
+
+.author-profile .archive-links {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.author-profile .archive-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+  background: var(--tag-bg);
+  color: var(--ink-body);
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.author-profile .archive-links a:hover {
+  background: var(--brand);
+  color: #fff;
+}
+
+/* Mobile: the theme fixes the hamburger + search bar to the top, which just
+   covers content while reading. Let it scroll away with the page — and give it
+   the dark top-bar colour so it doesn't render as a blank white strip. */
+.site-blog .nav-wrapper-control,
+.site-travlog .nav-wrapper-control {
+  position: relative;
+  background: var(--topbar-bg);
+  color: #cfd3d8;
+}
+
+/* Mobile off-canvas menu panel: solid dark background so the white menu items
+   (incl. the 分類 / 探索 dropdowns) never vanish over page content. */
+@media (max-width: 640px) {
+  .site-blog .nav-header,
+  .site-travlog .nav-header {
+    background: var(--topbar-bg);
+  }
+}
+
+/* =========================================================================
+   9. Slim top bar — flatten the theme's absolute off-canvas nav into a dark
+      bar in normal flow (scoped to the two sites; theme toggle / language /
+      search all kept). Left: site switch + menu; right: meta + controls.
+   Desktop only — below 769px the theme's off-canvas hamburger nav takes over
+   (flattening it there caused every item to cram + overlap on phones).
+   ========================================================================= */
+@media (min-width: 769px) {
+.site-blog .nav-header,
+.site-travlog .nav-header {
+  position: sticky;
+  top: 0;
+  transform: none;
+  background: var(--topbar-bg);
+  z-index: 400;
+}
+
+.site-blog .nav-header .nav-wrapper,
+.site-travlog .nav-header .nav-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  max-width: none;
+  min-height: 0;
+  height: auto;
+  margin: 0;
+  padding: 22px 48px;
+}
+
+.site-blog .nav-header ul.nav-menu-items,
+.site-travlog .nav-header ul.nav-menu-items {
+  display: flex;
+  gap: 26px;
+  margin: 0;
+  margin-inline-end: auto;
+  padding: 0;
+}
+
+.site-blog .nav-header ul.nav-meta,
+.site-blog .nav-header ul.nav-controls,
+.site-travlog .nav-header ul.nav-meta,
+.site-travlog .nav-header ul.nav-controls {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+.site-blog .nav-header li,
+.site-travlog .nav-header li {
+  margin: 0;
+}
+
+.site-blog .nav-header li a,
+.site-blog .nav-header li button,
+.site-travlog .nav-header li a,
+.site-travlog .nav-header li button {
+  padding: 0;
+  font-size: 17.5px;
+  line-height: 1.4;
+  color: #cfd3d8;
+  background: transparent;
+  border: 0;
+}
+
+.site-blog .nav-header li a:hover,
+.site-blog .nav-header li button:hover,
+.site-travlog .nav-header li a:hover,
+.site-travlog .nav-header li button:hover {
+  color: #fff;
+  background: transparent;
+}
+
+.site-blog .nav-header li.active a:before,
+.site-travlog .nav-header li.active a:before {
+  display: none;
+}
+
+/* Dropdown toggles (分類 / 探索) — the theme styles these at font-size:1.6em
+   with a secondary (gray) colour and 1rem padding, at a specificity that beats
+   the generic li-button rule above. Match the slim bar explicitly. */
+.site-blog .nav-header li.nav-dropdown > .nav-dropdown-toggle,
+.site-travlog .nav-header li.nav-dropdown > .nav-dropdown-toggle {
+  padding: 0;
+  font-size: 17.5px;
+  line-height: 1.4;
+  color: #cfd3d8;
+}
+
+.site-blog .nav-header li.nav-dropdown > .nav-dropdown-toggle:hover,
+.site-blog .nav-header li.nav-dropdown.active > .nav-dropdown-toggle,
+.site-travlog .nav-header li.nav-dropdown > .nav-dropdown-toggle:hover,
+.site-travlog .nav-header li.nav-dropdown.active > .nav-dropdown-toggle {
+  color: #fff;
+}
+
+/* Dropdown menu popover reads on its own light surface. Give it comfortable
+   hit areas and normal-size text (not the slim-bar size). */
+.site-blog .nav-header .nav-dropdown-menu,
+.site-travlog .nav-header .nav-dropdown-menu {
+  margin-top: 8px;
+  min-width: 168px;
+  padding: 6px;
+}
+
+.site-blog .nav-header .nav-dropdown-menu li a,
+.site-travlog .nav-header .nav-dropdown-menu li a {
+  padding: 10px 14px;
+  border-radius: var(--radius-small);
+  font-size: 16px;
+  color: var(--ink-body);
+}
+
+.site-blog .nav-header .nav-dropdown-menu li a:hover,
+.site-travlog .nav-header .nav-dropdown-menu li a:hover {
+  background: var(--tag-bg);
+  color: var(--ink-title);
+}
+
+/* Language switcher popover — same card treatment (theme sizes its items at
+   1.4em with gray !important colours, so match + override with !important). */
+.site-blog .nav-header .nav-language-dropdown,
+.site-travlog .nav-header .nav-language-dropdown {
+  margin-top: 8px;
+  min-width: 150px;
+  padding: 6px;
+}
+
+.site-blog .nav-header .nav-language-dropdown li a,
+.site-travlog .nav-header .nav-language-dropdown li a {
+  padding: 10px 14px;
+  border-radius: var(--radius-small);
+  font-size: 16px;
+  color: var(--ink-body) !important;
+}
+
+.site-blog .nav-header .nav-language-dropdown li a[aria-current="page"],
+.site-travlog .nav-header .nav-language-dropdown li a[aria-current="page"] {
+  color: var(--ink-title) !important;
+  font-weight: 600;
+}
+
+.site-blog .nav-header .nav-language-dropdown li a:hover,
+.site-travlog .nav-header .nav-language-dropdown li a:hover {
+  background: var(--tag-bg);
+  color: var(--ink-title) !important;
+}
+
+/* Language toggle label in the bar. */
+.site-blog .nav-header .nav-language-label,
+.site-travlog .nav-header .nav-language-label {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+/* The bar is always visible now, so drop the hamburger + off-canvas overlay,
+   and the top padding the theme used to reserve for the absolute nav. */
+.site-blog .nav-wrapper-control,
+.site-travlog .nav-wrapper-control,
+.site-blog .nav-close,
+.site-travlog .nav-close {
+  display: none;
+}
+
+.site-blog .page-wrapper,
+.site-travlog .page-wrapper {
+  padding-top: 0;
+}
+} /* end @media (min-width: 769px) — slim top bar */
+
+/* =========================================================================
+   10. Mobile adjustments — smaller header type so titles don't overlap, and
+       tighter gutters on phones.
+   ========================================================================= */
+@media (max-width: 640px) {
+  /* Pin the whole column to the viewport so nothing can size to content and
+     push the page wider than the screen (the root cause of clipped titles/meta
+     and horizontal drift on phones). */
+  html {
+    overflow-x: hidden;
+  }
+
+  .site-blog #wrapper.page-wrapper,
+  .site-travlog #wrapper.page-wrapper {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    overflow-x: hidden;
+  }
+
+  .site-blog .page-wrapper > *,
+  .site-travlog .page-wrapper > * {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0;
+  }
+
+  /* Drop flex on mobile: a flex item is sized to its (unwrapped) content, which
+     was forcing the long meta line to overflow. Plain block wraps correctly. */
+  .post-header,
+  .post-header.has-cover {
+    display: block;
+    padding: 40px 22px;
+    min-height: 0;
+  }
+
+  /* Cap to the viewport (minus the header's 22px gutters) so the content wraps
+     regardless of any shrink-to-fit ancestor. */
+  .post-header .inner {
+    max-width: 100%;
+    margin: 0 auto;
+  }
+
+  .post-head-date {
+    overflow-wrap: anywhere;
+  }
+
+  .post-header .post-title,
+  .has-cover .post-title {
+    font-size: 27px;
+    line-height: 1.3;
+  }
+
+  .post-subtitle-white {
+    font-size: 17px;
+  }
+
+  /* Plain centred block so the long date line wraps instead of clipping
+     (a flex item is sized to its content and won't wrap). */
+  .post-header .post-head-meta {
+    display: block;
+    text-align: center;
+    margin-top: 14px;
+    font-size: 13.5px;
+    line-height: 1.7;
+    white-space: normal;
+  }
+
+  .post-header .post-head-cat {
+    display: inline;
+    margin-inline-end: 8px;
+  }
+
+  .post-header .post-head-date {
+    display: inline;
+    font-size: inherit;
+    white-space: normal;
+    word-break: break-word;
+  }
+
+  .site-banner {
+    padding: 32px 22px 0;
+  }
+
+  .site-banner .banner-title {
+    font-size: 26px;
+  }
+
+  .post-content {
+    font-size: 17px;
+  }
+
+  /* Listing rows: tighter gutter, subtitle drops below the title so long
+     titles wrap within the viewport instead of overflowing. Pin the whole
+     #index chain to the viewport so a long title can't size it to content. */
+  #index,
+  #index > #site-main,
+  #index .inner {
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  #index .inner {
+    padding: 24px 18px 12px;
+  }
+
+  /* The listing column was sizing to its widest row's content (a shrink-to-fit
+     ancestor), so a long title pushed the whole row off-screen. Pin the chain to
+     the parent width and let each level clip, so rows can never exceed the
+     viewport; the grid row then wraps the title. */
+  #index > #site-main,
+  #index .inner {
+    box-sizing: border-box;
+    width: 100%;
+    overflow-x: clip;
+  }
+
+  .post-row {
+    display: grid;
+    grid-template-columns: 24px minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  .post-row-day {
+    width: auto;
+  }
+
+  .post-row-body {
+    min-width: 0;
+  }
+
+  .post-row-title {
+    font-size: 18px;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .post-row-sub {
+    display: block;
+    margin: 3px 0 0;
+    font-size: 15px;
+  }
+}

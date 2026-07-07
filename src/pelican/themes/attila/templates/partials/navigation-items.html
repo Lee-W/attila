@@ -35,7 +35,7 @@
 </ul>
 
 <ul class="nav-meta">
-  {% set fa_icons = {'facebook': 'facebook', 'twitter': 'x-twitter', 'linkedin': 'linkedin', 'github': 'github'} %}
+  {% set fa_icons = {'facebook': 'facebook', 'twitter': 'twitter', 'linkedin': 'linkedin', 'github': 'github'} %}
   {% for name, link in SOCIAL if name.lower() in fa_icons %}
     <li class="nav-{{name.lower()}}">
       <a aria-label="{{name|title}}" href="{{ link }}" target="_blank" rel="noopener">

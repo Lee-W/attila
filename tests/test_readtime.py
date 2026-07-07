@@ -89,7 +89,7 @@ def test_article_template_renders_readtime_meta(
         _, soup = gen_article_and_html_from_rst("content/article_special.rst")
     finally:
         signals.content_object_init.disconnect(add_readtime)
-    meta = soup.select_one(".post-meta").get_text()
+    meta = soup.select_one(".post-head-date").get_text()
     assert "min read" in meta
     assert "words" in meta
 
@@ -98,7 +98,7 @@ def test_article_template_omits_readtime_when_plugin_is_disabled(
     gen_article_and_html_from_rst: Callable,
 ):
     _, soup = gen_article_and_html_from_rst("content/article_special.rst")
-    meta = soup.select_one(".post-meta").get_text()
+    meta = soup.select_one(".post-head-date").get_text()
     assert "min read" not in meta
     assert "words" not in meta
 
@@ -113,7 +113,7 @@ def test_article_template_renders_readtime_meta_in_zh_tw(
         )
     finally:
         signals.content_object_init.disconnect(add_readtime)
-    meta = soup.select_one(".post-meta").get_text()
+    meta = soup.select_one(".post-head-date").get_text()
     assert "閱讀時間約 1 分鐘" in meta
     assert "共 34 字" in meta
 

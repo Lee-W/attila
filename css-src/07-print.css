@@ -9,6 +9,7 @@
   .nav-header,
   .nav-footer,
   .nav-close,
+  .nav-wrapper-control,
   .progress-container,
   .post-cover,
   .post-share,
@@ -17,8 +18,52 @@
   .post-nav,
   .pagination,
   .extra-pagination,
-  .heading-anchor {
+  .heading-anchor,
+  #on-this-day {
     display: none !important;
+  }
+
+  /* The refreshed article/listing headers are dark banners with white text.
+     On paper, flatten them to plain black-on-white so they don't waste ink or
+     render as an unreadable dark block. */
+  .post-header,
+  .post-header.has-cover,
+  .site-banner {
+    display: block !important;
+    min-height: 0 !important;
+    padding: 0 0 1rem !important;
+    background: none !important;
+    border-bottom: 0 !important;
+    text-align: start !important;
+  }
+
+  .post-header .inner,
+  .site-banner .inner {
+    max-width: none !important;
+    text-align: start !important;
+  }
+
+  .post-title,
+  .has-cover .post-title,
+  .post-subtitle-white,
+  .post-head-date,
+  .banner-title,
+  .banner-sub {
+    color: #000 !important;
+    text-shadow: none !important;
+  }
+
+  .post-head-meta {
+    flex-direction: row !important;
+    align-items: baseline !important;
+    gap: 0.75em !important;
+  }
+
+  .post-head-cat {
+    padding: 0 !important;
+    background: none !important;
+    color: #000 !important;
+    font-weight: 700;
   }
 
   .post-content a[href^="http"]::after {

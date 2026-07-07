@@ -1,9 +1,10 @@
 {% extends "base.html" %}
+{% import "partials/i18n.html" as i18n with context %}
 
 {% block title %}{{ SITENAME }} - Articles in the {{ category }} category{% endblock %}
 
-{# <!-- Choosing cover image --> #}
 {% set category_cover = None %}
+{% set category_color = None %}
 {% set category_description = None %}
 {% if CATEGORY_META and CATEGORY_META[category.name.lower()] %}
   {% set category_cover = CATEGORY_META[category.name.lower()].cover %}
@@ -11,80 +12,21 @@
   {% set category_description = CATEGORY_META[category.name.lower()].description %}
 {% endif %}
 
-{% if category_cover %}
-  {% if category_cover|lower|truncate(4, True, '') == "http" %}
-    {% set selected_cover = category_cover %}
-  {% elif category_cover.startswith('/') %}
-    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+category_cover %}
-  {% else %}
-    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+"/"+category_cover %}
-  {% endif %}
-{% elif category_color %}
-  {% set selected_color = category_color %}
-{% elif HEADER_COVER %}
-  {% if HEADER_COVER|lower|truncate(4, True, '') == "http" %}
-    {% set selected_cover = HEADER_COVER %}
-  {% elif HEADER_COVER.startswith('/') %}
-    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+HEADER_COVER %}
-  {% else %}
-    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+"/"+HEADER_COVER %}
-  {% endif %}
-{% elif HOME_COVER %}
-  {% if HOME_COVER|lower|truncate(4, True, '') == "http" %}
-    {% set selected_cover = HOME_COVER %}
-  {% elif HOME_COVER.startswith('/') %}
-    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+HOME_COVER %}
-  {% else %}
-    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+"/"+HOME_COVER %}
-  {% endif %}
-{% elif HEADER_COLOR %}
-  {% set selected_color = HEADER_COLOR %}
+{% set _cover_src = category_cover or HEADER_COVER or HOME_COVER %}
+{% if _cover_src %}
+  {% set banner_cover = _cover_src if _cover_src|lower|truncate(4, True, '') == "http" else (STATIC_SITEURL|default(SITEURL)) + ("" if _cover_src.startswith('/') else "/") + _cover_src %}
+{% elif category_color or HEADER_COLOR %}
+  {% set banner_color = category_color or HEADER_COLOR %}
 {% endif %}
 
 {% block canonical_url %}<link href="{{ SITEURL }}/{{category.url}}" rel="canonical" />{% endblock canonical_url %}
 
 {% block header %}
-    <!-- Page Header -->
-    <!-- Set your background image for this header on the line below. -->
-    <header class="blog-header {% if selected_cover or selected_color %} has-cover {% endif %}">
-      <div class="inner">
-        <div class="archive archive-tag box archive-box">
-          <span class="archive-info">
-            <span class="archive-type">{{ i18n.t("Category") }}</span>
-            <span class="archive-count">
-            {% if articles|count == 1 %}
-            {{ articles|count }} {{ i18n.t("Post") }}
-            {% else %}
-            {{ articles|count }} {{ i18n.t("Posts") }}
-            {% endif %}
-            </span>
-          </span>
-          <h2 class="archive-title">{{ (CATEGORY_TRANSLATIONS|default({})).get(category.name, category.name) }}</h2>
-          {% if category_description %}
-            <span class="archive-description">{{category_description}}</span>
-          {% endif %}
-        </div>
-
-        {% if selected_cover %}
-          <div class="blog-cover cover">
-            {% if "image_process" is plugin_enabled %}
-              {{ images.cover(selected_cover, current_title, "image-process-large-photo") }}
-            {% else %}
-              {{ images.cover(selected_cover, current_title) }}
-            {% endif %}
-          </div>
-        {% elif selected_color %}
-          <div class="blog-cover cover" style="background-color: {{ selected_color }}">
-        {% endif %}
-      </div>
-    </header>
+  {% set banner_title = (CATEGORY_TRANSLATIONS|default({})).get(category.name, category.name) %}
+  {% set banner_sub = category_description or i18n.t("%(count)s Posts", count=articles|count) %}
+  {% include "partials/listing_banner.html" %}
 {% endblock header %}
 
 {% block content %}
-
-<div id="index" class="container">
-  <main id="site-main" class="content">
-    {% include "partials/loop.html" %}
-  </main>
-</div>
+  {% include "partials/post_list.html" %}
 {% endblock content %}

@@ -3,61 +3,31 @@
 
 {% block title %}{{ SITENAME }} - {{ i18n.t("Tags") }}{% endblock %}
 
-{% if HEADER_COVER %}
-  {% if HEADER_COVER|lower|truncate(4, True, '') == "http" %}
-    {% set selected_cover = HEADER_COVER %}
-  {% elif HEADER_COVER.startswith('/') %}
-    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+HEADER_COVER %}
-  {% else %}
-    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+"/"+HEADER_COVER %}
-  {% endif %}
-{% elif HOME_COVER %}
-  {% if HOME_COVER|lower|truncate(4, True, '') == "http" %}
-    {% set selected_cover = HOME_COVER %}
-  {% elif HOME_COVER.startswith('/') %}
-    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+HOME_COVER %}
-  {% else %}
-    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+"/"+HOME_COVER %}
-  {% endif %}
+{% set _cover_src = HEADER_COVER or HOME_COVER %}
+{% if _cover_src %}
+  {% set banner_cover = _cover_src if _cover_src|lower|truncate(4, True, '') == "http" else (STATIC_SITEURL|default(SITEURL)) + ("" if _cover_src.startswith('/') else "/") + _cover_src %}
 {% elif HEADER_COLOR %}
-  {% set selected_color = HEADER_COLOR %}
+  {% set banner_color = HEADER_COLOR %}
+{% endif %}
+
+{% if tags %}
+{% set body_class = 'tags-template' %}
+{% set _ts = TAGS_SAVE_AS|default('') %}
+{% set current_url = ('/' ~ _ts[:-10] if _ts[-10:] == 'index.html' else '/' ~ _ts) if _ts else '/' ~ TAGS_URL|default('tags/') %}
 {% endif %}
 
 {% block canonical_url %}<link href="{{ SITEURL }}/{{ TAGS_URL|default('tags/') }}" rel="canonical" />{% endblock canonical_url %}
 
-{% if tags %}
-{% set body_class='tags-template' %}
-{% set _ts = TAGS_SAVE_AS|default('') %}
-{% set current_url = ('/' ~ _ts[:-10] if _ts[-10:] == 'index.html' else '/' ~ _ts) if _ts else '/' ~ TAGS_URL|default('tags/') %}
-{% set current_title=SITENAME+' - '+i18n.t('Tags') %}
-{% set current_display_title=i18n.t('Tags') %}
-{% endif %}
-
 {% block header %}
-    <!-- Page Header -->
-    <!-- Set your background image for this header on the line below. -->
-    <header class="blog-header {% if selected_cover or selected_color %} has-cover {% endif %}">
-      <div class="inner">
-        <h1 class="post-title">{{ current_display_title }}</h1>
-        {% if selected_cover %}
-          <div class="post-cover cover">
-            {% if "image_process" is plugin_enabled %}
-              {{ images.cover(selected_cover, current_title, "image-process-large-photo") }}
-            {% else %}
-              {{ images.cover(selected_cover, current_title) }}
-            {% endif %}
-          </div>
-        {% elif selected_color %}
-          <div class="post-cover cover" style="background-color: {{ selected_color }}">
-        {% endif %}
-      </div>
-    </header>
+  {% set banner_title = i18n.t("Tags") %}
+  {% include "partials/listing_banner.html" %}
 {% endblock header %}
 
 {% block content %}
   {% set max_count = (tags|map('last')|map('count')|max) or 1 %}
   {% set steps = (TAG_CLOUD_STEPS|default(5, true)) - 1 %}
-  <main id="site-main" class="tags-page">
+<div id="index" class="container">
+  <main id="site-main" class="content tags-page">
     <div class="inner">
       <div class="tag-cloud">
         {% for tag, articles in tags|sort %}
@@ -71,4 +41,5 @@
       </div>
     </div>
   </main>
+</div>
 {% endblock content %}

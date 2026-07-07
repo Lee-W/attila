@@ -1,29 +1,12 @@
-{% extends "base.html" %}
+{# Month-grouped article list, shared by the home / category / tag listings.
+   Expects articles_page (paginated). #}
 {% import "partials/i18n.html" as i18n with context %}
 
-{% block title %}{{ SITENAME }} - Archives for {{ period | reverse | join(' ') }}{% endblock %}
-
-{% set _cover_src = HEADER_COVER or HOME_COVER %}
-{% if _cover_src %}
-  {% set banner_cover = _cover_src if _cover_src|lower|truncate(4, True, '') == "http" else (STATIC_SITEURL|default(SITEURL)) + ("" if _cover_src.startswith('/') else "/") + _cover_src %}
-{% elif HEADER_COLOR %}
-  {% set banner_color = HEADER_COLOR %}
-{% endif %}
-
-{% block canonical_url %}<link href="{{ SITEURL }}/{{ period_num[0] }}/{{ period_num[1] }}" rel="canonical" />{% endblock canonical_url %}
-
-{% block header %}
-  {% set banner_title = period | reverse | join(' ') %}
-  {% set banner_sub = i18n.t("%(count)s Posts", count=dates|count) %}
-  {% include "partials/listing_banner.html" %}
-{% endblock header %}
-
-{% block content %}
 <div id="index" class="container">
-  <main id="site-main" class="content">
+  <main id="site-main" class="content" data-pagefind-ignore>
     <div class="inner">
       {% set ns = namespace(month="") %}
-      {% for article in dates %}
+      {% for article in articles_page.object_list %}
         {% set this_month = article.date.strftime("%Y-%m") %}
         {% if this_month != ns.month %}
           {% set ns.month = this_month %}
@@ -32,6 +15,7 @@
             <span class="post-month-rule"></span>
           </div>
         {% endif %}
+
         <article class="post-row">
           <span class="post-row-day">{{ article.date.strftime("%d") }}</span>
           <div class="post-row-body">
@@ -40,13 +24,17 @@
               {% if article.subtitle %}<span class="post-row-sub">{{ article.subtitle|striptags|e }}</span>{% endif %}
             </h2>
             <div class="post-row-meta">
-              {% if article.category %}<a class="post-row-cat" href="{{ SITEURL }}/{{ article.category.url }}">{{ (CATEGORY_TRANSLATIONS|default({})).get(article.category.name, article.category.name) }}</a>{% endif %}
+              {% if article.category %}
+                <a class="post-row-cat" href="{{ SITEURL }}/{{ article.category.url }}">{{ (CATEGORY_TRANSLATIONS|default({})).get(article.category.name, article.category.name) }}</a>
+              {% endif %}
               {% for tag in (article.tags[0:3] if article.tags else []) %}<span class="post-row-tag">{{ tag }}</span>{% endfor %}
+              {% if SHOW_READTIME_IN_ARTICLE_SUMMARY|default(False) and article.readtime is defined %}<span class="post-card-readtime">{{ i18n.t("%(count)s min read", count=article.readtime) }}</span>{% endif %}
             </div>
           </div>
         </article>
       {% endfor %}
+
+      {% include "partials/pagination.html" %}
     </div>
   </main>
 </div>
-{% endblock content %}

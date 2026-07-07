@@ -3,69 +3,45 @@
 
 {% block title %}{{ SITENAME }} - {{ i18n.t("Categories") }}{% endblock %}
 
-{% if HEADER_COVER %}
-  {% if HEADER_COVER|lower|truncate(4, True, '') == "http" %}
-    {% set selected_cover = HEADER_COVER %}
-  {% elif HEADER_COVER.startswith('/') %}
-    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+HEADER_COVER %}
-  {% else %}
-    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+"/"+HEADER_COVER %}
-  {% endif %}
-{% elif HOME_COVER %}
-  {% if HOME_COVER|lower|truncate(4, True, '') == "http" %}
-    {% set selected_cover = HOME_COVER %}
-  {% elif HOME_COVER.startswith('/') %}
-    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+HOME_COVER %}
-  {% else %}
-    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+"/"+HOME_COVER %}
-  {% endif %}
+{% set _cover_src = HEADER_COVER or HOME_COVER %}
+{% if _cover_src %}
+  {% set banner_cover = _cover_src if _cover_src|lower|truncate(4, True, '') == "http" else (STATIC_SITEURL|default(SITEURL)) + ("" if _cover_src.startswith('/') else "/") + _cover_src %}
 {% elif HEADER_COLOR %}
-  {% set selected_color = HEADER_COLOR %}
+  {% set banner_color = HEADER_COLOR %}
+{% endif %}
+
+{% if categories %}
+{% set body_class = 'categories-template' %}
+{% set _cs = CATEGORIES_SAVE_AS|default('') %}
+{% set current_url = ('/' ~ _cs[:-10] if _cs[-10:] == 'index.html' else '/' ~ _cs) if _cs else '/' ~ CATEGORIES_URL|default('categories/') %}
 {% endif %}
 
 {% block canonical_url %}<link href="{{ SITEURL }}/{{ CATEGORIES_URL|default('categories/') }}" rel="canonical" />{% endblock canonical_url %}
 
-{% if categories %}
-{% set body_class='categories-template' %}
-{% set _cs = CATEGORIES_SAVE_AS|default('') %}
-{% set current_url = ('/' ~ _cs[:-10] if _cs[-10:] == 'index.html' else '/' ~ _cs) if _cs else '/' ~ CATEGORIES_URL|default('categories/') %}
-{% set current_title=SITENAME+' - '+i18n.t('Categories') %}
-{% set current_display_title=i18n.t('Categories') %}
-{% endif %}
-
 {% block header %}
-    <!-- Page Header -->
-    <!-- Set your background image for this header on the line below. -->
-    <header class="blog-header {% if selected_cover or selected_color %} has-cover {% endif %}">
-      <div class="inner">
-        <h1 class="post-title">{{ current_display_title }}</h1>
-        {% if selected_cover %}
-          <div class="post-cover cover">
-            {% if "image_process" is plugin_enabled %}
-              {{ images.cover(selected_cover, current_title, "image-process-large-photo") }}
-            {% else %}
-              {{ images.cover(selected_cover, current_title) }}
-            {% endif %}
-          </div>
-        {% elif selected_color %}
-          <div class="post-cover cover" style="background-color: {{ selected_color }}">
-        {% endif %}
-    </header>
+  {% set banner_title = i18n.t("Categories") %}
+  {% include "partials/listing_banner.html" %}
 {% endblock header %}
 
 {% block content %}
-  <main id="site-main">
-  {% for category, articles in categories |sort %}
-  <!-- style="padding-top: 2.0em; font-size: 1.66em;" -->
+<div id="index" class="container">
+  <main id="site-main" class="content">
     <article class="post">
       <div class="inner">
-        <div class="archive">
-          <div class="archive-links">
-            <a href="{{ SITEURL }}/{{ category.url }}">{{ category }}</a> ({{ articles|count }})
-          </div>
-        </div>
+        <section class="post-content">
+          <ul class="series-index">
+          {% for category, articles in categories|sort %}
+            <li>
+              <a class="series-index-link" href="{{ SITEURL }}/{{ category.url }}">
+                <span class="series-index-name">{{ (CATEGORY_TRANSLATIONS|default({})).get(category.name, category.name) }}</span>
+                <span class="series-index-count">{{ articles|count }}</span>
+              </a>
+            </li>
+          {% endfor %}
+          </ul>
+        </section>
       </div>
     </article>
-  {% endfor %}
   </main>
+</div>
 {% endblock content %}
