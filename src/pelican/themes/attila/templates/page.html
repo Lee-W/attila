@@ -35,7 +35,7 @@
 
 {% block header %}
     <!-- Page Header (cover as a direct child so it fills the header, not the column) -->
-    <header class="post-header {% if selected_cover or selected_color %} has-cover {% endif %}">
+    <header class="post-header page-header {% if selected_cover or selected_color %} has-cover {% endif %}">
       {% if selected_cover %}
         <div class="post-cover cover">
           {% if "image_process" is plugin_enabled %}

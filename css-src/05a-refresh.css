@@ -81,6 +81,11 @@ body {
   min-height: clamp(360px, 56vh, 620px);
 }
 
+.page-template .post-header.page-header.has-cover {
+  min-height: clamp(220px, 34vh, 420px);
+  padding: 44px 44px;
+}
+
 .post-header .inner {
   position: relative;
   z-index: 10;

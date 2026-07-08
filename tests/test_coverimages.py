@@ -162,6 +162,8 @@ class TestPageCoverImage:
 
         selected = soup.find(name="div", attrs={"class": "post-cover cover"})
         selected_img = selected.find(name="img")
+        header = soup.find(name="header", attrs={"class": "post-header page-header has-cover"})
+        assert header is not None
 
         assert (
             f"{default_settings['SITEURL']}{default_settings['HEADER_COVER']}"
