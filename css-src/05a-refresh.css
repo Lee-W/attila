@@ -454,7 +454,7 @@ body {
 }
 
 /* =========================================================================
-   5. Prev / next — two-column grid, left = older, right = newer.
+   5. Prev / next — two-column grid, left = newer, right = older.
    ========================================================================= */
 .post-nav {
   display: grid;
@@ -486,7 +486,7 @@ a.post-nav-col:hover {
   border-top-color: var(--brand);
 }
 
-.post-nav-newer {
+.post-nav-older {
   text-align: right;
 }
 

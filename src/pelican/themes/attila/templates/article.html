@@ -206,7 +206,7 @@
             {% include 'partials/series.html' %}
           </section>
 
-          {# Neighbours by date (design: left = older, right = newer). Placed by
+          {# Neighbours by date (design: left = newer, right = older). Placed by
              comparing dates so it's correct whether prev/next_article come from
              Pelican core or the pelican-neighbors plugin (opposite semantics). #}
           {% set nb = namespace(older=None, newer=None) %}
@@ -214,26 +214,26 @@
             {% if n.date < article.date %}{% set nb.older = n %}{% else %}{% set nb.newer = n %}{% endif %}
           {% endfor %}
           <aside class="post-nav">
-            {% if nb.older %}
-            <a class="post-nav-col post-nav-older" href="{{ SITEURL }}/{{ nb.older.url }}">
-              <span class="post-nav-label">&larr; {{ i18n.t('Older') }}</span>
-              <span class="post-nav-title">{{ nb.older.title }}</span>
-              <span class="post-nav-meta"><time datetime="{{ nb.older.date.isoformat() }}">{{ nb.older.locale_date }}</time></span>
-            </a>
-            {% else %}
-            <div class="post-nav-col post-nav-older is-empty">
-              <span class="post-nav-label">&larr; {{ i18n.t('Older') }}</span>
-            </div>
-            {% endif %}
             {% if nb.newer %}
             <a class="post-nav-col post-nav-newer" href="{{ SITEURL }}/{{ nb.newer.url }}">
-              <span class="post-nav-label">{{ i18n.t('Newer') }} &rarr;</span>
+              <span class="post-nav-label">&larr; {{ i18n.t('Newer') }}</span>
               <span class="post-nav-title">{{ nb.newer.title }}</span>
               <span class="post-nav-meta"><time datetime="{{ nb.newer.date.isoformat() }}">{{ nb.newer.locale_date }}</time></span>
             </a>
             {% else %}
             <div class="post-nav-col post-nav-newer is-empty">
-              <span class="post-nav-label">{{ i18n.t('Newer') }} &rarr;</span>
+              <span class="post-nav-label">&larr; {{ i18n.t('Newer') }}</span>
+            </div>
+            {% endif %}
+            {% if nb.older %}
+            <a class="post-nav-col post-nav-older" href="{{ SITEURL }}/{{ nb.older.url }}">
+              <span class="post-nav-label">{{ i18n.t('Older') }} &rarr;</span>
+              <span class="post-nav-title">{{ nb.older.title }}</span>
+              <span class="post-nav-meta"><time datetime="{{ nb.older.date.isoformat() }}">{{ nb.older.locale_date }}</time></span>
+            </a>
+            {% else %}
+            <div class="post-nav-col post-nav-older is-empty">
+              <span class="post-nav-label">{{ i18n.t('Older') }} &rarr;</span>
             </div>
             {% endif %}
           </aside>
