@@ -144,7 +144,7 @@ class TestPageCoverImage:
             rst_path="content/pages/page_with_cover_image.rst"
         )
 
-        selected = soup.find(name="div", attrs={"class": "post-cover cover"})
+        selected = soup.find(name="div", attrs={"class": "blog-cover cover"})
         selected_img = selected.find(name="img")
 
         assert f"{default_settings['SITEURL']}/{result.cover}" in selected_img["src"]
@@ -160,10 +160,10 @@ class TestPageCoverImage:
             rst_path="content/pages/page_without_cover_image.rst"
         )
 
-        selected = soup.find(name="div", attrs={"class": "post-cover cover"})
+        selected = soup.find(name="div", attrs={"class": "blog-cover cover"})
         selected_img = selected.find(name="img")
         header = soup.find(
-            name="header", attrs={"class": "post-header page-header has-cover"}
+            name="header", attrs={"class": "site-banner has-cover"}
         )
         assert header is not None
 
@@ -183,7 +183,7 @@ class TestPageCoverImage:
             rst_path="content/pages/page_without_cover_image.rst"
         )
 
-        selected = soup.find(name="div", attrs={"class": "post-cover cover"})
+        selected = soup.find(name="div", attrs={"class": "blog-cover cover"})
         selected_img = selected.find(name="img")
 
         assert default_settings["HEADER_COVER"] in selected_img["src"]
@@ -196,7 +196,7 @@ class TestPageCoverImage:
             rst_path="content/pages/page_without_cover_image.rst"
         )
 
-        selected = soup.find(name="div", attrs={"class": "post-cover"})
+        selected = soup.find(name="div", attrs={"class": "blog-cover"})
 
         assert selected is None
 
@@ -211,7 +211,7 @@ class TestPageCoverImage:
             rst_path="content/pages/page_without_cover_image.rst"
         )
 
-        selected = soup.find(name="div", attrs={"class": "post-cover cover"})
+        selected = soup.find(name="div", attrs={"class": "blog-cover cover"})
 
         assert default_settings["HEADER_COLOR"] in selected["style"]
 
@@ -223,7 +223,7 @@ class TestPageCoverImage:
             rst_path="content/pages/page_with_http_cover_image.rst"
         )
 
-        selected = soup.find(name="div", attrs={"class": "post-cover cover"})
+        selected = soup.find(name="div", attrs={"class": "blog-cover cover"})
         selected_img = selected.find(name="img")
 
         assert result.cover in selected_img["src"]
@@ -236,7 +236,7 @@ class TestPageCoverImage:
             rst_path="content/pages/page_with_og_image.rst"
         )
 
-        selected = soup.find(name="div", attrs={"class": "post-cover cover"})
+        selected = soup.find(name="div", attrs={"class": "blog-cover cover"})
         selected_img = selected.find(name="img")
 
         assert result.og_image in selected_img["src"]

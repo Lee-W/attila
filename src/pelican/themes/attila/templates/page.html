@@ -34,23 +34,10 @@
 {% endif %}
 
 {% block header %}
-    <!-- Page Header (cover as a direct child so it fills the header, not the column) -->
-    <header class="post-header page-header {% if selected_cover or selected_color %} has-cover {% endif %}">
-      {% if selected_cover %}
-        <div class="post-cover cover">
-          {% if "image_process" is plugin_enabled %}
-            {{ images.cover(selected_cover, current_title, "image-process-large-photo", page.cover_srcset|default(None), page.cover_width|default(None), page.cover_height|default(None)) }}
-          {% else %}
-            {{ images.cover(selected_cover, current_title, srcset=page.cover_srcset|default(None), width=page.cover_width|default(None), height=page.cover_height|default(None)) }}
-          {% endif %}
-        </div>
-      {% elif selected_color %}
-        <div class="post-cover cover" style="background-color: {{ selected_color }}"></div>
-      {% endif %}
-      <div class="inner">
-        <h1 class="post-title">{{ current_title }}</h1>
-      </div>
-    </header>
+  {% set banner_title = current_title %}
+  {% set banner_cover = selected_cover %}
+  {% set banner_color = selected_color %}
+  {% include "partials/listing_banner.html" %}
 {% endblock header %}
 
 {% block content %}
