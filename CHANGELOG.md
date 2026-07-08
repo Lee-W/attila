@@ -1,3 +1,19 @@
+## v3.2.1 (2026-07-08)
+
+### Fix
+
+- restore newer older navigation direction
+- restore cover behavior to v3.2.0
+- restore article cover layout rules
+- use listing banner for pages
+- render page covers as compact banners
+- avoid global covers on pages
+- keep page cover headers compact
+
+### Refactor
+
+- simplify theme sources and templates
+
 ## v3.2.0 (2026-07-07)
 
 ### Feat
