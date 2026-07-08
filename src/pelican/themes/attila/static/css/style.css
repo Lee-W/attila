@@ -3279,8 +3279,8 @@ body {
 }
 
 .page-template .post-header.page-header.has-cover {
-  min-height: clamp(220px, 34vh, 420px);
-  padding: 44px 44px;
+  min-height: clamp(140px, 22vh, 260px);
+  padding: 32px 44px;
 }
 
 .post-header .inner {

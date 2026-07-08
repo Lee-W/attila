@@ -149,7 +149,7 @@ class TestPageCoverImage:
 
         assert f"{default_settings['SITEURL']}/{result.cover}" in selected_img["src"]
 
-    def test_page_ignores_global_header_cover(
+    def test_page_header_cover(
         self,
         default_settings: Settings,
         gen_page_and_html_from_rst: Callable,
@@ -160,10 +160,19 @@ class TestPageCoverImage:
             rst_path="content/pages/page_without_cover_image.rst"
         )
 
-        assert soup.find(name="div", attrs={"class": "post-cover"}) is None
-        assert soup.find(name="header", class_="has-cover") is None
+        selected = soup.find(name="div", attrs={"class": "post-cover cover"})
+        selected_img = selected.find(name="img")
+        header = soup.find(
+            name="header", attrs={"class": "post-header page-header has-cover"}
+        )
+        assert header is not None
 
-    def test_page_ignores_global_header_http_cover(
+        assert (
+            f"{default_settings['SITEURL']}{default_settings['HEADER_COVER']}"
+            in selected_img["src"]
+        )
+
+    def test_page_header_http_cover(
         self,
         default_settings: Settings,
         gen_page_and_html_from_rst: Callable,
@@ -174,8 +183,10 @@ class TestPageCoverImage:
             rst_path="content/pages/page_without_cover_image.rst"
         )
 
-        assert soup.find(name="div", attrs={"class": "post-cover"}) is None
-        assert soup.find(name="header", class_="has-cover") is None
+        selected = soup.find(name="div", attrs={"class": "post-cover cover"})
+        selected_img = selected.find(name="img")
+
+        assert default_settings["HEADER_COVER"] in selected_img["src"]
 
     def test_page_theme_cover(
         self,
@@ -189,7 +200,7 @@ class TestPageCoverImage:
 
         assert selected is None
 
-    def test_page_ignores_global_header_color(
+    def test_page_header_color(
         self,
         default_settings: Settings,
         gen_page_and_html_from_rst: Callable,
@@ -200,8 +211,9 @@ class TestPageCoverImage:
             rst_path="content/pages/page_without_cover_image.rst"
         )
 
-        assert soup.find(name="div", attrs={"class": "post-cover"}) is None
-        assert soup.find(name="header", class_="has-cover") is None
+        selected = soup.find(name="div", attrs={"class": "post-cover cover"})
+
+        assert default_settings["HEADER_COLOR"] in selected["style"]
 
     def test_page_http_cover(
         self,
