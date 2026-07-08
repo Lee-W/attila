@@ -19,3 +19,12 @@ def test_style_css_matches_sources():
     assert STYLE_CSS.read_text() == rebuilt, (
         "style.css is out of sync with css-src/. Run `uv run poe build-css`."
     )
+
+
+def test_article_cover_keeps_structural_rules():
+    css = STYLE_CSS.read_text()
+    assert ".post-cover {" in css
+    assert "position: absolute;" in css
+    assert ".post-cover img {" in css
+    assert "object-fit: cover;" in css
+    assert ".post-cover:after {" in css
