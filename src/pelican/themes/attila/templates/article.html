@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% import "partials/cover_url.html" as cover_urls with context %}
 
 {% set article_description = article.headline|default(None) or article.summary|default('')|striptags|truncate(160) or SITE_DESCRIPTION|default('') %}
 
@@ -7,13 +6,31 @@
 
 {# <!-- Choosing cover image --> #}
 {% if article.cover %}
-  {% set selected_cover = cover_urls.absolute(article.cover) %}
+  {% if article.cover|lower|truncate(4, True, '') == "http" %}
+    {% set selected_cover = article.cover %}
+  {% elif article.cover.startswith('/') %}
+    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+article.cover %}
+  {% else %}
+    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+"/"+article.cover %}
+  {% endif %}
 {% elif article.og_image %}
-  {% set selected_cover = cover_urls.absolute(article.og_image) %}
+  {% if article.og_image|lower|truncate(4, True, '') == "http" %}
+    {% set selected_cover = article.og_image %}
+  {% elif article.og_image.startswith('/') %}
+    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+article.og_image %}
+  {% else %}
+    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+"/"+article.og_image %}
+  {% endif %}
 {% elif article.color %}
   {% set selected_color = article.color %}
 {% elif HEADER_COVER %}
-  {% set selected_cover = cover_urls.absolute(HEADER_COVER) %}
+  {% if HEADER_COVER|lower|truncate(4, True, '') == "http" %}
+    {% set selected_cover = HEADER_COVER %}
+  {% elif HEADER_COVER.startswith('/') %}
+    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+HEADER_COVER %}
+  {% else %}
+    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+"/"+HEADER_COVER %}
+  {% endif %}
 {% elif HEADER_COLOR %}
   {% set selected_color = HEADER_COLOR %}
 {% endif %}

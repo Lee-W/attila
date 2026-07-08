@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% import "partials/cover_url.html" as cover_urls with context %}
 
 {% set page_description = page.headline|default(None) or page.summary|default('')|striptags|truncate(160) or SITE_DESCRIPTION|default('') %}
 
@@ -20,13 +19,37 @@
 
 {# <!-- Choosing cover image --> #}
 {% if page.cover %}
-  {% set selected_cover = cover_urls.absolute(page.cover) %}
+  {% if page.cover|lower|truncate(4, True, '') == "http" %}
+    {% set selected_cover = page.cover %}
+  {% elif page.cover.startswith('/') %}
+    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+page.cover %}
+  {% else %}
+    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+"/"+page.cover %}
+  {% endif %}
 {% elif page.og_image %}
-  {% set selected_cover = cover_urls.absolute(page.og_image) %}
+  {% if page.og_image|lower|truncate(4, True, '') == "http" %}
+    {% set selected_cover = page.og_image %}
+  {% elif page.og_image.startswith('/') %}
+    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+page.og_image %}
+  {% else %}
+    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+"/"+page.og_image %}
+  {% endif %}
 {% elif HEADER_COVER %}
-  {% set selected_cover = cover_urls.absolute(HEADER_COVER) %}
+  {% if HEADER_COVER|lower|truncate(4, True, '') == "http" %}
+    {% set selected_cover = HEADER_COVER %}
+  {% elif HEADER_COVER.startswith('/') %}
+    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+HEADER_COVER %}
+  {% else %}
+    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+"/"+HEADER_COVER %}
+  {% endif %}
 {% elif HOME_COVER %}
-  {% set selected_cover = cover_urls.absolute(HOME_COVER) %}
+  {% if HOME_COVER|lower|truncate(4, True, '') == "http" %}
+    {% set selected_cover = HOME_COVER %}
+  {% elif HOME_COVER.startswith('/') %}
+    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+HOME_COVER %}
+  {% else %}
+    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+"/"+HOME_COVER %}
+  {% endif %}
 {% elif page.color %}
   {% set selected_color = page.color %}
 {% elif HEADER_COLOR %}
@@ -34,10 +57,23 @@
 {% endif %}
 
 {% block header %}
-  {% set banner_title = current_title %}
-  {% set banner_cover = selected_cover %}
-  {% set banner_color = selected_color %}
-  {% include "partials/listing_banner.html" %}
+    <!-- Page Header (cover as a direct child so it fills the header, not the column) -->
+    <header class="post-header {% if selected_cover or selected_color %} has-cover {% endif %}">
+      {% if selected_cover %}
+        <div class="post-cover cover">
+          {% if "image_process" is plugin_enabled %}
+            {{ images.cover(selected_cover, current_title, "image-process-large-photo", page.cover_srcset|default(None), page.cover_width|default(None), page.cover_height|default(None)) }}
+          {% else %}
+            {{ images.cover(selected_cover, current_title, srcset=page.cover_srcset|default(None), width=page.cover_width|default(None), height=page.cover_height|default(None)) }}
+          {% endif %}
+        </div>
+      {% elif selected_color %}
+        <div class="post-cover cover" style="background-color: {{ selected_color }}"></div>
+      {% endif %}
+      <div class="inner">
+        <h1 class="post-title">{{ current_title }}</h1>
+      </div>
+    </header>
 {% endblock header %}
 
 {% block content %}
