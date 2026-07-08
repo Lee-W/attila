@@ -11,7 +11,9 @@ order:
 | `03-fonts.css` | self-hosted `@font-face` declarations |
 | `04-pygments.css` | generated Pygments syntax-highlight theme (light/dark) |
 | `05-theme.css` | the Attila theme itself |
+| `05a-refresh.css` | refreshed theme overrides and component polish |
 | `06-footnote.css` | vendored littlefoot.css + theme-token overrides |
+| `07-print.css` | print stylesheet |
 
 ## Workflow
 

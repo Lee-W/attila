@@ -90,20 +90,9 @@ all.sequence = ["format", "lint", "check-commit", "test"]
 help = "Regenerate static/css/style.css from the css-src/ modules"
 shell = "cat css-src/*.css > src/pelican/themes/attila/static/css/style.css"
 
-[tool.poe.tasks.compile-i18n]
-shell = """
-find src/pelican/themes/attila/translations -name "*.po" | while read po; do
-  msgfmt "$po" -o "${po%.po}.mo"
-done
-"""
-
 [tool.commitizen]
 name = "cz_conventional_commits"
 tag_format = "v$version"
 version_scheme = "pep440"
 version_provider = "uv"
 update_changelog_on_bump = true
-pre_bump_hooks = [
-  "uv run poe compile-i18n",
-  "git add src/pelican/themes/attila/translations/*/LC_MESSAGES/messages.mo",
-]

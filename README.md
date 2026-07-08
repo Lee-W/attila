@@ -347,7 +347,7 @@ With the plugin enabled, the article page meta line shows the estimated reading 
 
 ```python
 READTIME_CJK_CPM = 300  # CJK characters per minute
-READTIME_WPM = 250      # non-CJK words per minute
+READTIME_WPM = 250  # non-CJK words per minute
 SHOW_READTIME_IN_ARTICLE_SUMMARY = True  # also show it on post cards in listings
 ```
 

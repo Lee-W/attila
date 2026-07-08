@@ -1,0 +1,10 @@
+{% macro absolute(path, base=None) -%}
+{%- set root = base if base is not none else STATIC_SITEURL|default(SITEURL) -%}
+{%- if path|lower|truncate(4, True, '') == "http" -%}
+{{ path }}
+{%- elif path.startswith('/') -%}
+{{ root }}{{ path }}
+{%- else -%}
+{{ root }}/{{ path }}
+{%- endif -%}
+{%- endmacro %}

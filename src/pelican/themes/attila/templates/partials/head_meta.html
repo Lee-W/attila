@@ -11,5 +11,5 @@
 {% endif %}
 
 {% if SITE_DESCRIPTION and not article and not page %}
-<meta name="description" content="{{ SITE_DESCRIPTION }}" />
+<meta name="description" content="{{ SITE_DESCRIPTION|e }}" />
 {% endif %}

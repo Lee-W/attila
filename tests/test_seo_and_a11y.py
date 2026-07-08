@@ -19,6 +19,17 @@ def _article_jsonld(soup: BeautifulSoup) -> dict:
     raise AssertionError("no Article JSON-LD block found")
 
 
+def _meta_content(soup: BeautifulSoup, *, property: str | None = None, name: str | None = None) -> str:
+    attrs = {}
+    if property is not None:
+        attrs["property"] = property
+    if name is not None:
+        attrs["name"] = name
+    meta = soup.find(name="meta", attrs=attrs)
+    assert meta is not None
+    return meta["content"]
+
+
 class TestHtmlLang:
     def test_html_lang_follows_article(
         self,
@@ -122,6 +133,72 @@ class TestArticleMetadata:
             settings=default_settings,
         )
         assert not soup.select('img[src=""]')
+
+
+class TestOpenGraphMetadata:
+    def test_index_og_image_and_twitter_card(
+        self,
+        default_settings: Settings,
+        gen_index_and_html: Callable,
+    ):
+        default_settings["SITEURL"] = "https://example.com"
+        default_settings["HOME_COVER"] = "/assets/images/header_cover.jpg"
+        soup = gen_index_and_html()
+
+        assert (
+            _meta_content(soup, property="og:image")
+            == "https://example.com/assets/images/header_cover.jpg"
+        )
+        assert _meta_content(soup, name="twitter:card") == "summary_large_image"
+        assert (
+            _meta_content(soup, name="twitter:image:src")
+            == "https://example.com/assets/images/header_cover.jpg"
+        )
+
+    def test_article_og_image_twitter_card_and_tags(
+        self,
+        default_settings: Settings,
+        gen_article_and_html_from_rst: Callable,
+    ):
+        default_settings["SITEURL"] = "https://example.com"
+        _, soup = gen_article_and_html_from_rst(
+            rst_path="content/article_with_og_image.rst",
+            settings=default_settings,
+        )
+
+        assert (
+            _meta_content(soup, property="og:image")
+            == "https://example.com/assets/images/og_cover.jpg"
+        )
+        assert _meta_content(soup, name="twitter:card") == "summary_large_image"
+        assert (
+            _meta_content(soup, name="twitter:image:src")
+            == "https://example.com/assets/images/og_cover.jpg"
+        )
+        assert [
+            meta["content"] for meta in soup.select('meta[property="article:tag"]')
+        ] == ["bartag"]
+
+    def test_page_og_image_and_twitter_card(
+        self,
+        default_settings: Settings,
+        gen_page_and_html_from_rst: Callable,
+    ):
+        default_settings["SITEURL"] = "https://example.com"
+        _, soup = gen_page_and_html_from_rst(
+            rst_path="content/pages/page_with_og_image.rst",
+            settings=default_settings,
+        )
+
+        assert (
+            _meta_content(soup, property="og:image")
+            == "https://example.com/assets/images/og_cover.jpg"
+        )
+        assert _meta_content(soup, name="twitter:card") == "summary_large_image"
+        assert (
+            _meta_content(soup, name="twitter:image:src")
+            == "https://example.com/assets/images/og_cover.jpg"
+        )
 
 
 class TestFooterCredits:

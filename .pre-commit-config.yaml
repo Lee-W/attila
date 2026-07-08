@@ -11,8 +11,7 @@ repos:
   repo: meta
 - hooks:
   - id: check-vcs-permalinks
-  - exclude: tests/((commands|data|providers/test_uv_provider)/|test_).+
-    id: end-of-file-fixer
+  - id: end-of-file-fixer
   - args:
     - --markdown-linebreak-ext=md
     exclude: \.svg$
@@ -50,6 +49,8 @@ repos:
   - additional_dependencies:
     - tomli
     args:
+    - -L
+    - nd
     - --write-changes
     id: codespell
     language: python

@@ -239,6 +239,35 @@ def gen_tag_and_html_from_name(default_writer: Writer, default_settings: Setting
     )
 
 
+def _gen_index_and_html(writer: Writer, settings: Settings) -> BeautifulSoup:
+    context = settings.copy()
+    context["generated_content"] = {}
+    context["static_links"] = set()
+    context["static_content"] = {}
+    context["localsiteurl"] = settings["SITEURL"]
+
+    generator = ArticlesGenerator(
+        context=context,
+        settings=settings,
+        path=CONTENT_DIR,
+        theme=settings["THEME"],
+        output_path=OUTPUT_DIR,
+    )
+    generator.generate_context()
+    generator.generate_output(writer)
+
+    return BeautifulSoup(open(f"./{writer.output_path}/index.html"), "html.parser")
+
+
+@pytest.fixture
+def gen_index_and_html(default_writer: Writer, default_settings: Settings):
+    return partial(
+        _gen_index_and_html,
+        writer=default_writer,
+        settings=default_settings,
+    )
+
+
 def _gen_category_and_html_from_name(name: str, writer: Writer, settings: Settings):
     context = settings.copy()
     context["generated_content"] = {}

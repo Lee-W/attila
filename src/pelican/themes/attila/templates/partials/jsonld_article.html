@@ -1,14 +1,11 @@
+{% import "partials/cover_url.html" as cover_urls with context %}
 {% set default_cover = (
   article.og_image if article.og_image else
   article.cover if article.cover else
   HEADER_COVER if HEADER_COVER else
   THEME_STATIC_DIR ~ "/images/post-bg.jpg"
 ) %}
-{% if default_cover.startswith("/") %}
-  {% set default_cover = (STATIC_SITEURL|default(SITEURL)) ~ default_cover %}
-{% elif not default_cover.lower().startswith("http") %}
-  {% set default_cover = (STATIC_SITEURL|default(SITEURL)) ~ "/" ~ default_cover %}
-{% endif %}
+{% set default_cover = cover_urls.absolute(default_cover) %}
 
 {% set description = (
     article.headline if article.headline else
