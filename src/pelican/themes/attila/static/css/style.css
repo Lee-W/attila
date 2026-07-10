@@ -1945,7 +1945,7 @@ textarea {
   transition: all ease-out 0.3s;
 }
 
-@media only screen and (max-width: 640px) {
+@media only screen and (max-width: 768px) {
   .nav-header {
     transform: translate3d(0, -100%, 0);
   }
@@ -1969,7 +1969,7 @@ textarea {
   cursor: pointer;
 }
 
-@media only screen and (max-width: 640px) {
+@media only screen and (max-width: 768px) {
   .menu-active .nav-close {
     display: block;
   }
@@ -1989,7 +1989,7 @@ textarea {
   transition: all linear 0.1s;
 }
 
-@media only screen and (max-width: 640px) {
+@media only screen and (max-width: 768px) {
   .nav-wrapper-control {
     display: block;
   }
@@ -2079,7 +2079,7 @@ textarea {
   overflow-x: visible;
 }
 
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width: 769px) {
   .nav-header .nav-wrapper {
     overflow: visible;
   }
@@ -2089,7 +2089,7 @@ textarea {
   }
 }
 
-@media only screen and (max-width: 640px) {
+@media only screen and (max-width: 768px) {
   .nav-header .nav-wrapper {
     background: #222426;
     flex-direction: column;
@@ -2103,7 +2103,7 @@ textarea {
   }
 }
 
-@media only screen and (max-width: 640px) {
+@media only screen and (max-width: 768px) {
   .menu-active .nav-header .nav-wrapper {
     padding-top: 6rem;
   }
@@ -2113,7 +2113,7 @@ textarea {
   margin-inline-end: 3rem;
 }
 
-@media only screen and (max-width: 640px) {
+@media only screen and (max-width: 768px) {
   .nav-header .logo {
     display: none;
   }
@@ -2146,7 +2146,7 @@ textarea {
   overflow: auto;
 }
 
-@media only screen and (max-width: 640px) {
+@media only screen and (max-width: 768px) {
   .nav-header ul {
     flex: none;
     width: 100%;
@@ -2168,7 +2168,7 @@ textarea {
   padding: 0.5em;
 }
 
-@media only screen and (max-width: 640px) {
+@media only screen and (max-width: 768px) {
   .nav-header ul.nav-meta {
     margin-inline-start: 0;
   }
@@ -2197,7 +2197,7 @@ textarea {
   font-weight: 500;
 }
 
-@media only screen and (max-width: 640px) {
+@media only screen and (max-width: 768px) {
   .nav-header li.active a {
     color: white;
   }
@@ -2249,7 +2249,7 @@ textarea {
   transition: color linear 0.1s;
 }
 
-@media only screen and (max-width: 640px) {
+@media only screen and (max-width: 768px) {
   .nav-header .nav-menu-items li a {
     font-size: 2em;
     padding-inline-start: 0;
@@ -2296,7 +2296,7 @@ textarea {
   color: var(--color-content-main);
 }
 
-@media only screen and (max-width: 640px) {
+@media only screen and (max-width: 768px) {
   .nav-header li a:focus,
   .nav-header li a:hover {
     color: #c4c7cc;
@@ -2311,7 +2311,7 @@ textarea {
   margin-inline-end: 1rem;
 }
 
-@media only screen and (max-width: 640px) {
+@media only screen and (max-width: 768px) {
   .nav-meta li {
     flex-grow: 0;
   }
@@ -2344,7 +2344,7 @@ textarea {
   display: block !important;
 }
 
-@media only screen and (max-width: 640px) {
+@media only screen and (max-width: 768px) {
   .has-search .nav-meta li.nav-search {
     display: none !important;
   }
@@ -2362,7 +2362,7 @@ textarea {
   padding: 0.5em;
 }
 
-@media only screen and (max-width: 640px) {
+@media only screen and (max-width: 768px) {
   .nav-header ul.nav-controls {
     flex-direction: row !important;
     flex-shrink: 0;
@@ -2382,7 +2382,7 @@ textarea {
   margin-inline-end: 0;
 }
 
-@media only screen and (max-width: 640px) {
+@media only screen and (max-width: 768px) {
   .nav-controls li {
     margin-inline-end: 0;
   }
@@ -2458,7 +2458,7 @@ textarea {
   background: var(--color-background-contrast);
 }
 
-@media only screen and (max-width: 640px) {
+@media only screen and (max-width: 768px) {
   .nav-controls li {
     margin-inline-end: 0;
   }
@@ -2518,7 +2518,7 @@ textarea {
 }
 
 /* Menu dropdown (grouped MENUITEMS) */
-@media only screen and (min-width: 641px) {
+@media only screen and (min-width: 769px) {
   /* Let absolutely-positioned dropdown menus escape instead of being clipped
      (overrides the horizontal-scroll overflow on .nav-menu-items). */
   .nav-header ul.nav-menu-items {
@@ -2561,7 +2561,7 @@ textarea {
 /* On a cover, the active toggle sits over the dark cover image, so it must be
    white like other active nav links (.cover-active .nav-header li.active a) —
    the button isn't covered by that <a>-only rule. */
-@media only screen and (min-width: 640px) {
+@media only screen and (min-width: 769px) {
   .cover-active .nav-header li.nav-dropdown.active > .nav-dropdown-toggle {
     color: white;
   }
@@ -2624,7 +2624,7 @@ textarea {
   background: var(--color-background-contrast);
 }
 
-@media only screen and (max-width: 640px) {
+@media only screen and (max-width: 768px) {
   .nav-header li.nav-dropdown {
     width: 100%;
   }
@@ -2674,7 +2674,7 @@ textarea {
   color: white;
 }
 
-@media only screen and (min-width: 640px) {
+@media only screen and (min-width: 769px) {
   .cover-active .nav-header li a,
   .cover-active .nav-header li button:not(.cta) {
     color: rgba(255, 255, 255, 0.8);
@@ -2682,7 +2682,7 @@ textarea {
   }
 }
 
-@media only screen and (min-width: 640px) {
+@media only screen and (min-width: 769px) {
   .cover-active .nav-header li a:focus,
   .cover-active .nav-header li a:hover,
   .cover-active .nav-header li button:not(.cta):focus,
@@ -2692,21 +2692,21 @@ textarea {
   }
 }
 
-@media only screen and (min-width: 640px) {
+@media only screen and (min-width: 769px) {
   .cover-active .nav-header li button.cta {
     color: #222426;
     background-color: rgba(255, 255, 255, 0.8);
   }
 }
 
-@media only screen and (min-width: 640px) {
+@media only screen and (min-width: 769px) {
   .cover-active .nav-header li button.cta:focus,
   .cover-active .nav-header li button.cta:hover {
     background-color: white;
   }
 }
 
-@media only screen and (min-width: 640px) {
+@media only screen and (min-width: 769px) {
   .cover-active .nav-header li.active a {
     color: white;
   }
@@ -5192,7 +5192,7 @@ body #on-this-day .post-nav-meta {
 
 /* Mobile off-canvas menu panel: solid dark background so the white menu items
    (incl. the 分類 / 探索 dropdowns) never vanish over page content. */
-@media (max-width: 640px) {
+@media (max-width: 768px) {
   .site-blog .nav-header,
   .site-travlog .nav-header {
     background: var(--topbar-bg);
@@ -5400,6 +5400,7 @@ body #on-this-day .post-nav-meta {
      was forcing the long meta line to overflow. Plain block wraps correctly. */
   .post-header,
   .post-header.has-cover {
+    box-sizing: border-box;
     display: block;
     padding: 40px 22px;
     min-height: 0;

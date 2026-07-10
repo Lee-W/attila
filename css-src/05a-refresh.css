@@ -1023,7 +1023,7 @@ body #on-this-day .post-nav-meta {
 
 /* Mobile off-canvas menu panel: solid dark background so the white menu items
    (incl. the 分類 / 探索 dropdowns) never vanish over page content. */
-@media (max-width: 640px) {
+@media (max-width: 768px) {
   .site-blog .nav-header,
   .site-travlog .nav-header {
     background: var(--topbar-bg);
@@ -1231,6 +1231,7 @@ body #on-this-day .post-nav-meta {
      was forcing the long meta line to overflow. Plain block wraps correctly. */
   .post-header,
   .post-header.has-cover {
+    box-sizing: border-box;
     display: block;
     padding: 40px 22px;
     min-height: 0;

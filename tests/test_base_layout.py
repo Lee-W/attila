@@ -82,7 +82,8 @@ class TestBaseLayout:
         theme = soup.select_one("button.js-theme")
         assert menu is not None and menu["aria-expanded"] == "false"
         assert close is not None
-        assert theme is not None and theme["aria-pressed"] == "false"
+        assert theme is not None and theme["aria-pressed"] == "mixed"
+        assert theme["aria-label"] == "System theme"
         assert not soup.select('[role="menu"], [role="listbox"], [role="option"]')
 
     def test_icons_are_local_and_do_not_load_font_awesome_css(

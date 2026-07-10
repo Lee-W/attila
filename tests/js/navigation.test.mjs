@@ -51,6 +51,8 @@ class Element extends EventTarget {
     this.attributes = new Map();
     this.classList = new ClassList();
     this.focused = false;
+    this.inert = false;
+    this.querySelectorAll = () => [];
   }
 
   setAttribute(name, value) {
@@ -76,7 +78,12 @@ test("mobile menu and theme controls keep their accessible state in sync", () =>
   html.style = {};
   const menu = new Element();
   const close = new Element();
+  const navigation = new Element();
+  const firstNavigationItem = new Element();
+  const lastNavigationItem = new Element();
+  const wrapper = new Element();
   const theme = new Element();
+  theme.setAttribute("data-system", "System theme");
   theme.setAttribute("data-dark", "Dark theme");
   theme.setAttribute("data-light", "Light theme");
 
@@ -88,6 +95,15 @@ test("mobile menu and theme controls keep their accessible state in sync", () =>
       selector
     ] ?? null;
   document.querySelectorAll = () => [];
+  document.getElementById = (id) =>
+    ({ "site-navigation": navigation, wrapper })[id] ?? null;
+  navigation.querySelectorAll = () => [firstNavigationItem, lastNavigationItem];
+  for (const element of [menu, firstNavigationItem, lastNavigationItem]) {
+    element.focus = () => {
+      element.focused = true;
+      document.activeElement = element;
+    };
+  }
 
   const window = new EventTarget();
   window.matchMedia = () => ({ matches: false });
@@ -97,6 +113,7 @@ test("mobile menu and theme controls keep their accessible state in sync", () =>
   const localStorage = {
     getItem: (key) => values.get(key) ?? null,
     setItem: (key, value) => values.set(key, value),
+    removeItem: (key) => values.delete(key),
   };
 
   vm.runInNewContext(script, {
@@ -111,15 +128,38 @@ test("mobile menu and theme controls keep their accessible state in sync", () =>
   menu.dispatch("click");
   assert.equal(html.classList.contains("menu-active"), true);
   assert.equal(menu.getAttribute("aria-expanded"), "true");
+  assert.equal(wrapper.inert, true);
+  assert.equal(document.activeElement, firstNavigationItem);
+
+  document.activeElement = lastNavigationItem;
+  document.dispatch("keydown", { key: "Tab" });
+  assert.equal(document.activeElement, firstNavigationItem);
+
+  document.dispatch("keydown", { key: "Tab", shiftKey: true });
+  assert.equal(document.activeElement, lastNavigationItem);
 
   document.dispatch("keydown", { key: "Escape" });
   assert.equal(html.classList.contains("menu-active"), false);
   assert.equal(menu.getAttribute("aria-expanded"), "false");
+  assert.equal(wrapper.inert, false);
   assert.equal(menu.focused, true);
 
+  assert.equal(theme.getAttribute("aria-pressed"), "mixed");
+  assert.equal(theme.getAttribute("aria-label"), "System theme");
+  assert.equal(values.has("attila_theme"), false);
+
+  theme.dispatch("click");
   assert.equal(theme.getAttribute("aria-pressed"), "false");
   assert.equal(theme.getAttribute("aria-label"), "Light theme");
+  assert.equal(values.get("attila_theme"), "light");
+
   theme.dispatch("click");
   assert.equal(theme.getAttribute("aria-pressed"), "true");
   assert.equal(theme.getAttribute("aria-label"), "Dark theme");
+  assert.equal(values.get("attila_theme"), "dark");
+
+  theme.dispatch("click");
+  assert.equal(theme.getAttribute("aria-pressed"), "mixed");
+  assert.equal(theme.getAttribute("aria-label"), "System theme");
+  assert.equal(values.has("attila_theme"), false);
 });

@@ -52,7 +52,12 @@
      script.js re-applies it later and binds the toggle. #}
   <script>
     (function () {
-      var theme = localStorage.getItem("attila_theme");
+      var theme = null;
+      try {
+        theme = localStorage.getItem("attila_theme");
+      } catch (error) {
+        // Storage can be unavailable in privacy-restricted browsing contexts.
+      }
       if (theme === "dark" || theme === "light") {
         document.documentElement.classList.add("theme-" + theme);
         document.documentElement.style.colorScheme = theme;

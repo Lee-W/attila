@@ -26,18 +26,44 @@ document.addEventListener("DOMContentLoaded", () => {
   // Menu
   const menuToggle = document.querySelector(".nav-menu");
   const menuClose = document.querySelector(".nav-close");
+  const siteNavigation = document.getElementById("site-navigation");
+  const pageWrapper = document.getElementById("wrapper");
+  const menuFocusableSelector =
+    'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
+  const menuFocusableItems = () =>
+    Array.from(siteNavigation?.querySelectorAll(menuFocusableSelector) ?? []);
   const setMenuOpen = (open, returnFocus = false) => {
     html.classList.toggle("menu-active", open);
     menuToggle?.setAttribute("aria-expanded", String(open));
-    if (returnFocus) menuToggle?.focus();
+    if (pageWrapper) pageWrapper.inert = open;
+    if (open) {
+      menuFocusableItems()[0]?.focus();
+    } else if (returnFocus) {
+      menuToggle?.focus();
+    }
   };
   menuToggle?.addEventListener("click", () => {
     setMenuOpen(!html.classList.contains("menu-active"));
   });
   menuClose?.addEventListener("click", () => setMenuOpen(false, true));
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && html.classList.contains("menu-active")) {
+    if (!html.classList.contains("menu-active")) return;
+    if (event.key === "Escape") {
       setMenuOpen(false, true);
+      return;
+    }
+    if (event.key !== "Tab") return;
+
+    const items = menuFocusableItems();
+    if (!items.length) return;
+    const first = items[0];
+    const last = items[items.length - 1];
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
     }
   });
   window.addEventListener("resize", () => setMenuOpen(false));
@@ -103,55 +129,78 @@ document.addEventListener("DOMContentLoaded", () => {
     const toggle = document.querySelector(".js-theme");
     if (!toggle) return;
 
-    const setDark = () => {
+    const getSavedTheme = () => {
+      try {
+        return localStorage.getItem("attila_theme");
+      } catch (error) {
+        return null;
+      }
+    };
+
+    const saveTheme = (theme) => {
+      try {
+        if (theme === "system") localStorage.removeItem("attila_theme");
+        else localStorage.setItem("attila_theme", theme);
+      } catch (error) {
+        // Theme switching still works for this page when storage is unavailable.
+      }
+    };
+
+    const updateToggle = (theme) => {
+      const label = toggle.getAttribute(`data-${theme}`);
+      toggle.setAttribute("title", label);
+      toggle.setAttribute("aria-label", label);
+      toggle.setAttribute(
+        "aria-pressed",
+        theme === "system" ? "mixed" : String(theme === "dark"),
+      );
+    };
+
+    const setDark = (persist = true) => {
       html.classList.remove("theme-light");
       html.classList.add("theme-dark");
       html.style.colorScheme = "dark";
-      localStorage.setItem("attila_theme", "dark");
-      toggle.setAttribute("title", toggle.getAttribute("data-dark"));
-      toggle.setAttribute("aria-label", toggle.getAttribute("data-dark"));
-      toggle.setAttribute("aria-pressed", "true");
+      if (persist) saveTheme("dark");
+      updateToggle("dark");
     };
 
-    const setLight = () => {
+    const setLight = (persist = true) => {
       html.classList.remove("theme-dark");
       html.classList.add("theme-light");
       html.style.colorScheme = "light";
-      localStorage.setItem("attila_theme", "light");
-      toggle.setAttribute("title", toggle.getAttribute("data-light"));
-      toggle.setAttribute("aria-label", toggle.getAttribute("data-light"));
-      toggle.setAttribute("aria-pressed", "false");
+      if (persist) saveTheme("light");
+      updateToggle("light");
     };
 
-    const systemPref = () => {
-      const prefersDark =
-        window.matchMedia &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches;
-      prefersDark ? setDark() : setLight();
+    const setSystem = () => {
+      html.classList.remove("theme-dark", "theme-light");
+      html.style.colorScheme = "";
+      saveTheme("system");
+      updateToggle("system");
     };
 
     // Initialize theme
-    switch (localStorage.getItem("attila_theme")) {
+    switch (getSavedTheme()) {
       case "dark":
-        setDark();
+        setDark(false);
         break;
       case "light":
-        setLight();
+        setLight(false);
         break;
       default:
-        systemPref();
+        setSystem();
         break;
     }
 
     // Toggle click
     toggle.addEventListener("click", (e) => {
       e.preventDefault();
-      if (html.classList.contains("theme-dark")) {
+      if (!html.classList.contains("theme-dark") && !html.classList.contains("theme-light")) {
         setLight();
       } else if (html.classList.contains("theme-light")) {
         setDark();
       } else {
-        systemPref();
+        setSystem();
       }
     });
   };
