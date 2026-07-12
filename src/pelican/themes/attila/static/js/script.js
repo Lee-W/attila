@@ -66,7 +66,15 @@ document.addEventListener("DOMContentLoaded", () => {
       first.focus();
     }
   });
-  window.addEventListener("resize", () => setMenuOpen(false));
+  // Phones fire `resize` whenever the URL bar slides in or out, which would
+  // slam the menu shut while the user is scrolling inside it. Only a width
+  // change means the layout actually crossed the mobile breakpoint.
+  let lastViewportWidth = window.innerWidth;
+  window.addEventListener("resize", () => {
+    if (window.innerWidth === lastViewportWidth) return;
+    lastViewportWidth = window.innerWidth;
+    setMenuOpen(false);
+  });
   window.addEventListener("orientationchange", () => setMenuOpen(false));
 
   // Parallax cover

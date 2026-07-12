@@ -1534,6 +1534,18 @@ textarea {
   overflow-x: visible;
 }
 
+/* Phone browsers resolve 100vh against the *large* viewport (as if the URL bar
+   were hidden), so the panel is allowed to grow taller than the screen really
+   is. The content then fits the max-height, overflow-y never engages, and the
+   last rows of the menu — the social links and the theme toggle — sit below the
+   visible area with no way to scroll to them. dvh tracks the viewport that is
+   actually on screen, so the panel stays reachable. */
+@supports (max-height: 100dvh) {
+  .nav-header .nav-wrapper {
+    max-height: calc(100dvh - 6rem);
+  }
+}
+
 @media only screen and (min-width: 769px) {
   .nav-header .nav-wrapper {
     overflow: visible;
@@ -1545,16 +1557,16 @@ textarea {
 }
 
 @media only screen and (max-width: 768px) {
+  /* Opaque on purpose. This panel's ancestor (.nav-header) is transformed with
+     translate3d to slide in, and a backdrop-filter inside a transformed
+     ancestor samples the wrong layer on iOS: the blurred plate renders the page
+     behind the menu instead of the menu's own dark surface, so in light mode the
+     menu items get washed out by the light page. Desktop engines composite it
+     correctly, which is why this only ever showed up on a real phone. A solid
+     fill costs nothing here and cannot be mis-composited. */
   .nav-header .nav-wrapper {
     background: #222426;
     flex-direction: column;
-  }
-
-  @supports (-webkit-backdrop-filter: blur(2rem)) {
-    .nav-header .nav-wrapper {
-      background: rgba(34, 36, 38, 0.9);
-      -webkit-backdrop-filter: blur(2rem);
-    }
   }
 }
 
