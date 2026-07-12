@@ -1,3 +1,9 @@
+## v3.2.3 (2026-07-12)
+
+### Fix
+
+- repair mobile menu rendering on real devices
+
 ## v3.2.2 (2026-07-10)
 
 ### Fix
