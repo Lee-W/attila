@@ -101,7 +101,16 @@ class TestBaseLayout:
         assert not any(
             "font-awesome" in href or "fontawesome" in href for href in stylesheets
         )
-        assert soup.select_one('svg.icon use[href*="/icons/icons.svg#"]') is not None
+        # Same-document references only: WebKit renders <use> blank when it points
+        # at an external SVG file, which silently killed every icon on iOS.
+        icon_use = soup.select_one("svg.icon use")
+        assert icon_use is not None
+        assert icon_use["href"].startswith("#")
+
+        # ...which only resolves because the sprite is inlined into the page.
+        sprite = soup.select_one("svg.icon-sprite")
+        assert sprite is not None
+        assert sprite.select_one(f'symbol[id="{icon_use["href"][1:]}"]') is not None
 
     def test_search_assets_only_render_when_enabled(
         self,

@@ -1,5 +1,7 @@
 {% macro icon(name, class_name="") -%}
 <svg class="icon{% if class_name %} {{ class_name }}{% endif %}" aria-hidden="true" focusable="false">
-  <use href="{{ STATIC_SITEURL|default(SITEURL) }}/{{ THEME_STATIC_DIR }}/icons/icons.svg#{{ name }}"></use>
+  {# Same-document reference: the sprite is inlined by partials/icon-sprite.html.
+     An external-file href renders blank on every iOS browser. #}
+  <use href="#{{ name }}"></use>
 </svg>
 {%- endmacro %}

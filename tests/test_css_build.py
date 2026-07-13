@@ -46,3 +46,22 @@ def test_mobile_post_header_keeps_padding_inside_viewport_width():
         r"box-sizing: border-box;\s*display: block;",
         refresh,
     )
+
+
+def test_inlined_icon_sprite_matches_the_sprite_file():
+    """The templates inline the sprite; the standalone file must not drift from it.
+
+    Both artifacts come from `node scripts/build_icon_sprite.mjs ... OUTPUT PARTIAL`.
+    The inlined copy is what pages actually reference: WebKit does not resolve
+    <use> across documents, so an external sprite renders blank on iOS.
+    """
+    theme = REPO_ROOT / "src/pelican/themes/attila"
+    sprite = (theme / "static/icons/icons.svg").read_text()
+    partial = (theme / "templates/partials/icon-sprite.html").read_text()
+
+    symbols = re.findall(r'<symbol id="([^"]+)"', sprite)
+    assert symbols, "no symbols found in icons.svg"
+    assert re.findall(r'<symbol id="([^"]+)"', partial) == symbols, (
+        "icon-sprite.html is out of sync with icons.svg. Re-run "
+        "scripts/build_icon_sprite.mjs to regenerate both."
+    )
