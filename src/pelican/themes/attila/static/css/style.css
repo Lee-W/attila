@@ -2884,27 +2884,29 @@ textarea {
   font-weight: 500;
 }
 
-.theme-icon-system,
 .theme-icon-light,
 .theme-icon-dark {
   margin: 0 0.5rem 0 0;
 }
 
-/* System (default): show outline sun */
-.theme-icon-system {
-  display: inline-block;
-}
+/* No saved preference: follow the OS, defaulting to the light icon. */
 .theme-icon-light {
-  display: none;
+  display: inline-block;
 }
 .theme-icon-dark {
   display: none;
 }
 
-/* Light mode forced */
-.theme-light .theme-icon-system {
-  display: none;
+@media (prefers-color-scheme: dark) {
+  .theme-icon-light {
+    display: none;
+  }
+  .theme-icon-dark {
+    display: inline-block;
+  }
 }
+
+/* Light mode forced (specificity beats the media query above) */
 .theme-light .theme-icon-light {
   display: inline-block;
 }
@@ -2912,10 +2914,7 @@ textarea {
   display: none;
 }
 
-/* Dark mode forced */
-.theme-dark .theme-icon-system {
-  display: none;
-}
+/* Dark mode forced (specificity beats the media query above) */
 .theme-dark .theme-icon-light {
   display: none;
 }

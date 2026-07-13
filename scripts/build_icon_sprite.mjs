@@ -16,7 +16,6 @@ const icons = [
   ["chevron-down", solidDir, "faChevronDown"],
   ["rss", solidDir, "faRss"],
   ["language", solidDir, "faLanguage"],
-  ["sun-outline", regularDir, "faSun"],
   ["sun", solidDir, "faSun"],
   ["moon", solidDir, "faMoon"],
   ["location", solidDir, "faLocationDot"],

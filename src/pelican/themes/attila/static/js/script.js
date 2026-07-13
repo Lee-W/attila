@@ -147,8 +147,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const saveTheme = (theme) => {
       try {
-        if (theme === "system") localStorage.removeItem("attila_theme");
-        else localStorage.setItem("attila_theme", theme);
+        localStorage.setItem("attila_theme", theme);
       } catch (error) {
         // Theme switching still works for this page when storage is unavailable.
       }
@@ -158,10 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const label = toggle.getAttribute(`data-${theme}`);
       toggle.setAttribute("title", label);
       toggle.setAttribute("aria-label", label);
-      toggle.setAttribute(
-        "aria-pressed",
-        theme === "system" ? "mixed" : String(theme === "dark"),
-      );
+      toggle.setAttribute("aria-pressed", String(theme === "dark"));
     };
 
     const setDark = (persist = true) => {
@@ -180,37 +176,53 @@ document.addEventListener("DOMContentLoaded", () => {
       updateToggle("light");
     };
 
-    const setSystem = () => {
-      html.classList.remove("theme-dark", "theme-light");
-      html.style.colorScheme = "";
-      saveTheme("system");
-      updateToggle("system");
-    };
+    // Whether the OS currently prefers dark, used both to decide the
+    // effective (unsaved) theme and as the flip basis for the first click.
+    const prefersDarkQuery =
+      typeof window.matchMedia === "function"
+        ? window.matchMedia("(prefers-color-scheme: dark)")
+        : null;
 
     // Initialize theme
-    switch (getSavedTheme()) {
-      case "dark":
-        setDark(false);
-        break;
-      case "light":
-        setLight(false);
-        break;
-      default:
-        setSystem();
-        break;
+    const savedTheme = getSavedTheme();
+    if (savedTheme === "dark") {
+      setDark(false);
+    } else if (savedTheme === "light") {
+      setLight(false);
+    } else {
+      // No saved preference: don't add a class, let color-scheme follow the
+      // OS. Only sync the toggle's label/aria to match.
+      updateToggle(
+        prefersDarkQuery && prefersDarkQuery.matches ? "dark" : "light",
+      );
     }
 
-    // Toggle click
+    // Toggle click: flip between light and dark based on the effective
+    // (not just saved) theme, so an OS-dark visitor's first click is a
+    // visible change rather than a no-op.
     toggle.addEventListener("click", (e) => {
       e.preventDefault();
-      if (!html.classList.contains("theme-dark") && !html.classList.contains("theme-light")) {
+      const isDark = html.classList.contains("theme-dark")
+        ? true
+        : html.classList.contains("theme-light")
+          ? false
+          : Boolean(prefersDarkQuery && prefersDarkQuery.matches);
+      if (isDark) {
         setLight();
-      } else if (html.classList.contains("theme-light")) {
-        setDark();
       } else {
-        setSystem();
+        setDark();
       }
     });
+
+    // While no preference is saved, keep the toggle's label/aria in sync
+    // with OS changes. Once the visitor picks a theme, this no longer
+    // applies (the choice is locked in).
+    if (prefersDarkQuery && typeof prefersDarkQuery.addEventListener === "function") {
+      prefersDarkQuery.addEventListener("change", (e) => {
+        if (getSavedTheme()) return;
+        updateToggle(e.matches ? "dark" : "light");
+      });
+    }
   };
 
   initTheme();
