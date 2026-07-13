@@ -1,3 +1,9 @@
+## v3.2.4 (2026-07-13)
+
+### Fix
+
+- inline the icon sprite so icons render on iOS
+
 ## v3.2.3 (2026-07-12)
 
 ### Fix
