@@ -1,3 +1,9 @@
+## v3.2.5 (2026-07-13)
+
+### Fix
+
+- make first click flip the theme toggle for OS-dark visitors
+
 ## v3.2.4 (2026-07-13)
 
 ### Fix

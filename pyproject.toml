@@ -1,7 +1,7 @@
 [project]
 requires-python = ">=3.11"
 name = "attila"
-version = "3.2.4"
+version = "3.2.5"
 description = "Attila Pelican Theme"
 authors = [{ name = "Arulraj Venni", email = "me@arulraj.net" }]
 maintainers = [{ name = "Wei Lee", email = "weilee.rx@gmail.com" }]
