@@ -4869,6 +4869,7 @@ a.post-nav-col:hover .post-nav-title {
 .site-banner .banner-title {
   margin: 0;
   font-size: 37px;
+  line-height: 1.2;
   font-weight: 700;
   color: #fff;
 }

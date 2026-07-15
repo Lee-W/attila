@@ -48,6 +48,15 @@ def test_mobile_post_header_keeps_padding_inside_viewport_width():
     )
 
 
+def test_listing_banner_title_has_multiline_spacing():
+    refresh = (CSS_SRC / "05a-refresh.css").read_text()
+    assert re.search(
+        r"\.site-banner \.banner-title \{\s*"
+        r"margin: 0;\s*font-size: 37px;\s*line-height: 1\.2;",
+        refresh,
+    )
+
+
 def test_inlined_icon_sprite_matches_the_sprite_file():
     """The templates inline the sprite; the standalone file must not drift from it.
 
