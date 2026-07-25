@@ -1,3 +1,9 @@
+## v3.3.0 (2026-07-25)
+
+### Feat
+
+- add admonition styles for !!! blocks
+
 ## v3.2.6 (2026-07-15)
 
 ### Fix
