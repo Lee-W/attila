@@ -48,6 +48,18 @@
 
   --font-mono: ui-monospace, "IBM Plex Mono", "SFMono-Regular", "Menlo", monospace;
 
+  /* Admonitions (`!!!` blocks) — one accent + one wash per type. Muted on
+     purpose: these sit inside body copy and must not out-shout the brand.
+     See css-src/05a-refresh.css. */
+  --adm-note: light-dark(#4a6c9b, #93b2da);
+  --adm-note-wash: light-dark(#f5f8fc, #1e242b);
+  --adm-tip: light-dark(#47755c, #8bbd9d);
+  --adm-tip-wash: light-dark(#f4faf6, #1c2521);
+  --adm-warn: light-dark(#96692a, #dcae62);
+  --adm-warn-wash: light-dark(#fdf9f0, #26211a);
+  --adm-danger: light-dark(#a1443b, #e08b80);
+  --adm-danger-wash: light-dark(#fdf5f4, #2a1e1c);
+
   /* Brand-adjacent tints (blog defaults; travlog overrides --brand + these). */
   --brand-quote: light-dark(#faf6f4, #241c18); /* blockquote wash */
   --header-meta: #e0947a; /* category label on the dark header */

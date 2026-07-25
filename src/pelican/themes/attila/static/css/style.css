@@ -238,6 +238,18 @@ th {
 
   --font-mono: ui-monospace, "IBM Plex Mono", "SFMono-Regular", "Menlo", monospace;
 
+  /* Admonitions (`!!!` blocks) — one accent + one wash per type. Muted on
+     purpose: these sit inside body copy and must not out-shout the brand.
+     See css-src/05a-refresh.css. */
+  --adm-note: light-dark(#4a6c9b, #93b2da);
+  --adm-note-wash: light-dark(#f5f8fc, #1e242b);
+  --adm-tip: light-dark(#47755c, #8bbd9d);
+  --adm-tip-wash: light-dark(#f4faf6, #1c2521);
+  --adm-warn: light-dark(#96692a, #dcae62);
+  --adm-warn-wash: light-dark(#fdf9f0, #26211a);
+  --adm-danger: light-dark(#a1443b, #e08b80);
+  --adm-danger-wash: light-dark(#fdf5f4, #2a1e1c);
+
   /* Brand-adjacent tints (blog defaults; travlog overrides --brand + these). */
   --brand-quote: light-dark(#faf6f4, #241c18); /* blockquote wash */
   --header-meta: #e0947a; /* category label on the dark header */
@@ -4520,6 +4532,80 @@ body {
 
 .post-content details > :last-child {
   margin-bottom: 14px;
+}
+
+/* Admonitions (`!!!` blocks) — the <details> card above minus the toggle, plus
+   a coloured left rule so a warning reads as one before it is read at all.
+   Each variant only re-points --adm / --adm-wash, so the shape is declared
+   once. An unrecognised type falls back to the neutral note colours. */
+.post-content .admonition,
+.post-content details[class] {
+  --adm: var(--adm-note);
+  --adm-wash: var(--adm-note-wash);
+}
+
+.post-content .admonition {
+  margin: 0 0 22px;
+  padding: 14px 20px;
+  border: 1px solid var(--rule);
+  border-inline-start: 3px solid var(--adm);
+  border-radius: var(--radius-medium);
+  background: var(--adm-wash);
+}
+
+.post-content .admonition > :first-child {
+  margin-top: 0;
+}
+
+.post-content .admonition > :last-child {
+  margin-bottom: 0;
+}
+
+.post-content .admonition-title {
+  margin-bottom: 8px;
+  color: var(--adm);
+  font-weight: 700;
+}
+
+/* A typed `???`/`???+` block (e.g. `??? warning`) picks up the same accent, so
+   a collapsible warning matches a plain one. Untyped `???` keeps the neutral
+   card from the block above. */
+.post-content details[class] {
+  border-inline-start: 3px solid var(--adm);
+}
+
+.post-content details[class] > summary {
+  color: var(--adm);
+}
+
+.post-content .admonition.tip,
+.post-content .admonition.hint,
+.post-content .admonition.success,
+.post-content details.tip,
+.post-content details.hint,
+.post-content details.success {
+  --adm: var(--adm-tip);
+  --adm-wash: var(--adm-tip-wash);
+}
+
+.post-content .admonition.warning,
+.post-content .admonition.attention,
+.post-content .admonition.caution,
+.post-content details.warning,
+.post-content details.attention,
+.post-content details.caution {
+  --adm: var(--adm-warn);
+  --adm-wash: var(--adm-warn-wash);
+}
+
+.post-content .admonition.danger,
+.post-content .admonition.error,
+.post-content .admonition.bug,
+.post-content details.danger,
+.post-content details.error,
+.post-content details.bug {
+  --adm: var(--adm-danger);
+  --adm-wash: var(--adm-danger-wash);
 }
 
 /* =========================================================================
