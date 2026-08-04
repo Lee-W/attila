@@ -26,9 +26,6 @@ jobs:
       - name: Install dependencies
         run: uv sync --group dev
 
-      - name: Install gettext (msgfmt)
-        run: sudo apt-get update && sudo apt-get install -y gettext
-
       - name: Configure Git user
         run: |
           git config user.name "github-actions[bot]"

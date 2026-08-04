@@ -90,6 +90,14 @@ all.sequence = ["format", "lint", "check-commit", "test"]
 help = "Regenerate static/css/style.css from the css-src/ modules"
 shell = "cat css-src/*.css > src/pelican/themes/attila/static/css/style.css"
 
+[tool.poe.tasks.build-i18n]
+help = "Recompile the messages.mo catalogs from their messages.po sources"
+shell = """
+for po in src/pelican/themes/attila/translations/*/LC_MESSAGES/messages.po; do
+  msgfmt "$po" -o "${po%.po}.mo"
+done
+"""
+
 [tool.commitizen]
 name = "cz_conventional_commits"
 tag_format = "v$version"

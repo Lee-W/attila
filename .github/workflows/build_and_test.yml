@@ -26,6 +26,9 @@ jobs:
         uv --version
         uv sync --group dev
 
+    - name: Install gettext (msgfmt)
+      run: sudo apt-get update && sudo apt-get install -y gettext
+
     - name: Run ruff
       run: |
         uv run poe lint
