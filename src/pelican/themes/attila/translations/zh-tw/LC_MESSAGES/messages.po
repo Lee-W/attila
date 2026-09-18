@@ -35,6 +35,9 @@ msgstr "分類"
 msgid "Dark theme"
 msgstr "深色主題"
 
+msgid "Licensed under"
+msgstr "採用授權條款"
+
 msgid "Light theme"
 msgstr "淺色主題"
 
@@ -56,6 +59,12 @@ msgstr "歷史上的今天"
 msgid "Page %(current)s of %(total)s"
 msgstr "第 %(current)s 頁，共 %(total)s 頁"
 
+msgid "Pages"
+msgstr "頁面"
+
+msgid "Pages: %(count)s"
+msgstr "頁面：%(count)s"
+
 msgid "Post"
 msgstr "篇文章"
 
@@ -67,6 +76,9 @@ msgstr "以 %(pelican)s 建立 &bull; 主題：%(attila)s &bull;"
 
 msgid "Read a random article"
 msgstr "隨機閱讀一篇文章"
+
+msgid "Search"
+msgstr "搜尋"
 
 msgid "Share"
 msgstr "分享"
@@ -85,3 +97,6 @@ msgstr "標籤"
 
 msgid "This post is part %(index)s of the \"%(name)s\" series:"
 msgstr "本文是「%(name)s」系列的第 %(index)s 篇："
+
+msgid "Toggle theme"
+msgstr "切換主題"
