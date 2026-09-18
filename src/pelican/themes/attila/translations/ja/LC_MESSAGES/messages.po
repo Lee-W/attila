@@ -1,0 +1,99 @@
+# Japanese translations for Attila theme.
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ja\n"
+
+msgid "%(count)s Posts"
+msgstr "%(count)s 件の記事"
+
+msgid "%(count)s min read"
+msgstr "約 %(count)s 分で読めます"
+
+msgid "%(count)s words"
+msgstr "全 %(count)s 文字"
+
+msgid "Archives"
+msgstr "アーカイブ"
+
+msgid "Article Series"
+msgstr "連載記事"
+
+msgid "Author"
+msgstr "著者"
+
+msgid "Authors"
+msgstr "著者"
+
+msgid "Categories"
+msgstr "カテゴリー"
+
+msgid "Category"
+msgstr "カテゴリー"
+
+msgid "Dark theme"
+msgstr "ダークテーマ"
+
+msgid "Licensed under"
+msgstr "ライセンス"
+
+msgid "Light theme"
+msgstr "ライトテーマ"
+
+msgid "Newer"
+msgstr "新しい"
+
+msgid "Newer Posts"
+msgstr "新しい記事"
+
+msgid "Older"
+msgstr "古い"
+
+msgid "Older Posts"
+msgstr "古い記事"
+
+msgid "On This Day"
+msgstr "過去の今日"
+
+msgid "Page %(current)s of %(total)s"
+msgstr "%(total)s ページ中 %(current)s ページ目"
+
+msgid "Pages"
+msgstr "ページ"
+
+msgid "Pages: %(count)s"
+msgstr "ページ：%(count)s"
+
+msgid "Post"
+msgstr "記事"
+
+msgid "Posts"
+msgstr "記事"
+
+msgid "Published with %(pelican)s &bull; Theme %(attila)s &bull;"
+msgstr "%(pelican)s で作成 &bull; テーマ：%(attila)s &bull;"
+
+msgid "Read a random article"
+msgstr "ランダムに記事を読む"
+
+msgid "Search"
+msgstr "検索"
+
+msgid "Share"
+msgstr "シェア"
+
+msgid "Skip to content"
+msgstr "本文へスキップ"
+
+msgid "System theme"
+msgstr "システムのテーマ"
+
+msgid "Tag"
+msgstr "タグ"
+
+msgid "Tags"
+msgstr "タグ"
+
+msgid "This post is part %(index)s of the \"%(name)s\" series:"
+msgstr "この記事はシリーズ「%(name)s」の %(index)s 番目の記事です："
