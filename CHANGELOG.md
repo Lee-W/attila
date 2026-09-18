@@ -1,3 +1,14 @@
+## v3.4.0 (2026-09-18)
+
+### Feat
+
+- **i18n**: ship a Japanese message catalog
+
+### Fix
+
+- **i18n**: keep language switcher hrefs inside the target subsite
+- **i18n**: translate the strings missing from the zh-tw catalog
+
 ## v3.3.0 (2026-07-25)
 
 ### Feat
