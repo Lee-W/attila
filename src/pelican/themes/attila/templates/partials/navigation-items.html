@@ -83,9 +83,18 @@
             {% elif lang_siteurls is defined %}
               {% set trans = article.translations | selectattr('lang', 'equalto', lang_name) | list %}
               {% if trans %}
-                {% set ns.target_url = '/' ~ trans[0].url %}
+                {# i18n_subsites rewrites a translation's url relative to the current subsite: "ja/pages/x.html" going down into one, "../pages/x.html" coming back up. Strip the leading relative segment so the href is a plain absolute path either way. #}
+                {% set ns.target_url = '/' ~ trans[0].url.lstrip('./') %}
+              {% else %}
+                {# Untranslated content is served from the same path under every
+                   subsite, so point there and let the data-fallback JS drop back
+                   to the home page when it really is missing. #}
+                {% set fallback_url = '/' if not base else base ~ '/' %}
+                <li>
+                  <a href="{{ base ~ '/' ~ article.url }}" data-fallback="{{ fallback_url }}">{{ lang_names.get(lang_name) or lang_name }}</a>
+                </li>
+                {% set ns.show = False %}
               {% endif %}
-              {# no translation found: ns.target_url stays as home page fallback #}
             {% endif %}
           {% elif page %}
             {# Use translation if available, otherwise fallback to home #}
@@ -94,7 +103,8 @@
             {% else %}
               {% set trans = page.translations | selectattr('lang', 'equalto', lang_name) | list %}
               {% if trans %}
-                {% set ns.target_url = '/' ~ trans[0].url %}
+                {# i18n_subsites rewrites a translation's url relative to the current subsite: "ja/pages/x.html" going down into one, "../pages/x.html" coming back up. Strip the leading relative segment so the href is a plain absolute path either way. #}
+                {% set ns.target_url = '/' ~ trans[0].url.lstrip('./') %}
               {% else %}
                 {% set fallback_url = '/' if not base else base ~ '/' %}
                 <li>

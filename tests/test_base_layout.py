@@ -179,3 +179,28 @@ class TestBaseLayout:
             settings=default_settings,
         )
         assert soup.select_one(".nav-language-label").get_text(strip=True) == "English"
+
+    def test_language_switcher_links_untranslated_article_to_the_same_path(
+        self,
+        default_settings: Settings,
+        gen_article_and_html_from_rst: Callable,
+    ):
+        default_settings["LANGUAGES"] = [("en", "/"), ("ja", "/ja/")]
+        default_settings["LANGUAGE_NAMES"] = {"en": "English", "ja": "日本語"}
+        # i18n_subsites adds lang_siteurls to the context; its presence is what
+        # puts the switcher into subsite mode.
+        default_settings["lang_siteurls"] = {"en": "", "ja": "/ja"}
+
+        article, soup = gen_article_and_html_from_rst(
+            rst_path="content/article_with_og_image.rst",
+            settings=default_settings,
+        )
+
+        links = {
+            anchor.get_text(strip=True): anchor
+            for anchor in soup.select(".nav-language-dropdown a")
+        }
+        # An article with no translation is still served from the same path in
+        # every subsite, so the switcher points there instead of the home page.
+        assert links["日本語"]["href"] == f"/ja/{article.url}"
+        assert links["日本語"]["data-fallback"] == "/ja/"
