@@ -1,3 +1,9 @@
+## v3.4.1 (2026-09-21)
+
+### Fix
+
+- **random-article**: stop gating the button on a literal PLUGINS entry
+
 ## v3.4.0 (2026-09-18)
 
 ### Feat
