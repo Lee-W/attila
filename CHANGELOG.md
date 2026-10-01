@@ -1,3 +1,9 @@
+## v3.5.0 (2026-10-01)
+
+### Feat
+
+- **feed**: configurable feed link titles and extra feed links
+
 ## v3.4.1 (2026-09-21)
 
 ### Fix
