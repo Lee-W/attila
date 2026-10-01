@@ -1,29 +1,36 @@
-{% set global_feeds = [
-  ("atom", FEED_ALL_ATOM),
-  ("rss", FEED_ALL_RSS),
-  ("atom", FEED_ATOM),
-  ("rss", FEED_RSS)
+{# FEED_LINK_TITLES: {"<feed setting name>": "<title>"}; entity feed titles
+   may use {name} (no other placeholder is substituted). FEED_EXTRA_LINKS:
+   ((title, href[, "atom"|"rss"]), ...), href used as given. Unset or None
+   renders the same HTML as before. -#}
+{% set feed_titles = FEED_LINK_TITLES|default({}, true) %}{% set global_feeds = [
+  ("atom", FEED_ALL_ATOM, "FEED_ALL_ATOM"),
+  ("rss", FEED_ALL_RSS, "FEED_ALL_RSS"),
+  ("atom", FEED_ATOM, "FEED_ATOM"),
+  ("rss", FEED_RSS, "FEED_RSS")
 ] %}
 
-{% for fmt, feed in global_feeds if feed %}
+{% for fmt, feed, key in global_feeds if feed %}
 <link href="{{ FEED_DOMAIN }}/{{ feed }}" type="application/{{ fmt }}+xml"
-      rel="alternate" title="{{ SITENAME }} Full {{ fmt|upper }} Feed" />
+      rel="alternate" title="{% if key in feed_titles %}{{ feed_titles[key]|e }}{% else %}{{ SITENAME }} Full {{ fmt|upper }} Feed{% endif %}" />
+{% endfor %}{% for link in FEED_EXTRA_LINKS|default((), true) %}
+<link href="{{ link[1]|e }}" type="application/{{ "rss" if (link[2]|default("atom"))|lower == "rss" else "atom" }}+xml"
+      rel="alternate" title="{{ link[0]|e }}" />
 {% endfor %}
 
 {% set entity_feeds = [
-  ("category", CATEGORY_FEED_ATOM, CATEGORY_FEED_RSS, category),
-  ("tag", TAG_FEED_ATOM, TAG_FEED_RSS, tag),
-  ("author", AUTHOR_FEED_ATOM, AUTHOR_FEED_RSS, author)
+  ("category", CATEGORY_FEED_ATOM, CATEGORY_FEED_RSS, category, "CATEGORY"),
+  ("tag", TAG_FEED_ATOM, TAG_FEED_RSS, tag, "TAG"),
+  ("author", AUTHOR_FEED_ATOM, AUTHOR_FEED_RSS, author, "AUTHOR")
 ] %}
 
-{% for entity_name, atom_feed, rss_feed, entity in entity_feeds if entity %}
+{% for entity_name, atom_feed, rss_feed, entity, key in entity_feeds if entity %}{% set entity_label = (CATEGORY_TRANSLATIONS|default({}, true)).get(entity.name, entity.name) if key == "CATEGORY" else entity.name %}
   {% if atom_feed %}
   <link href="{{ FEED_DOMAIN }}/{{ atom_feed.format(slug=entity.slug) }}" type="application/atom+xml"
-        rel="alternate" title="{{ SITENAME }} {{ entity_name|capitalize }} Atom Feed" />
+        rel="alternate" title="{% if key ~ "_FEED_ATOM" in feed_titles %}{{ feed_titles[key ~ "_FEED_ATOM"]|replace("{name}", entity_label)|e }}{% else %}{{ SITENAME }} {{ entity_name|capitalize }} Atom Feed{% endif %}" />
   {% endif %}
 
   {% if rss_feed %}
   <link href="{{ FEED_DOMAIN }}/{{ rss_feed.format(slug=entity.slug) }}" type="application/rss+xml"
-        rel="alternate" title="{{ SITENAME }} {{ entity_name|capitalize }} RSS Feed" />
+        rel="alternate" title="{% if key ~ "_FEED_RSS" in feed_titles %}{{ feed_titles[key ~ "_FEED_RSS"]|replace("{name}", entity_label)|e }}{% else %}{{ SITENAME }} {{ entity_name|capitalize }} RSS Feed{% endif %}" />
   {% endif %}
 {% endfor %}

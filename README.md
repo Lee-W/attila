@@ -199,6 +199,26 @@ SOCIAL = (
 ### External Feed URL
 Specify external feed (FeedBurner, etc.) using `rss`, `rss-square`, or `feed` icons in `SOCIAL`. A `<link>` will be placed in `<head>`.
 
+### Feed Links
+`<head>` gets a `<link rel="alternate">` for every feed Pelican writes (`FEED_ALL_ATOM`, `FEED_ATOM`, their RSS twins, and the category / tag / author feed of the current page). Two optional settings adjust them:
+
+- `FEED_LINK_TITLES` maps a feed setting name to the link title. The keys are `FEED_ALL_ATOM`, `FEED_ALL_RSS`, `FEED_ATOM`, `FEED_RSS`, and `CATEGORY_FEED_ATOM`, `CATEGORY_FEED_RSS`, `TAG_FEED_ATOM`, `TAG_FEED_RSS`, `AUTHOR_FEED_ATOM`, `AUTHOR_FEED_RSS`. Category, tag and author titles can use `{name}` (category names go through `CATEGORY_TRANSLATIONS`); it is the only placeholder, other braces are printed as they are. Feeds without an entry keep the default title (`<SITENAME> Full ATOM Feed`, `<SITENAME> Category Atom Feed`, ...).
+- `FEED_EXTRA_LINKS` adds links for feeds the theme does not know about, as `(title, href)` or `(title, href, "rss")` tuples (default type: Atom). `href` is escaped for HTML but otherwise used as given, so give a full URL; any type other than `"rss"` is Atom. They are listed after the site feeds. Setting either option to `None` is the same as not setting it.
+
+```python
+FEED_ATOM = "en/feeds/all.atom.xml"
+CATEGORY_FEED_ATOM = "en/feeds/{slug}.atom.xml"
+FEED_LINK_TITLES = {
+    "FEED_ATOM": "My Blog — English",
+    "CATEGORY_FEED_ATOM": "My Blog — English — {name}",
+}
+FEED_EXTRA_LINKS = (
+    ("My Blog — All languages", "https://example.com/feeds/all.atom.xml"),
+)
+```
+
+With neither setting, the links are the same as in earlier versions.
+
 ### User-defined CSS
 
 Define `CSS_OVERRIDE` in `pelicanconf.py` to insert a user-defined CSS file after the theme CSS. Example:
