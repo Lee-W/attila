@@ -41,6 +41,9 @@ msgstr "ダークテーマ"
 msgid "Licensed under"
 msgstr "ライセンス"
 
+msgid "Link to this section"
+msgstr "このセクションへのリンク"
+
 msgid "Light theme"
 msgstr "ライトテーマ"
 

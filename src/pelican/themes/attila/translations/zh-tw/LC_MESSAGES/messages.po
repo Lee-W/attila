@@ -41,6 +41,9 @@ msgstr "深色主題"
 msgid "Licensed under"
 msgstr "採用授權條款"
 
+msgid "Link to this section"
+msgstr "連結到此段落"
+
 msgid "Light theme"
 msgstr "淺色主題"
 

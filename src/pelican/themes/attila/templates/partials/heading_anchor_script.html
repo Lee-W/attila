@@ -5,7 +5,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const anchor = document.createElement("a");
     anchor.href = "#" + heading.id;
     anchor.className = "heading-anchor";
-    anchor.setAttribute("aria-hidden", "true");
+    // A focusable link must stay exposed to assistive technology, so give it
+    // an accessible name instead of hiding it.
+    anchor.setAttribute("aria-label", {{ i18n.t("Link to this section")|tojson }} + ": " + heading.textContent.trim());
     anchor.textContent = "#";
     heading.appendChild(anchor);
   });
