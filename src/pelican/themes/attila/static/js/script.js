@@ -108,13 +108,19 @@ document.addEventListener("DOMContentLoaded", () => {
       const postRect = post.getBoundingClientRect();
       const postBottom = postRect.top + window.scrollY + post.offsetHeight;
       const viewportHeight = window.innerHeight;
-      const progress =
-        100 -
-        ((postBottom - (window.scrollY + viewportHeight) + viewportHeight / 3) /
-          (postBottom - viewportHeight + viewportHeight / 3)) *
-          100;
+      const scrollable = postBottom - viewportHeight + viewportHeight / 3;
+      // A post that fits in the viewport has nothing to scroll, which would
+      // divide by zero (or flip the sign); treat it as already read.
+      const rawProgress =
+        scrollable > 0
+          ? 100 -
+            ((postBottom - (window.scrollY + viewportHeight) + viewportHeight / 3) /
+              scrollable) *
+              100
+          : 100;
+      const progress = Math.min(100, Math.max(0, rawProgress));
       progressBar.style.width = progress + "%";
-      progressContainer.classList.toggle("complete", progress > 100);
+      progressContainer.classList.toggle("complete", rawProgress > 100);
     });
   }
 

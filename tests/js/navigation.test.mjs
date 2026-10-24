@@ -216,3 +216,76 @@ test("first click flips away from the OS-dark effective theme when nothing is sa
   assert.equal(theme.getAttribute("aria-label"), "Light theme");
   assert.equal(values.get("attila_theme"), "light");
 });
+
+function loadReadingProgress({ postHeight, postTop }) {
+  const html = new Element();
+  html.style = {};
+  const post = new Element();
+  post.offsetHeight = postHeight;
+  post.getBoundingClientRect = () => ({ top: postTop - window.scrollY });
+  const progressBar = new Element();
+  progressBar.style = {};
+  const progressContainer = new Element();
+
+  const document = new EventTarget();
+  document.documentElement = html;
+  document.querySelector = (selector) =>
+    ({
+      ".post-content": post,
+      ".progress-bar": progressBar,
+      ".progress-container": progressContainer,
+    })[selector] ?? null;
+  document.querySelectorAll = () => [];
+  document.getElementById = () => null;
+
+  const window = new EventTarget();
+  window.scrollY = 0;
+  window.innerHeight = 1000;
+  window.matchMedia = () => ({ matches: false, addEventListener: () => {} });
+  window.requestAnimationFrame = (callback) => callback();
+
+  const localStorage = {
+    getItem: () => null,
+    setItem: () => {},
+    removeItem: () => {},
+  };
+  vm.runInNewContext(script, {
+    AbortController,
+    URL,
+    document,
+    localStorage,
+    window,
+  });
+  document.dispatch("DOMContentLoaded");
+
+  return {
+    width: () => progressBar.style.width,
+    complete: () => progressContainer.classList.contains("complete"),
+    scrollTo: (y) => {
+      window.scrollY = y;
+      window.dispatch("scroll");
+    },
+  };
+}
+
+test("reading progress stays within 0-100% on a post shorter than the viewport", () => {
+  // The post fits on screen, so the divisor is zero or negative.
+  const progress = loadReadingProgress({ postHeight: 100, postTop: 100 });
+
+  for (const y of [0, 50, 300]) {
+    progress.scrollTo(y);
+    assert.equal(progress.width(), "100%", `scrollY=${y}`);
+  }
+});
+
+test("reading progress is clamped to 0-100% on a long post", () => {
+  const progress = loadReadingProgress({ postHeight: 5000, postTop: 100 });
+
+  progress.scrollTo(0);
+  assert.equal(progress.width(), "0%");
+  assert.equal(progress.complete(), false);
+
+  progress.scrollTo(100000);
+  assert.equal(progress.width(), "100%");
+  assert.equal(progress.complete(), true);
+});
