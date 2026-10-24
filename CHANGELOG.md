@@ -1,3 +1,37 @@
+## v4.0.0 (2026-10-24)
+
+### BREAKING CHANGE
+
+- DISQUS_SITENAME no longer has any effect. Switch to UTTERANCES_REPO or drop comments.
+
+### Feat
+
+- remove the Disqus comment integration
+
+### Fix
+
+- **i18n**: translate the theme toggle label in Japanese
+- **progress**: mark the reading progress complete when a short post is forced to 100%
+- **archives**: label month pages with the translated month and canonicalize from the written file
+- **tags**: keep the tag cloud on one size scale past five steps
+- **seo**: derive og:locale from the page language
+- **i18n**: route listing titles and UI strings through i18n.t
+- **a11y**: name heading anchors instead of hiding them
+- **progress**: keep the reading progress bar within 0-100%
+- **share**: percent-encode the title and URL in every share link
+- **seo**: emit valid ISO dates and schema.org types in meta and JSON-LD
+- **cover**: resolve covers in one place and rank page colors like articles
+- **plugins**: load OSM and heatmap assets without a literal PLUGINS entry
+- **i18n**: translate the year-month divider on listing pages
+- **i18n**: fill the no-gettext fallback and accept every zh locale
+- **seo**: point month archive and paginated canonicals at their own URL
+
+### Refactor
+
+- **css**: drop the .extra-pagination rules no template emits
+- **css**: remove rules for classes nothing emits
+- remove unused partials, the og wrappers and the Ghost gallery script
+
 ## v3.5.0 (2026-10-01)
 
 ### Feat
