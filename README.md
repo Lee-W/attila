@@ -99,13 +99,26 @@ To set an article subtitle, set `subtitle` metadata in the front-matter.
 You can set cover images for blog, article, page, tag, category, and author.  
 
 #### Blog Cover
-This is the cover image for your site's main index.html.
-To set blog cover, set the property `HOME_COVER` in
-`pelicanconf.py`:
+`HOME_COVER` is the site-wide cover image. It is the banner of your main
+index.html and the fallback cover for every page that has no cover of its own
+(articles, pages, tags, categories, authors and the other listings). For
+articles and pages it also feeds `og:image`.
+To set it, set the property `HOME_COVER` in `pelicanconf.py`:
 
 ```python
 HOME_COVER = "/assets/images/blog_cover.png"
 ```
+
+Cover precedence, highest first:
+
+| Page | Order |
+|------|-------|
+| Article | own `cover`, `og_image`, own `color`, `HEADER_COVER`, `HOME_COVER`, `HEADER_COLOR` |
+| Page | own `cover`, `og_image`, own `color`, `HEADER_COVER`, `HOME_COVER`, `HEADER_COLOR` |
+| Tag, category, author | own cover, `HEADER_COVER`, `HOME_COVER`; then own color, `HEADER_COLOR`, `HOME_COLOR` |
+| Index and other listings | `HEADER_COVER`, `HOME_COVER`; then `HEADER_COLOR`, `HOME_COLOR` |
+
+A color only shows when no cover image wins.
 
 > **NOTE**  
 > `HEADER_COVER` property is deprecated. Use `HOME_COVER` and article-level covers instead.
@@ -178,7 +191,7 @@ To define a simple header background color, set the property `HOME_COLOR` in `pe
 HOME_COLOR = "black"
 ```
 
-You can use any valid CSS color. This will be used if there is no cover.
+You can use any valid CSS color. It is the fallback color of the main index and of every listing (tags, categories, authors, archives) when there is no cover image and no more specific color (`HEADER_COLOR`, or the tag/category/author's own color). Articles and pages do not use `HOME_COLOR`; they take their own `color` or `HEADER_COLOR`. See the precedence table in [Blog Cover](#blog-cover).
 
 > **NOTE**  
 > `HEADER_COLOR` is deprecated. Use `HOME_COLOR` and article-level colors instead.
@@ -421,7 +434,6 @@ Theme-specific settings that are all optional:
 | `SERIES_LIST_URL` | str | `"series/"` | URL of the series list page, used to mark the navigation item active |
 | `SERIES_LIST_SAVE_AS` | str | unset | Output path of the series list page; takes precedence over `SERIES_LIST_URL` when set |
 | `UTTERANCES_THEME` | str | `"github-light"` | utterances theme |
-| `UTTERANCES_FILTER` | bool | `False` | Declared in the theme defaults but not currently passed to the utterances script |
 
 ```python
 SITE_DESCRIPTION = "Notes on Python and Pelican"
