@@ -19,7 +19,8 @@
   {% set banner_color = tag_color or HEADER_COLOR %}
 {% endif %}
 
-{% block canonical_url %}<link href="{{ SITEURL }}/{{tag.url}}" rel="canonical" />{% endblock canonical_url %}
+{# Later pages of a paginated listing are canonical to themselves, not page 1. #}
+{% block canonical_url %}<link href="{{ SITEURL }}/{{ articles_page.url if articles_page and articles_page.number > 1 else tag.url }}" rel="canonical" />{% endblock canonical_url %}
 
 {% block header %}
   {% set banner_title = "#" ~ (tag.name | title) %}

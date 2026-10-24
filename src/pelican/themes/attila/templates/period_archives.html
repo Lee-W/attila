@@ -10,7 +10,19 @@
   {% set banner_color = HEADER_COLOR %}
 {% endif %}
 
-{% block canonical_url %}<link href="{{ SITEURL }}/{{ period_num[0] }}/{{ period_num[1] }}" rel="canonical" />{% endblock canonical_url %}
+{# Pelican passes the archive's own URL (YEAR/MONTH/DAY_ARCHIVE_URL) as `url`;
+   the fallback rebuilds the same zero-padded, slash-terminated shape. #}
+{% block canonical_url %}
+  {% set ns = namespace(path="") %}
+  {% if url %}
+    {% set ns.path = url %}
+  {% else %}
+    {% set ns.path = period_num[0]|string %}
+    {% for part in period_num[1:] %}{% set ns.path = ns.path ~ "/" ~ ("%02d"|format(part)) %}{% endfor %}
+    {% set ns.path = ns.path ~ "/" %}
+  {% endif %}
+<link href="{{ SITEURL }}/{{ ns.path }}" rel="canonical" />
+{% endblock canonical_url %}
 
 {% block header %}
   {% set banner_title = period | reverse | join(' ') %}

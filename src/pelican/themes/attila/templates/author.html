@@ -20,7 +20,8 @@
   {% set banner_color = (author_meta.color if author_meta else None) or HEADER_COLOR %}
 {% endif %}
 
-{% block canonical_url %}<link href="{{ SITEURL }}/{{author.url}}" rel="canonical" />{% endblock canonical_url %}
+{# Later pages of a paginated listing are canonical to themselves, not page 1. #}
+{% block canonical_url %}<link href="{{ SITEURL }}/{{ articles_page.url if articles_page and articles_page.number > 1 else author.url }}" rel="canonical" />{% endblock canonical_url %}
 
 {% block header %}
   {% set banner_title = author_name %}
