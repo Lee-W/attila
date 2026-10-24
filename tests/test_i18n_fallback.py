@@ -81,3 +81,25 @@ def test_every_template_message_translated_by_the_catalog_is_translated_by_the_z
         attila="Attila",
     )
     assert rendered != message, f"zh fallback renders {message!r} untranslated"
+
+
+class TestMonthHeading:
+    """The "year month" divider above each group of posts."""
+
+    MESSAGE = "%(month_name)s %(year)s"
+
+    def test_zh_uses_the_cjk_year_month_form(self):
+        assert _translate(self.MESSAGE, "zh-tw", year=2026, month=7) == "2026 年 7 月"
+
+    @pytest.mark.parametrize("lang", ["en", "ja"])
+    def test_other_languages_use_the_english_month_name(self, lang: str):
+        assert _translate(self.MESSAGE, lang, year=2026, month=7) == "July 2026"
+
+    def test_listing_pages_follow_the_page_language(
+        self, default_settings, gen_index_and_html
+    ):
+        soup = gen_index_and_html(settings=default_settings)
+        labels = [el.get_text(strip=True) for el in soup.select(".post-month-label")]
+
+        assert labels, "the home page should list at least one month"
+        assert all(re.fullmatch(r"[A-Z][a-z]+ \d{4}", label) for label in labels), labels

@@ -1,15 +1,18 @@
-{% macro t(message, current=None, total=None, count=None, index=None, name=None, pelican=None, attila=None) -%}
+{% macro t(message, current=None, total=None, count=None, index=None, name=None, pelican=None, attila=None, year=None, month=None) -%}
   {%- set lang = page_lang|default(DEFAULT_LANG)|lower|replace('_', '-') -%}
   {%- set zh = lang.startswith('zh') -%}
+  {#- English month name for the "%(month_name)s %(year)s" divider; derived here so callers only pass the month number. -#}
+  {%- set month_name = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][month - 1] if month else '' -%}
   {#- gettext branch: only reached if a caller still loads jinja2.ext.i18n. The default JINJA_ENVIRONMENT no longer does, so normal builds take the branches below; this is kept for compatibility and exercised by test_i18n.py. -#}
   {%- if _ is defined -%}
-    {{- _(message, current=current, total=total, count=count, index=index, name=name, pelican=pelican, attila=attila) -}}
+    {{- _(message, current=current, total=total, count=count, index=index, name=name, pelican=pelican, attila=attila, year=year, month=month, month_name=month_name) -}}
   {%- elif zh -%}
     {%- if message == "Newer Posts" -%}較新文章
     {%- elif message == "Older Posts" -%}較舊文章
     {%- elif message == "Page %(current)s of %(total)s" -%}第 {{ current }} 頁，共 {{ total }} 頁
     {%- elif message in ["Post", "Posts"] -%}篇文章
     {%- elif message == "%(count)s Posts" -%}{{ count }} 篇文章
+    {%- elif message == "%(month_name)s %(year)s" -%}{{ year }} 年 {{ month }} 月
     {%- elif message == "Newer" -%}較新
     {%- elif message == "Older" -%}較舊
     {%- elif message == "Category" -%}分類
@@ -34,10 +37,10 @@
     {%- elif message == "%(count)s min read" -%}閱讀時間約 {{ count }} 分鐘
     {%- elif message == "%(count)s words" -%}共 {{ count }} 字
     {%- elif message == "Published with %(pelican)s &bull; Theme %(attila)s &bull;" -%}以 {{ pelican }} 建立 &bull; 主題：{{ attila }} &bull;
-    {%- else -%}{{ message % {"current": current, "total": total, "count": count, "index": index, "name": name, "pelican": pelican, "attila": attila} }}
+    {%- else -%}{{ message % {"current": current, "total": total, "count": count, "index": index, "name": name, "pelican": pelican, "attila": attila, "year": year, "month": month, "month_name": month_name} }}
     {%- endif -%}
   {%- else -%}
     {#- English is the source language, so interpolating the placeholders is the whole translation. -#}
-    {{- message % {"current": current, "total": total, "count": count, "index": index, "name": name, "pelican": pelican, "attila": attila} -}}
+    {{- message % {"current": current, "total": total, "count": count, "index": index, "name": name, "pelican": pelican, "attila": attila, "year": year, "month": month, "month_name": month_name} -}}
   {%- endif -%}
 {%- endmacro %}

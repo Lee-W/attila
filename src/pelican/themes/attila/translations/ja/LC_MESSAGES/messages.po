@@ -14,6 +14,9 @@ msgstr "約 %(count)s 分で読めます"
 msgid "%(count)s words"
 msgstr "全 %(count)s 文字"
 
+msgid "%(month_name)s %(year)s"
+msgstr "%(year)s年%(month)s月"
+
 msgid "Archives"
 msgstr "アーカイブ"
 

@@ -14,6 +14,9 @@ msgstr "閱讀時間約 %(count)s 分鐘"
 msgid "%(count)s words"
 msgstr "共 %(count)s 字"
 
+msgid "%(month_name)s %(year)s"
+msgstr "%(year)s 年 %(month)s 月"
+
 msgid "Archives"
 msgstr "歸檔"
 

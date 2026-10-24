@@ -40,7 +40,7 @@
         {% if this_month != ns.month %}
           {% set ns.month = this_month %}
           <div class="post-month">
-            <span class="post-month-label">{{ article.date.year }} 年 {{ article.date.month }} 月</span>
+            <span class="post-month-label">{{ i18n.t("%(month_name)s %(year)s", year=article.date.year, month=article.date.month) }}</span>
             <span class="post-month-rule"></span>
           </div>
         {% endif %}
