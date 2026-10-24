@@ -39,6 +39,21 @@ class TestPeriodArchiveCanonical:
     def test_year_archive_points_at_its_own_url(self, built_output: Path):
         assert _canonical(built_output, "2020/index.html") == f"{SITEURL}/2020/"
 
+    def test_custom_month_save_as_is_followed(
+        self,
+        default_settings: Settings,
+        default_writer: Writer,
+        gen_index_and_html: Callable,
+    ):
+        default_settings["SITEURL"] = SITEURL
+        default_settings["MONTH_ARCHIVE_SAVE_AS"] = "archive/{date:%Y}-{date:%m}.html"
+        gen_index_and_html(settings=default_settings)
+        output = Path(default_writer.output_path)
+        assert (
+            _canonical(output, "archive/2020-01.html")
+            == f"{SITEURL}/archive/2020-01.html"
+        )
+
 
 class TestPaginatedCanonical:
     def test_first_page_keeps_the_listing_url(self, built_output: Path):

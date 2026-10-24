@@ -2,27 +2,27 @@
 {% import "partials/i18n.html" as i18n with context %}
 {% import "partials/cover_url.html" as cover_urls with context %}
 
-{% block title %}{{ SITENAME }} - {{ i18n.t("Archives for %(name)s", name=period | reverse | join(' ')) }}{% endblock %}
+{# Year pages show the year; month pages go through the same translated label as the per-month dividers (Pelican's own `period` carries the system-locale month name, e.g. "1月" on an English page). #}
+{% if period_num|length == 2 %}
+  {% set period_label = i18n.t("%(month_name)s %(year)s", year=period_num[0], month=period_num[1]) %}
+{% else %}
+  {% set period_label = period | reverse | join(' ') %}
+{% endif %}
+
+{% block title %}{{ SITENAME }} - {{ i18n.t("Archives for %(name)s", name=period_label) }}{% endblock %}
 
 {% set banner_cover = cover_urls.banner_cover(None)|trim %}
 {% set banner_color = cover_urls.banner_color(None, None)|trim %}
 
-{# Pelican passes the archive's own URL (YEAR/MONTH/DAY_ARCHIVE_URL) as `url`;
-   the fallback rebuilds the same zero-padded, slash-terminated shape. #}
+{# The page's own URL comes from the file Pelican writes (`output_file`), so it
+   follows any custom YEAR/MONTH_ARCHIVE_SAVE_AS rather than a hardcoded shape. #}
 {% block canonical_url %}
-  {% set ns = namespace(path="") %}
-  {% if url %}
-    {% set ns.path = url %}
-  {% else %}
-    {% set ns.path = period_num[0]|string %}
-    {% for part in period_num[1:] %}{% set ns.path = ns.path ~ "/" ~ ("%02d"|format(part)) %}{% endfor %}
-    {% set ns.path = ns.path ~ "/" %}
-  {% endif %}
-<link href="{{ SITEURL }}/{{ ns.path }}" rel="canonical" />
+  {% set canonical_path = output_file[:-10] if output_file.endswith("index.html") else output_file %}
+<link href="{{ SITEURL }}/{{ canonical_path }}" rel="canonical" />
 {% endblock canonical_url %}
 
 {% block header %}
-  {% set banner_title = period | reverse | join(' ') %}
+  {% set banner_title = period_label %}
   {% set banner_sub = i18n.t("%(count)s Posts", count=dates|count) %}
   {% include "partials/listing_banner.html" %}
 {% endblock header %}
