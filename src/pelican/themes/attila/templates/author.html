@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% import "partials/i18n.html" as i18n with context %}
+{% import "partials/cover_url.html" as cover_urls with context %}
 
 {% block title %}{{ SITENAME }} - Articles by {{ author }}{% endblock %}
 
@@ -13,12 +14,8 @@
   {% set selected_avatar = _av if _av|lower|truncate(4, True, '') == "http" else (STATIC_SITEURL|default(SITEURL)) + ("" if _av.startswith('/') else "/") + _av %}
 {% endif %}
 
-{% set _cover_src = (author_meta.cover if author_meta else None) or HEADER_COVER or HOME_COVER %}
-{% if _cover_src %}
-  {% set banner_cover = _cover_src if _cover_src|lower|truncate(4, True, '') == "http" else (STATIC_SITEURL|default(SITEURL)) + ("" if _cover_src.startswith('/') else "/") + _cover_src %}
-{% elif (author_meta.color if author_meta else None) or HEADER_COLOR %}
-  {% set banner_color = (author_meta.color if author_meta else None) or HEADER_COLOR %}
-{% endif %}
+{% set banner_cover = cover_urls.banner_cover((author_meta.cover if author_meta else None))|trim %}
+{% set banner_color = cover_urls.banner_color((author_meta.cover if author_meta else None), (author_meta.color if author_meta else None))|trim %}
 
 {# Later pages of a paginated listing are canonical to themselves, not page 1. #}
 {% block canonical_url %}<link href="{{ SITEURL }}/{{ articles_page.url if articles_page and articles_page.number > 1 else author.url }}" rel="canonical" />{% endblock canonical_url %}

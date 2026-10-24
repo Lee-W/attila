@@ -17,44 +17,10 @@
 <link href="{{ SITEURL }}/{{ page.url }}" rel="canonical" />
 {% endblock canonical_url %}
 
-{# <!-- Choosing cover image --> #}
-{% if page.cover %}
-  {% if page.cover|lower|truncate(4, True, '') == "http" %}
-    {% set selected_cover = page.cover %}
-  {% elif page.cover.startswith('/') %}
-    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+page.cover %}
-  {% else %}
-    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+"/"+page.cover %}
-  {% endif %}
-{% elif page.og_image %}
-  {% if page.og_image|lower|truncate(4, True, '') == "http" %}
-    {% set selected_cover = page.og_image %}
-  {% elif page.og_image.startswith('/') %}
-    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+page.og_image %}
-  {% else %}
-    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+"/"+page.og_image %}
-  {% endif %}
-{% elif HEADER_COVER %}
-  {% if HEADER_COVER|lower|truncate(4, True, '') == "http" %}
-    {% set selected_cover = HEADER_COVER %}
-  {% elif HEADER_COVER.startswith('/') %}
-    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+HEADER_COVER %}
-  {% else %}
-    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+"/"+HEADER_COVER %}
-  {% endif %}
-{% elif HOME_COVER %}
-  {% if HOME_COVER|lower|truncate(4, True, '') == "http" %}
-    {% set selected_cover = HOME_COVER %}
-  {% elif HOME_COVER.startswith('/') %}
-    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+HOME_COVER %}
-  {% else %}
-    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+"/"+HOME_COVER %}
-  {% endif %}
-{% elif page.color %}
-  {% set selected_color = page.color %}
-{% elif HEADER_COLOR %}
-  {% set selected_color = HEADER_COLOR %}
-{% endif %}
+{# Cover resolution is shared by every page type: see cover_url.html. #}
+{% import "partials/cover_url.html" as cover_urls with context %}
+{% set selected_cover = cover_urls.content_cover(page)|trim %}
+{% set selected_color = cover_urls.content_color(page)|trim %}
 
 {% block header %}
     <!-- Page Header (cover as a direct child so it fills the header, not the column) -->

@@ -8,3 +8,42 @@
 {{ root }}/{{ path }}
 {%- endif -%}
 {%- endmacro %}
+
+{# Cover resolution shared by every page type. Each macro prints the resolved
+   value, or nothing when there is none, so callers can `{% set x = ...|trim %}`
+   and test the result for truthiness.
+
+   Precedence, highest first: the item's own cover, its og_image, its own
+   colour, the site-wide HEADER_COVER, HOME_COVER, then HEADER_COLOR.
+   A colour only shows when no cover image wins. #}
+
+{# Cover image of an article or page. #}
+{% macro content_cover(item) -%}
+  {%- if item.cover -%}{{ absolute(item.cover) }}
+  {%- elif item.og_image -%}{{ absolute(item.og_image) }}
+  {%- elif item.color -%}
+  {%- elif HEADER_COVER -%}{{ absolute(HEADER_COVER) }}
+  {%- elif HOME_COVER -%}{{ absolute(HOME_COVER) }}
+  {%- endif -%}
+{%- endmacro %}
+
+{# Background colour of an article or page, only when no cover image wins. #}
+{% macro content_color(item) -%}
+  {%- if item.cover or item.og_image -%}
+  {%- elif item.color -%}{{ item.color }}
+  {%- elif HEADER_COVER or HOME_COVER -%}
+  {%- else -%}{{ HEADER_COLOR|default('') }}
+  {%- endif -%}
+{%- endmacro %}
+
+{# Cover image of a listing banner. `own` is the listing's own cover (a
+   category, tag or author cover), if it has one. #}
+{% macro banner_cover(own=None) -%}
+  {%- set source = own or HEADER_COVER or HOME_COVER -%}
+  {%- if source -%}{{ absolute(source) }}{%- endif -%}
+{%- endmacro %}
+
+{# Colour of a listing banner, only when no cover image wins. #}
+{% macro banner_color(own_cover=None, own_color=None) -%}
+  {%- if not (own_cover or HEADER_COVER or HOME_COVER) -%}{{ own_color or HEADER_COLOR|default('') or HOME_COLOR|default('') }}{%- endif -%}
+{%- endmacro %}

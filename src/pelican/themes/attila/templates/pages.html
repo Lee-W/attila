@@ -1,14 +1,11 @@
 {% extends "base.html" %}
 {% import "partials/i18n.html" as i18n with context %}
+{% import "partials/cover_url.html" as cover_urls with context %}
 
 {% block title %}{{ SITENAME }} - {{ i18n.t("Pages") }}{% endblock %}
 
-{% set _cover_src = HEADER_COVER or HOME_COVER %}
-{% if _cover_src %}
-  {% set banner_cover = _cover_src if _cover_src|lower|truncate(4, True, '') == "http" else (STATIC_SITEURL|default(SITEURL)) + ("" if _cover_src.startswith('/') else "/") + _cover_src %}
-{% elif HEADER_COLOR %}
-  {% set banner_color = HEADER_COLOR %}
-{% endif %}
+{% set banner_cover = cover_urls.banner_cover(None)|trim %}
+{% set banner_color = cover_urls.banner_color(None, None)|trim %}
 
 {% if pages %}
 {% set body_class = 'pages-template' %}

@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% import "partials/cover_url.html" as cover_urls with context %}
 
 {% block head %}
   {{ super() }}
@@ -7,12 +8,8 @@
 {% endblock %}
 
 {# Optional banner cover image / colour (HEADER_COVER, HOME_COVER, HEADER_COLOR, HOME_COLOR). #}
-{% set _cover_src = HEADER_COVER or HOME_COVER %}
-{% if _cover_src %}
-  {% set banner_cover = _cover_src if _cover_src|lower|truncate(4, True, '') == "http" else (STATIC_SITEURL|default(SITEURL)) + ("" if _cover_src.startswith('/') else "/") + _cover_src %}
-{% elif HEADER_COLOR or HOME_COLOR %}
-  {% set banner_color = HEADER_COLOR or HOME_COLOR %}
-{% endif %}
+{% set banner_cover = cover_urls.banner_cover(None)|trim %}
+{% set banner_color = cover_urls.banner_color(None, None)|trim %}
 
 {# Later pages of a paginated listing are canonical to themselves, not page 1. #}
 {% block canonical_url %}<link href="{{ SITEURL }}/{{ articles_page.url if articles_page and articles_page.number > 1 else '' }}" rel="canonical" />{% endblock canonical_url %}

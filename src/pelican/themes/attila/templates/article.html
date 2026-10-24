@@ -4,36 +4,10 @@
 
 {% block title %}{{ article.title|striptags|e }}{% if article.subtitle %} - {{ article.subtitle|striptags|e }}{% endif %}{% endblock %}
 
-{# <!-- Choosing cover image --> #}
-{% if article.cover %}
-  {% if article.cover|lower|truncate(4, True, '') == "http" %}
-    {% set selected_cover = article.cover %}
-  {% elif article.cover.startswith('/') %}
-    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+article.cover %}
-  {% else %}
-    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+"/"+article.cover %}
-  {% endif %}
-{% elif article.og_image %}
-  {% if article.og_image|lower|truncate(4, True, '') == "http" %}
-    {% set selected_cover = article.og_image %}
-  {% elif article.og_image.startswith('/') %}
-    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+article.og_image %}
-  {% else %}
-    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+"/"+article.og_image %}
-  {% endif %}
-{% elif article.color %}
-  {% set selected_color = article.color %}
-{% elif HEADER_COVER %}
-  {% if HEADER_COVER|lower|truncate(4, True, '') == "http" %}
-    {% set selected_cover = HEADER_COVER %}
-  {% elif HEADER_COVER.startswith('/') %}
-    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+HEADER_COVER %}
-  {% else %}
-    {% set selected_cover = (STATIC_SITEURL|default(SITEURL))+"/"+HEADER_COVER %}
-  {% endif %}
-{% elif HEADER_COLOR %}
-  {% set selected_color = HEADER_COLOR %}
-{% endif %}
+{# Cover resolution is shared by every page type: see cover_url.html. #}
+{% import "partials/cover_url.html" as cover_urls with context %}
+{% set selected_cover = cover_urls.content_cover(article)|trim %}
+{% set selected_color = cover_urls.content_color(article)|trim %}
 
 {% block canonical_url %}<link href="{{ SITEURL }}/{{ article.url }}" rel="canonical" />{% endblock canonical_url %}
 {% block head %}
