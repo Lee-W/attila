@@ -2,6 +2,7 @@ name: Package Build and Test
 
 on:
   push:
+    branches: [main]
   pull_request:
 
 jobs:
@@ -73,6 +74,10 @@ jobs:
   # Releasing is gated on the test matrix so a red main never gets tagged.
   bump-version:
     needs: build-and-test
+    # Two quick merges would otherwise race on the push of the bump commit.
+    concurrency:
+      group: release
+      cancel-in-progress: false
     if: >-
       github.event_name == 'push'
       && github.ref == 'refs/heads/main'
