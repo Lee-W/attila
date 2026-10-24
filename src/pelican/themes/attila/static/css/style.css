@@ -3871,11 +3871,6 @@ a.post-nav-col:hover .post-nav-title {
   text-decoration: none;
 }
 
-/* Pagination row on the listing. */
-#index .extra-pagination {
-  display: none; /* keep just the bottom pager, matching the design */
-}
-
 /* =========================================================================
    7. Pagination
    ========================================================================= */
@@ -4735,7 +4730,6 @@ body #on-this-day .post-nav-meta {
   .post-comments,
   .post-nav,
   .pagination,
-  .extra-pagination,
   .heading-anchor,
   #on-this-day {
     display: none !important;

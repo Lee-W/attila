@@ -685,11 +685,6 @@ a.post-nav-col:hover .post-nav-title {
   text-decoration: none;
 }
 
-/* Pagination row on the listing. */
-#index .extra-pagination {
-  display: none; /* keep just the bottom pager, matching the design */
-}
-
 /* =========================================================================
    7. Pagination
    ========================================================================= */
