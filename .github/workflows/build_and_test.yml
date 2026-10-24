@@ -1,6 +1,8 @@
 name: Package Build and Test
 
-on: [push]
+on:
+  push:
+  pull_request:
 
 jobs:
   build-and-test:
@@ -14,12 +16,18 @@ jobs:
     steps:
     - uses: actions/checkout@v6
 
-    - name: Install the latest version of uv
+    - name: Install uv
       uses: astral-sh/setup-uv@v6
       with:
         enable-cache: true
-        version: "latest"
+        version: "0.13.5"
         python-version: ${{ matrix.python-version }}
+
+    # The test suite shells out to node (tests/test_javascript.py, tests/test_css_build.py)
+    - name: Set up Node.js
+      uses: actions/setup-node@v6
+      with:
+        node-version: "lts/*"
 
     - name: Install dependencies
       run: |
@@ -40,3 +48,86 @@ jobs:
     - name: Build
       run: |
         uv build
+
+  check-commit:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v6
+      with:
+        fetch-depth: 0
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@v6
+      with:
+        enable-cache: true
+        version: "0.13.5"
+
+    - name: Install dependencies
+      run: uv sync --group dev
+
+    - name: Check commit messages
+      run: uv run poe check-commit
+
+  # Releasing is gated on the test matrix so a red main never gets tagged.
+  bump-version:
+    needs: build-and-test
+    if: >-
+      github.event_name == 'push'
+      && github.ref == 'refs/heads/main'
+      && !startsWith(github.event.head_commit.message, 'bump:')
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out
+      uses: actions/checkout@v6
+      with:
+        fetch-depth: 0
+        token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@v6
+      with:
+        enable-cache: true
+        version: "0.13.5"
+
+    - name: Install dependencies
+      run: uv sync --group dev
+
+    - name: Configure Git user
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+
+    - name: Bump version and changelog
+      id: bump
+      run: |
+        BEFORE=$(uv run cz version -p)
+
+        uv run cz bump --yes --changelog
+
+        AFTER=$(uv run cz version -p)
+        if [ "$BEFORE" != "$AFTER" ]; then
+          echo "bumped=true" >> $GITHUB_OUTPUT
+          echo "tag=v$AFTER" >> $GITHUB_OUTPUT
+        else
+          echo "bumped=false" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Build package
+      run: uv build
+
+    # Push only after the build succeeded, so a failed build leaves no orphan tag.
+    - name: Push bump commit and tag
+      if: steps.bump.outputs.bumped == 'true'
+      run: git push origin main --follow-tags
+
+    - name: Create GitHub release
+      if: steps.bump.outputs.bumped == 'true'
+      uses: ncipollo/release-action@v1
+      with:
+        tag: ${{ steps.bump.outputs.tag }}
+        artifacts: dist/*
+        bodyFile: CHANGELOG.md
+        skipIfReleaseExists: true
