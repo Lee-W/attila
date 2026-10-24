@@ -1,13 +1,14 @@
+{% import "partials/cover_url.html" as cover_urls with context %}
 {# <!-- Choosing cover image --> #}
-{% set default_cover = (STATIC_SITEURL|default(SITEURL)) ~ "/" ~ (HEADER_COVER if HEADER_COVER else THEME_STATIC_DIR ~ "/images/home-bg.jpg") %}
+{% set default_cover = cover_urls.absolute(HEADER_COVER or HOME_COVER or (THEME_STATIC_DIR ~ "/images/home-bg.jpg")) %}
 
 {# <!-- Choosing description --> #}
 {% set description = SITESUBTITLE if SITESUBTITLE else "View the blog." %}
 
 <script type="application/ld+json">
 {
-  "@context": "http://schema.org",
-  "@type": "Website",
+  "@context": "https://schema.org",
+  "@type": "WebSite",
   "name": {{ SITENAME|tojson }},
   "url": {{ (SITEURL ~ "/")|tojson }},
   "image": {{ default_cover|tojson }},

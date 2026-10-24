@@ -16,11 +16,17 @@
 {% if article.subtitle %}{% set title_full = title_full ~ " - " ~ article.subtitle|striptags %}{% endif %}
 {% set article_url = SITEURL ~ "/" ~ article.url %}
 
+{# Same name the visible author byline uses: AUTHOR_META wins over the slug-ish author name. #}
+{% set author_name = article.author.name|title %}
+{% if AUTHOR_META and article.author.name in AUTHOR_META and AUTHOR_META[article.author.name].name %}
+  {% set author_name = AUTHOR_META[article.author.name].name %}
+{% endif %}
+
 {# Values go through |tojson so quotes, ampersands and control characters
    in titles/summaries can't break the JSON (or the surrounding <script>). #}
 <script type="application/ld+json">
 {
-  "@context": "http://schema.org",
+  "@context": "https://schema.org",
   "@type": "Article",
   "name": {{ title_full|tojson }},
   "headline": {{ title_full|tojson }},
@@ -28,7 +34,7 @@
   {% if article.modified %}"dateModified": {{ article.modified.isoformat()|tojson }},{% endif %}
   "author": {
     "@type": "Person",
-    "name": {{ (article.author.name|title)|tojson }},
+    "name": {{ author_name|tojson }},
     "url": {{ (SITEURL ~ "/" ~ article.author.url)|tojson }}
   },
   "image": {{ default_cover|tojson }},
