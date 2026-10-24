@@ -106,3 +106,48 @@ msgstr "本文是「%(name)s」系列的第 %(index)s 篇："
 
 msgid "Toggle theme"
 msgstr "切換主題"
+
+msgid "Archives for %(name)s"
+msgstr "%(name)s 的文章彙整"
+
+msgid "Articles by %(name)s"
+msgstr "%(name)s 的文章"
+
+msgid "Articles in the %(name)s category"
+msgstr "%(name)s 分類的文章"
+
+msgid "Blog Logo"
+msgstr "網站標誌"
+
+msgid "Close menu"
+msgstr "關閉選單"
+
+msgid "Copied!"
+msgstr "已複製"
+
+msgid "Copy"
+msgstr "複製"
+
+msgid "Copy failed"
+msgstr "複製失敗"
+
+msgid "Home"
+msgstr "首頁"
+
+msgid "Language"
+msgstr "語言"
+
+msgid "Menu"
+msgstr "選單"
+
+msgid "See Footnote"
+msgstr "查看註腳"
+
+msgid "Show Comments"
+msgstr "顯示留言"
+
+msgid "Tag %(name)s"
+msgstr "標籤：%(name)s"
+
+msgid "Website"
+msgstr "網站"

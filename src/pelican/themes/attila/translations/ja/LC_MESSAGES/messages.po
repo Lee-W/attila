@@ -103,3 +103,48 @@ msgstr "タグ"
 
 msgid "This post is part %(index)s of the \"%(name)s\" series:"
 msgstr "この記事はシリーズ「%(name)s」の %(index)s 番目の記事です："
+
+msgid "Archives for %(name)s"
+msgstr "%(name)s のアーカイブ"
+
+msgid "Articles by %(name)s"
+msgstr "%(name)s の記事"
+
+msgid "Articles in the %(name)s category"
+msgstr "カテゴリ「%(name)s」の記事"
+
+msgid "Blog Logo"
+msgstr "ブログのロゴ"
+
+msgid "Close menu"
+msgstr "メニューを閉じる"
+
+msgid "Copied!"
+msgstr "コピーしました"
+
+msgid "Copy"
+msgstr "コピー"
+
+msgid "Copy failed"
+msgstr "コピーできませんでした"
+
+msgid "Home"
+msgstr "ホーム"
+
+msgid "Language"
+msgstr "言語"
+
+msgid "Menu"
+msgstr "メニュー"
+
+msgid "See Footnote"
+msgstr "脚注を見る"
+
+msgid "Show Comments"
+msgstr "コメントを表示"
+
+msgid "Tag %(name)s"
+msgstr "タグ: %(name)s"
+
+msgid "Website"
+msgstr "ウェブサイト"

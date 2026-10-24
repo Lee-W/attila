@@ -80,9 +80,9 @@
               &middot; {{ i18n.t("%(count)s words", count="{:,}".format(article.readtime_word_count|int)) }}
               {% endif %}
             {% elif article.statistics and 'read_mins' in article.statistics %}
-              &middot; {{ article.statistics['read_mins'] }} min read
+              &middot; {{ i18n.t("%(count)s min read", count=article.statistics['read_mins']) }}
             {% elif article.stats and 'read_mins' in article.stats %}
-              &middot; {{ article.stats['read_mins'] }} min read
+              &middot; {{ i18n.t("%(count)s min read", count=article.stats['read_mins']) }}
             {% endif %}
           </span>
         </div>
@@ -152,7 +152,7 @@
                     <span class="post-author-location">{{ icons.icon("location") }} {{AUTHOR_META[author.name].location}}</span>
                   {% endif %}
                   {% if AUTHOR_META[author.name].website %}
-                    <span class="post-author-website"><a href="{{AUTHOR_META[author.name].website}}">{{ icons.icon("globe") }} Website</a></span>
+                    <span class="post-author-website"><a href="{{AUTHOR_META[author.name].website}}">{{ icons.icon("globe") }} {{ i18n.t("Website") }}</a></span>
                   {% endif %}
                   <!-- Social links in alphabet order. -->
                   {% if AUTHOR_META[author.name].facebook %}

@@ -30,7 +30,7 @@
         {% for tag, articles in tags|sort %}
           {% set count = articles|count %}
           {% set weight = (count / (max_count / steps))|int + 1 %}
-          <a href="{{ SITEURL }}/{{ tag.url }}" class="tag-pill tag-weight-{{ weight }}" title="{{ count }} article(s)">
+          <a href="{{ SITEURL }}/{{ tag.url }}" class="tag-pill tag-weight-{{ weight }}" title="{{ i18n.t('%(count)s Posts', count=count) }}">
             <span class="tag-name">{{ tag }}</span>
             <span class="tag-count">{{ count }}</span>
           </a>

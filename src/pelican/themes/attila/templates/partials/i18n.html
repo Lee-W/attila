@@ -13,6 +13,21 @@
     {%- elif message in ["Post", "Posts"] -%}篇文章
     {%- elif message == "%(count)s Posts" -%}{{ count }} 篇文章
     {%- elif message == "%(month_name)s %(year)s" -%}{{ year }} 年 {{ month }} 月
+    {%- elif message == "Archives for %(name)s" -%}{{ name }} 的文章彙整
+    {%- elif message == "Articles by %(name)s" -%}{{ name }} 的文章
+    {%- elif message == "Articles in the %(name)s category" -%}{{ name }} 分類的文章
+    {%- elif message == "Blog Logo" -%}網站標誌
+    {%- elif message == "Close menu" -%}關閉選單
+    {%- elif message == "Copied!" -%}已複製
+    {%- elif message == "Copy" -%}複製
+    {%- elif message == "Copy failed" -%}複製失敗
+    {%- elif message == "Home" -%}首頁
+    {%- elif message == "Language" -%}語言
+    {%- elif message == "Menu" -%}選單
+    {%- elif message == "See Footnote" -%}查看註腳
+    {%- elif message == "Show Comments" -%}顯示留言
+    {%- elif message == "Tag %(name)s" -%}標籤：{{ name }}
+    {%- elif message == "Website" -%}網站
     {%- elif message == "Link to this section" -%}連結到此段落
     {%- elif message == "Newer" -%}較新
     {%- elif message == "Older" -%}較舊

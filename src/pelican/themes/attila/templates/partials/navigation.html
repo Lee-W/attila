@@ -2,7 +2,7 @@
   <nav id="site-navigation" class="nav-wrapper" aria-label="Main">
     {% if SITE_LOGO %}
       <span class="logo">
-        <a href="{{ SITEURL }}" title="Home"><img src="{{SITE_LOGO}}" alt="Blog Logo" /></a>
+        <a href="{{ SITEURL }}" title="{{ i18n.t('Home') }}"><img src="{{SITE_LOGO}}" alt="{{ i18n.t('Blog Logo') }}" /></a>
       </span>
     {% endif %}
 
@@ -12,11 +12,11 @@
 
 <div class="nav-wrapper-control">
   <div class="inner">
-    <button type="button" class="nav-menu" aria-expanded="false" aria-controls="site-navigation">{{ icons.icon("bars") }}<span>Menu</span></button>
+    <button type="button" class="nav-menu" aria-expanded="false" aria-controls="site-navigation">{{ icons.icon("bars") }}<span>{{ i18n.t("Menu") }}</span></button>
     {% if PAGEFIND_ENABLED|default(False) %}
-    <button type="button" class="nav-search" title="Search" aria-label="Search">{{ icons.icon("search") }}</button>
+    <button type="button" class="nav-search" title="{{ i18n.t('Search') }}" aria-label="{{ i18n.t('Search') }}">{{ icons.icon("search") }}</button>
     {% endif %}
   </div>
 </div>
 
-<button type="button" class="nav-close" aria-label="Close menu"></button>
+<button type="button" class="nav-close" aria-label="{{ i18n.t('Close menu') }}"></button>

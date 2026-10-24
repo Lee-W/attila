@@ -14,9 +14,9 @@
   <section class="post-comments">
     {% if COMMENTS_INTRO %}<p class="post-comments-intro">{{ COMMENTS_INTRO | safe }}</p>{% endif %}
     {% if article.disqus_identifier %}
-      <a id="show-comments" class="post-comments-activate" data-disqus-identifier="{{ article.disqus_identifier }}" >Show Comments</a>
+      <a id="show-comments" class="post-comments-activate" data-disqus-identifier="{{ article.disqus_identifier }}" >{{ i18n.t("Show Comments") }}</a>
     {% else %}
-      <a id="show-comments" class="post-comments-activate" data-disqus-identifier="/{{ article.url }}" >Show Comments</a>
+      <a id="show-comments" class="post-comments-activate" data-disqus-identifier="/{{ article.url }}" >{{ i18n.t("Show Comments") }}</a>
     {% endif %}
     <div id="disqus_thread"></div>
   </section>

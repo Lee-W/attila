@@ -1,21 +1,22 @@
 <script>
 document.addEventListener("DOMContentLoaded", () => {
+  const labels = {{ {"copy": i18n.t("Copy"), "copied": i18n.t("Copied!"), "failed": i18n.t("Copy failed")}|tojson }};
   document.querySelectorAll("pre > code").forEach((codeBlock) => {
     const button = document.createElement("button");
     button.className = "copy-btn";
-    button.textContent = "Copy";
+    button.textContent = labels.copy;
     codeBlock.parentNode.appendChild(button);
 
     button.addEventListener("click", () => {
       navigator.clipboard.writeText(codeBlock.textContent).then(() => {
-        button.textContent = "Copied!";
+        button.textContent = labels.copied;
         setTimeout(() => {
-          button.textContent = "Copy";
+          button.textContent = labels.copy;
         }, 1500);
       }).catch(() => {
-        button.textContent = "Fail";
+        button.textContent = labels.failed;
         setTimeout(() => {
-          button.textContent = "Copy";
+          button.textContent = labels.copy;
         }, 1500);
       });
     });

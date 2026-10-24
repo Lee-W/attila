@@ -2,7 +2,7 @@
 {% import "partials/i18n.html" as i18n with context %}
 {% import "partials/cover_url.html" as cover_urls with context %}
 
-{% block title %}{{ SITENAME }} - Tag {{ tag }}{% endblock %}
+{% block title %}{{ SITENAME }} - {{ i18n.t("Tag %(name)s", name=tag) }}{% endblock %}
 
 {% set tag_cover = None %}
 {% set tag_color = None %}

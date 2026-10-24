@@ -69,7 +69,7 @@
   {% if LANGUAGES|default([]) %}
     {% set lang_names = LANGUAGE_NAMES|default({}) %}
     <li class="nav-languages">
-      <button type="button" class="nav-language-toggle" aria-label="Language" aria-expanded="false" aria-controls="nav-language-menu">
+      <button type="button" class="nav-language-toggle" aria-label="{{ i18n.t('Language') }}" aria-expanded="false" aria-controls="nav-language-menu">
         {{ icons.icon("language", "nav-language-icon") }}
         <span class="nav-language-label">{{ lang_names.get(page_lang) or page_lang }}</span>
       </button>

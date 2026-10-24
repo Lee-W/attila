@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
       dismissDelay: 150,
       allowMultiple: false,
       buttonTemplate:
-        '<button class="littlefoot__button" id="<% reference %>" title="See Footnote <% number %>"><% number %></button>',
+        '<button class="littlefoot__button" id="<% reference %>" title="' + {{ i18n.t("See Footnote")|tojson }} + ' <% number %>"><% number %></button>',
     });
   }
 });

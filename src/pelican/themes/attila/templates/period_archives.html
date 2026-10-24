@@ -2,7 +2,7 @@
 {% import "partials/i18n.html" as i18n with context %}
 {% import "partials/cover_url.html" as cover_urls with context %}
 
-{% block title %}{{ SITENAME }} - Archives for {{ period | reverse | join(' ') }}{% endblock %}
+{% block title %}{{ SITENAME }} - {{ i18n.t("Archives for %(name)s", name=period | reverse | join(' ')) }}{% endblock %}
 
 {% set banner_cover = cover_urls.banner_cover(None)|trim %}
 {% set banner_color = cover_urls.banner_color(None, None)|trim %}

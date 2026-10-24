@@ -2,7 +2,7 @@
 {% import "partials/i18n.html" as i18n with context %}
 {% import "partials/cover_url.html" as cover_urls with context %}
 
-{% block title %}{{ SITENAME }} - Articles in the {{ category }} category{% endblock %}
+{% block title %}{{ SITENAME }} - {{ i18n.t("Articles in the %(name)s category", name=(CATEGORY_TRANSLATIONS|default({})).get(category.name, category.name)) }}{% endblock %}
 
 {% set category_cover = None %}
 {% set category_color = None %}
