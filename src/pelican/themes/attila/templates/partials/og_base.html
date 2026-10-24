@@ -1,7 +1,17 @@
 {% import "partials/cover_url.html" as cover_urls with context %}
 
-{# <!-- Choosing locale --> #}
-{% if OG_LOCALE %}
+{# <!-- Choosing locale -->
+   OG_LOCALE is the locale of the site's default language. Any other known
+   language gets its own locale, so a zh-tw article on an English site (or a
+   ja subsite) is not labelled en_US. Unknown languages fall back to OG_LOCALE.
+   A front-matter og_locale beats all of this. #}
+{% set og_locales = {'en': 'en_US', 'ja': 'ja_JP', 'zh': 'zh_TW', 'zh-tw': 'zh_TW', 'zh-hant': 'zh_TW', 'zh-cn': 'zh_CN', 'zh-hans': 'zh_CN'} %}
+{% set og_lang = page_lang|default(DEFAULT_LANG)|lower|replace('_', '-') %}
+{% if OG_LOCALE and og_lang == DEFAULT_LANG|default('en')|lower|replace('_', '-') %}
+  {% set default_locale = OG_LOCALE %}
+{% elif og_lang in og_locales %}
+  {% set default_locale = og_locales[og_lang] %}
+{% elif OG_LOCALE %}
   {% set default_locale = OG_LOCALE %}
 {% else %}
   {% set default_locale = 'en_US' %}
