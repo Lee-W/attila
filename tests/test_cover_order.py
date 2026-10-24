@@ -40,3 +40,63 @@ def test_page_falls_back_to_home_cover_when_nothing_else_is_set(
     assert soup.select_one(".post-cover img")["src"].endswith(
         "/assets/images/home_cover.jpg"
     )
+
+
+def test_article_falls_back_to_home_cover_and_og_image(
+    default_settings: Settings,
+    gen_article_and_html_from_rst: Callable,
+):
+    default_settings["HOME_COVER"] = "/assets/images/home_cover.jpg"
+
+    _, soup = gen_article_and_html_from_rst(
+        rst_path="content/article_without_cover.rst",
+    )
+
+    assert soup.select_one(".post-cover img")["src"].endswith(
+        "/assets/images/home_cover.jpg"
+    )
+    og_image = soup.select_one('meta[property="og:image"]')
+    assert og_image["content"].endswith("/assets/images/home_cover.jpg")
+
+
+def test_header_cover_beats_home_cover(
+    default_settings: Settings,
+    gen_article_and_html_from_rst: Callable,
+):
+    default_settings["HEADER_COVER"] = "/assets/images/header_cover.jpg"
+    default_settings["HOME_COVER"] = "/assets/images/home_cover.jpg"
+
+    _, soup = gen_article_and_html_from_rst(
+        rst_path="content/article_without_cover.rst",
+    )
+
+    assert soup.select_one(".post-cover img")["src"].endswith(
+        "/assets/images/header_cover.jpg"
+    )
+
+
+def test_tag_page_falls_back_to_home_color(
+    default_settings: Settings,
+    gen_tag_and_html_from_name: Callable,
+):
+    default_settings["HOME_COLOR"] = "#abcdef"
+
+    _, soup = gen_tag_and_html_from_name("footag")
+
+    cover = soup.select_one(".blog-cover")
+    assert cover is not None
+    assert cover.select_one("img") is None
+    assert "background-color: #abcdef" in cover["style"]
+
+
+def test_category_page_falls_back_to_home_color(
+    default_settings: Settings,
+    gen_category_and_html_from_name: Callable,
+):
+    default_settings["HOME_COLOR"] = "#abcdef"
+
+    _, soup = gen_category_and_html_from_name("foo")
+
+    cover = soup.select_one(".blog-cover")
+    assert cover is not None
+    assert "background-color: #abcdef" in cover["style"]
