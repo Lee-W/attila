@@ -371,26 +371,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Comments
   const initComments = () => {
-    if (
-      typeof disqus === "undefined" &&
-      typeof use_utterance === "undefined"
-    ) {
+    if (typeof use_utterance === "undefined") {
       const postComments = document.querySelector(".post-comments");
       if (postComments) postComments.style.display = "none";
-      return;
-    }
-
-    if (typeof use_utterance === "undefined") {
-      const showBtn = document.getElementById("show-comments");
-      if (showBtn) {
-        showBtn.addEventListener("click", () => {
-          const script = document.createElement("script");
-          script.src = `//${disqus}.disqus.com/embed.js`;
-          script.async = true;
-          document.body.appendChild(script);
-          showBtn.parentElement.classList.add("activated");
-        });
-      }
     }
   };
 

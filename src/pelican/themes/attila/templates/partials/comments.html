@@ -1,27 +1,5 @@
 {% if SITEURL and article.status != "draft" %}
-  {% if DISQUS_SITENAME %}
-  <script>
-    var disqus = '{{ DISQUS_SITENAME }}';
-    var disqus_shortname = '{{ DISQUS_SITENAME }}';
-    {% if article.disqus_identifier %}
-    var disqus_identifier = '{{ article.disqus_identifier }}';
-    {% else %}
-    var disqus_identifier = '/{{ article.url }}';
-    {% endif %}
-    var disqus_url = '{{ SITEURL }}/{{ article.url }}';
-  </script>
-  <noscript>Please enable JavaScript to view the comments.</noscript>
-  <section class="post-comments">
-    {% if COMMENTS_INTRO %}<p class="post-comments-intro">{{ COMMENTS_INTRO | safe }}</p>{% endif %}
-    {% if article.disqus_identifier %}
-      <a id="show-comments" class="post-comments-activate" data-disqus-identifier="{{ article.disqus_identifier }}" >{{ i18n.t("Show Comments") }}</a>
-    {% else %}
-      <a id="show-comments" class="post-comments-activate" data-disqus-identifier="/{{ article.url }}" >{{ i18n.t("Show Comments") }}</a>
-    {% endif %}
-    <div id="disqus_thread"></div>
-  </section>
-
-  {% elif UTTERANCES_REPO %}
+  {% if UTTERANCES_REPO %}
     {% from 'partials/_defaults.html' import UTTERANCES_FILTER, UTTERANCES_THEME, UTTERANCES_LABEL with context %}
     {% set identifier = SITEURL+ '/' + article.url %}
     {% if article.comment_id %}

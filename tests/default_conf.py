@@ -95,9 +95,6 @@ SITEMAP = {
     "changefreqs": {"articles": "monthly", "indexes": "daily", "pages": "monthly"},
 }
 
-# Comments
-DISQUS_SITENAME = "attilademo"
-
 # Analytics
 GOOGLE_ANALYTICS = "UA-3546274-12"
 

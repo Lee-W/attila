@@ -98,18 +98,16 @@ class TestChromeFollowsThePageLanguage:
         assert soup.select_one(".logo a")["title"] == "首頁"
         assert soup.select_one(".logo img")["alt"] == "網站標誌"
 
-    def test_comment_toggle_and_copy_button_are_translated(
+    def test_copy_button_labels_are_translated(
         self,
         default_settings: Settings,
         gen_article_and_html_from_rst: Callable,
     ):
-        default_settings["SITEURL"] = "https://example.com"  # comments need a SITEURL
         _, soup = gen_article_and_html_from_rst(
             rst_path="content/article_with_og_image.rst",
             settings=_zh(default_settings),
         )
 
-        assert soup.select_one("#show-comments").get_text(strip=True) == "顯示留言"
         scripts = "".join(script.get_text() for script in soup.find_all("script"))
         # Emitted with |tojson, so decode the object literal instead of grepping.
         labels = json.loads(re.search(r"const labels = (\{.*?\});", scripts).group(1))
