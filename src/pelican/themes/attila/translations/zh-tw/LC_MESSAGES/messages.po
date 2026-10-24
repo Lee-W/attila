@@ -92,9 +92,6 @@ msgstr "分享"
 msgid "Skip to content"
 msgstr "跳到主要內容"
 
-msgid "System theme"
-msgstr "系統主題"
-
 msgid "Tag"
 msgstr "標籤"
 
@@ -142,9 +139,6 @@ msgstr "選單"
 
 msgid "See Footnote"
 msgstr "查看註腳"
-
-msgid "Show Comments"
-msgstr "顯示留言"
 
 msgid "Tag %(name)s"
 msgstr "標籤：%(name)s"

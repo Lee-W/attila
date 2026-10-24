@@ -92,9 +92,6 @@ msgstr "シェア"
 msgid "Skip to content"
 msgstr "本文へスキップ"
 
-msgid "System theme"
-msgstr "システムのテーマ"
-
 msgid "Tag"
 msgstr "タグ"
 
@@ -139,9 +136,6 @@ msgstr "メニュー"
 
 msgid "See Footnote"
 msgstr "脚注を見る"
-
-msgid "Show Comments"
-msgstr "コメントを表示"
 
 msgid "Tag %(name)s"
 msgstr "タグ: %(name)s"
