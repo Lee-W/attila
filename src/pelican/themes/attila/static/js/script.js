@@ -124,20 +124,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Gallery
-  const gallery = () => {
-    document.querySelectorAll(".kg-gallery-image img").forEach((image) => {
-      const container = image.closest(".kg-gallery-image");
-      const width = parseInt(image.getAttribute("width"), 10);
-      const height = parseInt(image.getAttribute("height"), 10);
-      if (!container || !width || !height) return;
-      const ratio = width / height;
-      container.style.flex = `${ratio} 1 0%`;
-    });
-  };
-
-  gallery();
-
   // Theme (Light/Dark)
   const initTheme = () => {
     const toggle = document.querySelector(".js-theme");

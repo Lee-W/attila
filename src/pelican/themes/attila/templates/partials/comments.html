@@ -1,6 +1,6 @@
 {% if SITEURL and article.status != "draft" %}
   {% if UTTERANCES_REPO %}
-    {% from 'partials/_defaults.html' import UTTERANCES_FILTER, UTTERANCES_THEME, UTTERANCES_LABEL with context %}
+    {% from 'partials/_defaults.html' import UTTERANCES_THEME, UTTERANCES_LABEL with context %}
     {% set identifier = SITEURL+ '/' + article.url %}
     {% if article.comment_id %}
       {% set identifier = article.comment_id %}
