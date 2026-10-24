@@ -275,6 +275,7 @@ test("reading progress stays within 0-100% on a post shorter than the viewport",
   for (const y of [0, 50, 300]) {
     progress.scrollTo(y);
     assert.equal(progress.width(), "100%", `scrollY=${y}`);
+    assert.equal(progress.complete(), true, `scrollY=${y}`);
   }
 });
 

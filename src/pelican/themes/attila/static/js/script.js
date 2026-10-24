@@ -120,7 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
           : 100;
       const progress = Math.min(100, Math.max(0, rawProgress));
       progressBar.style.width = progress + "%";
-      progressContainer.classList.toggle("complete", rawProgress > 100);
+      progressContainer.classList.toggle("complete", rawProgress >= 100);
     });
   }
 
