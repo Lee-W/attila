@@ -140,5 +140,8 @@ msgstr "脚注を見る"
 msgid "Tag %(name)s"
 msgstr "タグ: %(name)s"
 
+msgid "Toggle theme"
+msgstr "テーマを切り替える"
+
 msgid "Website"
 msgstr "ウェブサイト"
