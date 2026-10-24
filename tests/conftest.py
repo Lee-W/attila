@@ -36,8 +36,10 @@ def default_reader(default_settings: Settings) -> RstReader:
 
 
 @pytest.fixture
-def default_writer(default_settings: Settings) -> Writer:
-    return Writer("output", default_settings)
+def default_writer(default_settings: Settings, tmp_path: Path) -> Writer:
+    # One private output dir per test so fixtures with different SITEURLs
+    # cannot overwrite each other's files.
+    return Writer(str(tmp_path / "output"), default_settings)
 
 
 @pytest.fixture(autouse=True)
@@ -79,7 +81,7 @@ def _gen_article_and_html_from_rst(
         article=result,
     )
     soup = BeautifulSoup(
-        open(f"./{writer.output_path}/{result.save_as}"),
+        open(Path(writer.output_path) / result.save_as),
         "html.parser",
     )
     return (result, soup)
@@ -128,7 +130,7 @@ def _gen_author_and_html_from_name(
         raise ValueError("Author should not be None")
 
     soup = BeautifulSoup(
-        open(f"./{writer.output_path}/{selected_author.save_as}"),
+        open(Path(writer.output_path) / selected_author.save_as),
         "html.parser",
     )
     return (selected_author, soup)
@@ -175,7 +177,7 @@ def _gen_page_and_html_from_rst(
         result.save_as, generator.get_template("page"), generator.context, page=result
     )
     soup = BeautifulSoup(
-        open(f"./{writer.output_path}/{result.save_as}"), "html.parser"
+        open(Path(writer.output_path) / result.save_as), "html.parser"
     )
     return (result, soup)
 
@@ -225,7 +227,7 @@ def _gen_tag_and_html_from_name(
         raise ValueError(f"Tag '{tag_name}' not found in generated tags")
 
     soup = BeautifulSoup(
-        open(f"./{writer.output_path}/{selected_tag.save_as}"), "html.parser"
+        open(Path(writer.output_path) / selected_tag.save_as), "html.parser"
     )
     return selected_tag, soup
 
@@ -256,7 +258,7 @@ def _gen_index_and_html(writer: Writer, settings: Settings) -> BeautifulSoup:
     generator.generate_context()
     generator.generate_output(writer)
 
-    return BeautifulSoup(open(f"./{writer.output_path}/index.html"), "html.parser")
+    return BeautifulSoup(open(Path(writer.output_path) / "index.html"), "html.parser")
 
 
 @pytest.fixture
@@ -295,7 +297,7 @@ def _gen_category_and_html_from_name(name: str, writer: Writer, settings: Settin
         raise ValueError(f"Category '{name}' not found")
 
     soup = BeautifulSoup(
-        open(f"./{writer.output_path}/{selected_category.save_as}"), "html.parser"
+        open(Path(writer.output_path) / selected_category.save_as), "html.parser"
     )
     return selected_category, soup
 

@@ -8,16 +8,19 @@ from bs4 import BeautifulSoup
 
 if TYPE_CHECKING:
     from pelican.settings import Settings
+    from pelican.writers import Writer
 
 SITEURL = "https://example.com"
 
 
 @pytest.fixture
-def built_output(default_settings: Settings, gen_index_and_html: Callable) -> Path:
+def built_output(
+    default_settings: Settings, default_writer: Writer, gen_index_and_html: Callable
+) -> Path:
     """Build the whole fixture site and return the output directory."""
     default_settings["SITEURL"] = SITEURL
     gen_index_and_html(settings=default_settings)
-    return Path("output")
+    return Path(default_writer.output_path)
 
 
 def _canonical(output: Path, relative_path: str) -> str:
