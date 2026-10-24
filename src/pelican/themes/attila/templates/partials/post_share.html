@@ -1,9 +1,13 @@
+{# Query values are percent-encoded: `|e` only escapes HTML, so a title with
+   `&`, `#` or `?` would otherwise cut the parameter short. #}
+{% set share_title = article.title|striptags %}
+{% set share_url = SITEURL ~ "/" ~ article.url %}
 <div class="post-share">
   <span class="post-info-label">{{ i18n.t("Share") }}</span>
    <a title="Twitter"
       aria-label="Twitter"
       class="twitter"
-      href="https://twitter.com/share?text={{ article.title|striptags|e }}{% if article.subtitle %} - {{ article.subtitle|striptags|e }}{% endif %}&amp;url={{ SITEURL }}/{{ article.url }}"
+      href="https://twitter.com/share?text={{ (share_title ~ (" - " ~ article.subtitle|striptags if article.subtitle else ""))|urlencode }}&amp;url={{ share_url|urlencode }}"
       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235'); return false;">
      {{ icons.icon("twitter") }}
      <span class="hidden">Twitter</span>
@@ -12,7 +16,7 @@
    <a title="Facebook"
       aria-label="Facebook"
       class="facebook"
-      href="https://www.facebook.com/sharer/sharer.php?u={{ SITEURL }}/{{ article.url }}"
+      href="https://www.facebook.com/sharer/sharer.php?u={{ share_url|urlencode }}"
       onclick="window.open(this.href, 'facebook-share', 'width=580,height=296'); return false;">
      {{ icons.icon("facebook") }}
      <span class="hidden">Facebook</span>
@@ -21,7 +25,7 @@
    <a title="LinkedIn"
       aria-label="LinkedIn"
       class="linkedin"
-      href="https://www.linkedin.com/shareArticle?mini=true&amp;url={{ SITEURL }}/{{ article.url }}&amp;title={{ article.title }}"
+      href="https://www.linkedin.com/shareArticle?mini=true&amp;url={{ share_url|urlencode }}&amp;title={{ share_title|urlencode }}"
       onclick="window.open(this.href, 'linkedin-share', 'width=930,height=720'); return false;">
      {{ icons.icon("linkedin") }}
      <span class="hidden">LinkedIn</span>
@@ -31,7 +35,7 @@
    <a title="Mastodon"
       aria-label="Mastodon"
       class="mastodon"
-      href="https://{{ POST_SHARE_MASTODON_DOMAIN }}/share?text={{ article.title|urlencode }}%20{{ (SITEURL ~ '/' ~ article.url)|urlencode }}"
+      href="https://{{ POST_SHARE_MASTODON_DOMAIN }}/share?text={{ share_title|urlencode }}%20{{ share_url|urlencode }}"
       onclick="window.open(this.href, 'mastodon-share', 'width=930,height=720'); return false;">
      {{ icons.icon("mastodon") }}
      <span class="hidden">Mastodon</span>
@@ -41,7 +45,7 @@
    <a title="Email"
       aria-label="Email"
       class="email"
-      href="mailto:?subject={{ article.title }}&amp;body={{ SITEURL }}/{{ article.url }}">
+      href="mailto:?subject={{ share_title|urlencode }}&amp;body={{ share_url|urlencode }}">
      {{ icons.icon("email") }}
      <span class="hidden">Email</span>
    </a>
