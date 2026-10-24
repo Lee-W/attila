@@ -28,7 +28,7 @@ It is ported from the ghost theme:
 - Series posts (via [series plugin](https://github.com/pelican-plugins/series))
 - Reading progress for posts  
 - Automatic code syntax highlighting at build time via Pygments (light/dark adaptive, no client-side JS)
-- Disqus / [utterances](https://utteranc.es/) support
+- [utterances](https://utteranc.es/) comments support
 - Google Analytics, GAUGES, Piwik  
 - Sharing buttons  
 - Open Graph  
@@ -253,7 +253,7 @@ Supported social profiles: Facebook, GitHub, LinkedIn, Twitter, and Instagram.
 ### Analytics
 - Google Analytics: `GOOGLE_ANALYTICS`  
 - Gauges: `GAUGES`  
-- Piwik: `PIWIK_URL` + `PIWIK_SITE_ID`
+- Piwik: `PIWIK_URL` + `PIWIK_SITE_ID` (optional `PIWIK_SSL_URL`, host used instead of `PIWIK_URL` when set, without scheme)
 - umami: `UMAMI_WEBSITE_ID`
 
 ### Menu Items
@@ -291,14 +291,13 @@ For more steps, use CSS_OVERRIDE.
 
 ### Language Switcher
 
-To show a language switcher in the navigation, set `LANGUAGES` (list of `(code, url)` pairs) and `CURRENT_LANG` (the active language code):
+To show a language switcher in the navigation, set `LANGUAGES` (list of `(code, url)` pairs). The active language comes from `DEFAULT_LANG`, which the [i18n_subsites](https://github.com/pelican-plugins/i18n-subsites) plugin overrides per subsite:
 
 ```python
 LANGUAGES = [
     ("zh-tw", "/zh-tw/"),
     ("en", "/"),
 ]
-CURRENT_LANG = "zh-tw"
 ```
 
 By default the switcher displays the raw language code. Use `LANGUAGE_NAMES` to map codes to human-readable labels:
@@ -401,15 +400,44 @@ Article and page metadata may override these with `cover_srcset`, `cover_width`,
 
 The theme ships self-hosted web fonts — **Libre Baskerville** (body) and **Fira Sans** (headings/UI) — bundled as `woff2` under `static/font/` and declared via `@font-face` in `style.css`. Nothing is fetched from a third-party font CDN, so there are no extra DNS lookups and no requests leaking to Google. To use different fonts, override the `font-family` declarations via `CSS_OVERRIDE`.
 
+### Site Settings
+
+Theme-specific settings that are all optional:
+
+| Setting | Type | Default | Purpose |
+|---|---|---|---|
+| `SITE_DESCRIPTION` | str | unset | Fallback `<meta name="description">` / Open Graph description when an article or page has no summary |
+| `SITE_LOGO` | str (URL) | unset | Image shown in the navigation bar in place of the site name |
+| `SITE_VARIANT` | str | `"blog"` | Added to `<body>` as the class `site-<variant>`, for per-site CSS |
+| `COPYRIGHT_YEAR` | int / str | `2026` | Year shown in the footer copyright line |
+| `OG_LOCALE` | str | `"en_US"` | Default Open Graph locale |
+| `FAVICON` | str (path) | unset | `<link rel="icon">`, relative to `SITEURL` |
+| `FAVICON_IE` | str (path) | unset | `<link rel="shortcut icon">`, relative to `SITEURL` |
+| `TOUCHICON` | str (path) | unset | `<link rel="apple-touch-icon">`, relative to `SITEURL` |
+| `MANIFEST` | str (path) | unset | `<link rel="manifest">`, relative to `SITEURL` |
+| `POST_SHARE_MASTODON_DOMAIN` | str | unset | Mastodon instance domain; enables the Mastodon share button (`https://<domain>/share`) |
+| `RANDOM_ARTICLE_BUTTON` | bool | `False` | Show the "Read a random article" button on articles |
+| `RANDOM_ARTICLE_SAVE_AS` | str | `"random/index.html"` | Output path of the random-article page the button links to |
+| `SERIES_LIST_URL` | str | `"series/"` | URL of the series list page, used to mark the navigation item active |
+| `SERIES_LIST_SAVE_AS` | str | unset | Output path of the series list page; takes precedence over `SERIES_LIST_URL` when set |
+| `UTTERANCES_THEME` | str | `"github-light"` | utterances theme |
+| `UTTERANCES_FILTER` | bool | `False` | Declared in the theme defaults but not currently passed to the utterances script |
+
+```python
+SITE_DESCRIPTION = "Notes on Python and Pelican"
+SITE_LOGO = "/images/logo.png"
+FAVICON = "favicon.ico"
+RANDOM_ARTICLE_BUTTON = True
+POST_SHARE_MASTODON_DOMAIN = "mastodon.social"
+```
+
 ### Other Configuration
 
 ```python
 FACEBOOK_ADMINS = ["12345"]
 GOOGLE_SITE_VERIFICATION = "token"
-SHOW_ARTICLE_MODIFIED_TIME = True
 SHOW_AUTHOR_BIO_IN_ARTICLE = True
 SHOW_CATEGORIES_ON_MENU = True
-SHOW_COMMENTS_COUNT_IN_ARTICLE_SUMMARY = True
 SHOW_CREDITS = True
 SHOW_FULL_ARTICLE_IN_SUMMARY = False
 SHOW_PAGES_ON_MENU = True
@@ -421,10 +449,35 @@ UTTERANCES_REPO = "Lee-W/attila"
 UTTERANCES_LABEL = "blog-comment"
 ```
 
+Comments are rendered with utterances only when `UTTERANCES_REPO` is set.
+
 ## Contributing
 
 Always open an issue before sending a PR. Discuss the problem/feature first.  
 If it's a good improvement, submit your PR. Otherwise, fork Attila and build your own theme.
+
+### Development setup
+
+Requires [uv](https://docs.astral.sh/uv/), Node.js (the test suite runs `node` for the JavaScript tests and the icon sprite build) and `gettext` (`msgfmt`, for `uv run poe build-i18n`).
+
+```sh
+uv sync --group dev
+uv run poe test      # run the test suite
+uv run poe lint      # ruff check
+uv run poe all       # format, lint, check commits, test
+```
+
+### Local preview
+
+Build the demo site in `tests/` with the theme from `src/`, then serve the output:
+
+```sh
+cd tests
+uv run pelican content -s default_conf.py -t ../src/pelican/themes/attila -o output
+uv run python -m http.server 8000 --directory output
+```
+
+Open <http://localhost:8000>. `tests/output` is git-ignored.
 
 ### CSS
 
