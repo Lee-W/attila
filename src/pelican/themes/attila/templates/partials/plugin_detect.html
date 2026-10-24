@@ -1,0 +1,15 @@
+{# Which plugin assets the current article/page needs. Detection is by the
+   markup the plugin emits rather than by a literal entry in PLUGINS, which is
+   absent when plugins are autodiscovered or given as module objects. #}
+{% macro _content_html() -%}
+  {{- article.content if article else (page.content if page else "") -}}
+{%- endmacro %}
+
+{% macro needs_osm() -%}
+  {%- set content_html = _content_html() -%}
+  {{- 'class="osm-map' in content_html or 'class="osm-place-list' in content_html -}}
+{%- endmacro %}
+
+{% macro needs_heatmap() -%}
+  {{- 'id="writing-heatmap"' in _content_html() -}}
+{%- endmacro %}
