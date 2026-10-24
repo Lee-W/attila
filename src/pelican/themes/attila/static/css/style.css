@@ -5183,6 +5183,13 @@ body #on-this-day .post-nav-meta {
 .tag-weight-3 { font-size: 18px; }
 .tag-weight-4 { font-size: 20.5px; }
 .tag-weight-5 { font-size: 23px; }
+/* TAG_CLOUD_STEPS may go up to 10; continue the ramp so a larger cloud does
+   not fall back to the inherited size (opacity for 1-10 lives in 05-theme). */
+.tag-weight-6 { font-size: 25.5px; }
+.tag-weight-7 { font-size: 28px; }
+.tag-weight-8 { font-size: 30.5px; }
+.tag-weight-9 { font-size: 33px; }
+.tag-weight-10 { font-size: 36px; }
 
 /* =========================================================================
    8f. Archives — year-grouped, clickable date rows.

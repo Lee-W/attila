@@ -29,7 +29,8 @@
       <div class="tag-cloud">
         {% for tag, articles in tags|sort %}
           {% set count = articles|count %}
-          {% set weight = (count / (max_count / steps))|int + 1 %}
+          {# The stylesheet defines tag-weight-1 to 10, so larger TAG_CLOUD_STEPS stop at 10. #}
+          {% set weight = [(count / (max_count / steps))|int + 1, 10]|min %}
           <a href="{{ SITEURL }}/{{ tag.url }}" class="tag-pill tag-weight-{{ weight }}" title="{{ i18n.t('%(count)s Posts', count=count) }}">
             <span class="tag-name">{{ tag }}</span>
             <span class="tag-count">{{ count }}</span>
