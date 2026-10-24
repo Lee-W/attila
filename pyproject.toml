@@ -69,6 +69,13 @@ exclude-newer = "4 days"
 module-name = "pelican.themes.attila"
 module-root = "src"
 
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
 [tool.poe]
 [tool.poe.tasks]
 format.help = "Format the code"

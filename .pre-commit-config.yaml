@@ -51,7 +51,6 @@ repos:
     args:
     - -L
     - nd
-    - --write-changes
     id: codespell
     language: python
     name: Run codespell to check for common misspellings in files
@@ -65,7 +64,7 @@ repos:
     stages:
     - post-commit
   repo: https://github.com/commitizen-tools/commitizen
-  rev: v4.13.7
+  rev: v4.13.10
 - hooks:
   - id: taplo-format
   repo: https://github.com/ComPWA/taplo-pre-commit
