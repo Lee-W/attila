@@ -1,3 +1,9 @@
+## v4.1.0 (2026-10-29)
+
+### Feat
+
+- **theme**: use a cream paper background for the light theme
+
 ## v4.0.0 (2026-10-24)
 
 ### BREAKING CHANGE
