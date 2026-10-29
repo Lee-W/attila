@@ -234,7 +234,7 @@ body {
   padding: 14px 22px;
   border-inline-start: 3px solid var(--brand);
   border-radius: 0 var(--radius-small) var(--radius-small) 0;
-  background: var(--brand-quote);
+  background: light-dark(color-mix(in oklab, var(--paper-light) 96%, var(--brand)), var(--brand-quote));
   font-family: var(--font-primary);
   font-style: normal;
   font-size: 17px;
@@ -840,7 +840,7 @@ a.post-nav-col:hover .post-nav-title {
 
 .series-index-link:hover {
   border-color: color-mix(in srgb, var(--brand) 45%, var(--rule));
-  background: var(--brand-quote);
+  background: light-dark(color-mix(in oklab, var(--paper-light) 96%, var(--brand)), var(--brand-quote));
 }
 
 /* Override the inherited .post-content a colour/underline so the card link

@@ -371,14 +371,14 @@ textarea {
   margin-bottom: 0.5em;
   padding: 1px 8px;
   border: 1px solid var(--color-background-contrast);
-  text-shadow: 0 1px 0 white;
+  text-shadow: 0 1px 0 light-dark(var(--paper-light), white);
   font-size: 0.9em;
   font-weight: bold;
   background: var(--color-background-secondary);
   border-radius: var(--radius-small);
   box-shadow:
     0 1px 0 rgba(0, 0, 0, 0.2),
-    0 1px 0 0 white inset;
+    0 1px 0 0 light-dark(var(--paper-light), white) inset;
 }
 
 .post-content table {
@@ -2260,7 +2260,7 @@ textarea {
   width: 15%;
   margin: -0.5em 0 0 5%;
   overflow: hidden;
-  background: #fff;
+  background: light-dark(var(--paper-light), #fff);
   border-radius: 10em;
   box-sizing: border-box;
 }
@@ -2486,7 +2486,7 @@ p a {
 }
 
 a {
-  color: light-dark(black, #ffb9b9);
+  color: light-dark(#212220, #ffb9b9);
 }
 .series {
   font-size: 2em;

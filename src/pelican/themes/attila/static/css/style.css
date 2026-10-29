@@ -201,20 +201,20 @@ th {
      background, so brighten it in dark mode (derives from --brand, so travlog's
      override flows through). Use for links / category / month labels, not for
      brand-coloured backgrounds. */
-  --brand-text: light-dark(var(--brand), color-mix(in srgb, var(--brand) 52%, #ffffff));
+  --brand-text: light-dark(color-mix(in oklab, var(--brand) 90%, black), color-mix(in srgb, var(--brand) 52%, #ffffff));
 
   /* The existing theme rules are all wired to --color-primary; alias it to the
      brand so overriding --brand recolours the whole theme in one move. */
   --color-primary: var(--brand);
   --color-primary-active: var(--brand-active);
 
-  --color-background-main: light-dark(#fff, #222426);
-  --color-background-secondary: light-dark(#f7f8fa, #1d1f20);
-  --color-background-contrast: light-dark(#e1e3e6, #3b3d40);
+  --color-background-main: light-dark(var(--paper-light), #222426);
+  --color-background-secondary: light-dark(color-mix(in oklab, var(--paper-light) 97%, #212220), #1d1f20);
+  --color-background-contrast: light-dark(color-mix(in oklab, var(--paper-light) 88%, #212220), #3b3d40);
   --color-background-overlay: light-dark(rgba(37, 40, 43, 0.9), rgba(9, 10, 13, 0.9));
-  --color-content-lead: light-dark(#000, #fff);
+  --color-content-lead: light-dark(#212220, #fff);
   --color-content-main: light-dark(#222426, #e1e3e6);
-  --color-content-secondary: light-dark(#73777d, #909499);
+  --color-content-secondary: light-dark(#696c71, #909499);
   --radius-small: 4px;
   --radius-medium: 8px;
   --radius-pill: 999px;
@@ -226,13 +226,15 @@ th {
      --------------------------------------------------------------------- */
   --ink-body: light-dark(#3d3c38, #e0ded7); /* body copy */
   --ink-title: light-dark(#212220, #f5f4f1); /* headings / list titles */
-  --ink-muted: light-dark(#8b8a84, #c7c3b9); /* subtitles */
-  --ink-faint: light-dark(#a6a49e, #b2aea4); /* meta / dates */
-  --paper: light-dark(#fdfdfc, #17191a); /* page canvas */
+  --ink-muted: light-dark(#83827c, #c7c3b9); /* subtitles */
+  --ink-faint: light-dark(#9d9b95, #b2aea4); /* meta / dates */
+  /* single source of the light paper colour; templates/partials/head_meta.html theme-color must be synced by hand */
+  --paper-light: #f7f3e8;
+  --paper: light-dark(var(--paper-light), #17191a); /* page canvas */
   --footer-bg: light-dark(#f6f5f3, #1c1e1f);
-  --rule: light-dark(#ececea, #33363a); /* hairlines / separators */
-  --tag-bg: light-dark(#f2f1ee, #2b2e31);
-  --tag-ink: light-dark(#77766f, #c2beb4);
+  --rule: light-dark(color-mix(in oklab, var(--paper-light) 93%, #212220), #33363a); /* hairlines / separators */
+  --tag-bg: light-dark(color-mix(in oklab, var(--paper-light) 95%, #212220), #2b2e31);
+  --tag-ink: light-dark(#6e6d67, #c2beb4);
   --code-bg: #1d2023; /* dark in both modes on purpose (= top bar) */
   --code-ink: #c8cdd3;
 
@@ -242,16 +244,16 @@ th {
      purpose: these sit inside body copy and must not out-shout the brand.
      See css-src/05a-refresh.css. */
   --adm-note: light-dark(#4a6c9b, #93b2da);
-  --adm-note-wash: light-dark(#f5f8fc, #1e242b);
+  --adm-note-wash: light-dark(color-mix(in oklab, var(--paper-light) 96%, #4a6c9b), #1e242b);
   --adm-tip: light-dark(#47755c, #8bbd9d);
-  --adm-tip-wash: light-dark(#f4faf6, #1c2521);
+  --adm-tip-wash: light-dark(color-mix(in oklab, var(--paper-light) 96%, #47755c), #1c2521);
   --adm-warn: light-dark(#96692a, #dcae62);
-  --adm-warn-wash: light-dark(#fdf9f0, #26211a);
+  --adm-warn-wash: light-dark(color-mix(in oklab, var(--paper-light) 96%, #96692a), #26211a);
   --adm-danger: light-dark(#a1443b, #e08b80);
-  --adm-danger-wash: light-dark(#fdf5f4, #2a1e1c);
+  --adm-danger-wash: light-dark(color-mix(in oklab, var(--paper-light) 96%, #a1443b), #2a1e1c);
 
   /* Brand-adjacent tints (blog defaults; travlog overrides --brand + these). */
-  --brand-quote: light-dark(#faf6f4, #241c18); /* blockquote wash */
+  --brand-quote: light-dark(color-mix(in oklab, var(--paper-light) 96%, #b3573a), #241c18); /* blockquote wash */
   --header-meta: #e0947a; /* category label on the dark header */
 
   /* Article/banner dark chrome (travlog overrides these to its greens). */
@@ -928,14 +930,14 @@ textarea {
   margin-bottom: 0.5em;
   padding: 1px 8px;
   border: 1px solid var(--color-background-contrast);
-  text-shadow: 0 1px 0 white;
+  text-shadow: 0 1px 0 light-dark(var(--paper-light), white);
   font-size: 0.9em;
   font-weight: bold;
   background: var(--color-background-secondary);
   border-radius: var(--radius-small);
   box-shadow:
     0 1px 0 rgba(0, 0, 0, 0.2),
-    0 1px 0 0 white inset;
+    0 1px 0 0 light-dark(var(--paper-light), white) inset;
 }
 
 .post-content table {
@@ -2817,7 +2819,7 @@ textarea {
   width: 15%;
   margin: -0.5em 0 0 5%;
   overflow: hidden;
-  background: #fff;
+  background: light-dark(var(--paper-light), #fff);
   border-radius: 10em;
   box-sizing: border-box;
 }
@@ -3043,7 +3045,7 @@ p a {
 }
 
 a {
-  color: light-dark(black, #ffb9b9);
+  color: light-dark(#212220, #ffb9b9);
 }
 .series {
   font-size: 2em;
@@ -3420,7 +3422,7 @@ body {
   padding: 14px 22px;
   border-inline-start: 3px solid var(--brand);
   border-radius: 0 var(--radius-small) var(--radius-small) 0;
-  background: var(--brand-quote);
+  background: light-dark(color-mix(in oklab, var(--paper-light) 96%, var(--brand)), var(--brand-quote));
   font-family: var(--font-primary);
   font-style: normal;
   font-size: 17px;
@@ -4026,7 +4028,7 @@ a.post-nav-col:hover .post-nav-title {
 
 .series-index-link:hover {
   border-color: color-mix(in srgb, var(--brand) 45%, var(--rule));
-  background: var(--brand-quote);
+  background: light-dark(color-mix(in oklab, var(--paper-light) 96%, var(--brand)), var(--brand-quote));
 }
 
 /* Override the inherited .post-content a colour/underline so the card link
