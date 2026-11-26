@@ -4657,6 +4657,126 @@ body #on-this-day .post-nav-meta {
 } /* end @media (min-width: 769px) — slim top bar */
 
 /* =========================================================================
+   9b. Footer + comments — aligned to the 820px content column, one hairline
+       above (drawn once: over the footer-extra block when a site provides
+       one, otherwise over the credits row), and a modest gap instead of the
+       old 12rem + 8vw (~235px). The theme wraps the footer_extra hook in
+       .footer-extra so a site's own notice (e.g. a rights notice) is laid out
+       by the same rules.
+   ========================================================================= */
+.footer-extra,
+.nav-footer {
+  box-sizing: border-box;
+  padding-inline: 24px;
+}
+
+.footer-extra {
+  margin-top: auto; /* short pages: footer stays at the bottom of the window */
+}
+
+.footer-extra:not(:has(> *)) {
+  display: none;
+}
+
+.nav-footer {
+  padding-top: 56px;
+  padding-bottom: 40px;
+}
+
+.footer-extra:has(> *) {
+  padding-top: 56px;
+}
+
+.footer-extra:has(> *) + .nav-footer {
+  margin-top: 0;
+  padding-top: 16px;
+}
+
+/* The single hairline, at content-column width. */
+.footer-extra:has(> *)::before,
+.nav-footer::before {
+  content: "";
+  display: block;
+  max-width: 820px;
+  height: 1px;
+  margin: 0 auto 20px;
+  background: var(--rule);
+}
+
+.footer-extra:has(> *) + .nav-footer::before {
+  display: none;
+}
+
+.footer-extra > * {
+  max-width: 820px;
+  margin-inline: auto;
+}
+
+/* Site-supplied notice (the sites' CSS gives it its own 235px top padding). */
+.footer-extra .rights-notice {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 820px;
+  padding: 0;
+  margin: 0 auto 12px;
+  font-size: 14px;
+  text-align: start;
+}
+
+.nav-footer .nav-wrapper {
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 24px;
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.nav-copy,
+.nav-credits {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--ink-faint);
+}
+
+.nav-credits {
+  flex-shrink: 1;
+  margin-inline-start: 0;
+}
+
+.nav-credits a {
+  font-weight: 500;
+}
+
+/* Comments (utterances): the content column, not the full window. */
+.post-comments {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: min(820px, 100% - 48px);
+  margin: 0 auto;
+  padding: 32px 0;
+  border: 0;
+  border-top: 1px solid var(--rule);
+}
+
+.post-comments.activated {
+  background: transparent;
+  border: 0;
+  border-top: 1px solid var(--rule);
+}
+
+.post-comments-intro {
+  margin: 0 0 20px;
+  font-size: 15px;
+  font-style: normal;
+  color: var(--ink-muted);
+}
+
+/* =========================================================================
    10. Mobile adjustments — smaller header type so titles don't overlap, and
        tighter gutters on phones.
    ========================================================================= */
@@ -4683,13 +4803,14 @@ body #on-this-day .post-nav-meta {
     min-width: 0;
   }
 
-  /* Footer: let the copyright line wrap and keep a 24px gutter. */
   .nav-footer .nav-wrapper {
-    padding: 0 24px;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
   }
 
-  .nav-copy {
-    white-space: normal;
+  .footer-extra .rights-notice {
+    text-align: center;
   }
 
   /* Drop flex on mobile: a flex item is sized to its (unwrapped) content, which
