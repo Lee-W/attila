@@ -1757,3 +1757,20 @@ body #on-this-day .post-nav-meta {
 .post-content pre :focus-visible {
   outline-color: #fff;
 }
+
+/* =========================================================================
+   12. Maps — dim the Leaflet base tiles in the dark theme. Only the tile
+       pane is filtered (markers, popups and controls live in other panes), so
+       the light OpenStreetMap tiles stop being the brightest thing on a dark
+       page. Dark detection mirrors the pelican_osm plugin: the .theme-dark
+       toggle, or the OS preference when the user has not forced light.
+   ========================================================================= */
+.theme-dark .osm-map-block .leaflet-tile-pane {
+  filter: invert(1) hue-rotate(180deg) brightness(0.9) contrast(0.9) saturate(0.7);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.theme-light) .osm-map-block .leaflet-tile-pane {
+    filter: invert(1) hue-rotate(180deg) brightness(0.9) contrast(0.9) saturate(0.7);
+  }
+}
