@@ -730,6 +730,7 @@ a.post-nav-col:hover .post-nav-title {
       listing page via partials/listing_banner.html.
    ========================================================================= */
 .site-banner {
+  box-sizing: border-box; /* width:100% on phones must include the side padding */
   position: relative;
   overflow: hidden;
   padding: 38px 44px 0;
@@ -1327,9 +1328,19 @@ body #on-this-day .post-nav-meta {
 
   .site-blog .page-wrapper > *,
   .site-travlog .page-wrapper > * {
+    box-sizing: border-box; /* width:100% must include each block's own padding */
     width: 100% !important;
     max-width: 100% !important;
     min-width: 0;
+  }
+
+  /* Footer: let the copyright line wrap and keep a 24px gutter. */
+  .nav-footer .nav-wrapper {
+    padding: 0 24px;
+  }
+
+  .nav-copy {
+    white-space: normal;
   }
 
   /* Drop flex on mobile: a flex item is sized to its (unwrapped) content, which
