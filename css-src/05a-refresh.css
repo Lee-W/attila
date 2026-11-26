@@ -1459,8 +1459,11 @@ body #on-this-day .post-nav-meta {
        above (drawn once: over the footer-extra block when a site provides
        one, otherwise over the credits row), and a modest gap instead of the
        old 12rem + 8vw (~235px). The theme wraps the footer_extra hook in
-       .footer-extra so a site's own notice (e.g. a rights notice) is laid out
-       by the same rules.
+       .footer-extra; that slot's layout contract is: each direct child sits
+       in the content column, carries no outer padding and aligns text to the
+       start. The selectors use only theme classes (.page-wrapper
+       .footer-extra > *, specificity 0,2,0) so they outrank a site's own
+       single-class styling of whatever it puts in the slot.
    ========================================================================= */
 .footer-extra,
 .nav-footer {
@@ -1505,13 +1508,7 @@ body #on-this-day .post-nav-meta {
   display: none;
 }
 
-.footer-extra > * {
-  max-width: 820px;
-  margin-inline: auto;
-}
-
-/* Site-supplied notice (the sites' CSS gives it its own 235px top padding). */
-.footer-extra .rights-notice {
+.page-wrapper .footer-extra > * {
   box-sizing: border-box;
   width: 100%;
   max-width: 820px;
@@ -1609,7 +1606,7 @@ body #on-this-day .post-nav-meta {
     text-align: center;
   }
 
-  .footer-extra .rights-notice {
+  .page-wrapper .footer-extra > * {
     text-align: center;
   }
 
