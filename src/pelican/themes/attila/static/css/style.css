@@ -205,7 +205,10 @@ th {
 
   /* Brand lightened for dark surfaces that stay dark in both themes (code
      blocks, the article header, the top bar). Same formula as the dark half of
-     --brand-text, so it also follows a site's --brand override. */
+     --brand-text. Derived tokens resolve on :root, so a site that sets --brand
+     on :root (or html) gets a matching value; a site that sets --brand on a
+     descendant such as body.site-travlog does NOT change this token (it stays
+     derived from the :root brick brand). */
   --brand-on-dark: color-mix(in srgb, var(--brand) 52%, #ffffff);
 
   /* The existing theme rules are all wired to --color-primary; alias it to the
@@ -240,7 +243,7 @@ th {
   --rule-strong: light-dark(color-mix(in oklab, var(--paper-light) 80%, #212220), #4a4e53); /* table header edge: a step above --rule */
   --rule: light-dark(color-mix(in oklab, var(--paper-light) 93%, #212220), #33363a); /* hairlines / separators */
   --tag-bg: light-dark(color-mix(in oklab, var(--paper-light) 95%, #212220), #2b2e31);
-  --tag-ink: light-dark(#6e6d67, #c2beb4);
+  --tag-ink: light-dark(#64635d, #c2beb4); /* >= 4.5:1 on --tag-bg (light 4.88, dark 7.36) */
   --code-bg: light-dark(#1d2023, #22262a); /* dark in both modes on purpose; the dark-mode value sits a step above the page canvas so the block reads as a surface (border: --rule) */
   --code-ink: #c8cdd3;
 
@@ -3108,7 +3111,9 @@ pre {
   padding-top: 2.5em;
 }
 
-.copy-btn {
+/* Selectors carry .post-content so they outrank the generic
+   `.post-content button` brand-filled button rule above. */
+.post-content .copy-btn {
   font-size: 1.5rem;
   box-shadow: none;
   min-height: initial;
@@ -3123,6 +3128,7 @@ pre {
   background-color: rgba(255, 255, 255, 0.08);
   color: var(--code-ink);
   padding: 0.7rem;
+  font-weight: 500;
 
   border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: var(--radius-small);
@@ -3135,14 +3141,18 @@ pre {
   height: fit-content;
 }
 
-.copy-btn:hover {
+.post-content .copy-btn:focus {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.post-content .copy-btn:hover {
   opacity: 1;
-  background-color: var(--brand);
-  border-color: var(--brand);
+  background-color: var(--brand-active);
+  border-color: var(--brand-active);
   color: #fff;
 }
 
-.copy-btn.is-copied {
+.post-content .copy-btn.is-copied {
   background-color: transparent;
   border-color: var(--brand-on-dark);
   color: var(--brand-on-dark);
@@ -4329,7 +4339,6 @@ body #on-this-day .post-nav-meta {
   align-items: baseline;
   gap: 6px;
   padding: 5px 13px;
-  color: var(--ink-body);
   font-weight: 400;
 }
 

@@ -1116,7 +1116,6 @@ body #on-this-day .post-nav-meta {
   align-items: baseline;
   gap: 6px;
   padding: 5px 13px;
-  color: var(--ink-body);
   font-weight: 400;
 }
 

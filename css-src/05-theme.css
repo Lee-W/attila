@@ -2535,7 +2535,9 @@ pre {
   padding-top: 2.5em;
 }
 
-.copy-btn {
+/* Selectors carry .post-content so they outrank the generic
+   `.post-content button` brand-filled button rule above. */
+.post-content .copy-btn {
   font-size: 1.5rem;
   box-shadow: none;
   min-height: initial;
@@ -2550,6 +2552,7 @@ pre {
   background-color: rgba(255, 255, 255, 0.08);
   color: var(--code-ink);
   padding: 0.7rem;
+  font-weight: 500;
 
   border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: var(--radius-small);
@@ -2562,14 +2565,18 @@ pre {
   height: fit-content;
 }
 
-.copy-btn:hover {
+.post-content .copy-btn:focus {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.post-content .copy-btn:hover {
   opacity: 1;
-  background-color: var(--brand);
-  border-color: var(--brand);
+  background-color: var(--brand-active);
+  border-color: var(--brand-active);
   color: #fff;
 }
 
-.copy-btn.is-copied {
+.post-content .copy-btn.is-copied {
   background-color: transparent;
   border-color: var(--brand-on-dark);
   color: var(--brand-on-dark);
