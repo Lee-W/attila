@@ -1,9 +1,10 @@
-/* Pygments theme — light/dark adaptive (One Light / One Dark palettes).
-   Highlighting happens at build time; no client-side highlighter is loaded.
-   Each rule pairs both palettes via light-dark(), following the page's
-   color-scheme (system preference or the manual theme toggle). */
+/* Pygments theme — one low-saturation, warm palette tuned for the code block
+   surface, which is dark in BOTH colour schemes (--code-bg). Every token colour
+   is >= 4.5:1 against --code-bg in light and dark (checked with a WCAG
+   contrast script). Highlighting happens at build time; no client-side
+   highlighter is loaded. */
 .highlight {
-  color: light-dark(#383a42, #abb2bf);
+  color: var(--code-ink);
 }
 
 .highlight .c,
@@ -11,7 +12,7 @@
 .highlight .cm,
 .highlight .c1,
 .highlight .cs {
-  color: light-dark(#a0a1a7, #5c6370);
+  color: #8f958f;
   font-style: italic;
 }
 
@@ -21,7 +22,7 @@
 .highlight .kp,
 .highlight .kr,
 .highlight .ow {
-  color: light-dark(#a626a4, #c678dd);
+  color: #dd9f8a;
   font-weight: bold;
 }
 
@@ -33,7 +34,7 @@
 .highlight .mi,
 .highlight .mo,
 .highlight .il {
-  color: light-dark(#986801, #d19a66);
+  color: #dcb774;
 }
 
 .highlight .s,
@@ -48,18 +49,18 @@
 .highlight .sh,
 .highlight .sx,
 .highlight .sr {
-  color: light-dark(#50a14f, #98c379);
+  color: #a9c291;
 }
 
 .highlight .si {
-  color: light-dark(#a626a4, #c678dd);
+  color: #dd9f8a;
 }
 
 .highlight .nf,
 .highlight .fm,
 .highlight .gh,
 .highlight .gu {
-  color: light-dark(#e45649, #e06c75);
+  color: #e3b78c;
   font-weight: bold;
 }
 
@@ -67,12 +68,12 @@
 .highlight .nc,
 .highlight .nn,
 .highlight .ne {
-  color: light-dark(#c18401, #e5c07b);
+  color: #d6bd6e;
   font-weight: bold;
 }
 
 .highlight .nt {
-  color: light-dark(#e45649, #e06c75);
+  color: #de9690;
 }
 
 .highlight .na,
@@ -82,39 +83,39 @@
 .highlight .vi,
 .highlight .vm,
 .highlight .py {
-  color: light-dark(#986801, #d19a66);
+  color: #dcb774;
 }
 
 .highlight .nb,
 .highlight .bp,
 .highlight .ss {
-  color: light-dark(#4078f2, #61afef);
+  color: #8fb6c8;
 }
 
 .highlight .nd,
 .highlight .cp,
 .highlight .cpf {
-  color: light-dark(#4078f2, #61afef);
+  color: #8fb6c8;
 }
 
 .highlight .o,
 .highlight .p {
-  color: light-dark(#383a42, #abb2bf);
+  color: #b4b9bf;
 }
 
 .highlight .gp,
 .highlight .go {
-  color: light-dark(#a0a1a7, #5c6370);
+  color: #8f958f;
 }
 
 .highlight .gi {
-  color: light-dark(#50a14f, #98c379);
-  background: light-dark(rgba(80, 161, 79, 0.1), rgba(152, 195, 121, 0.1));
+  color: #a9c291;
+  background: rgba(169, 194, 145, 0.1);
 }
 
 .highlight .gd {
-  color: light-dark(#e45649, #e06c75);
-  background: light-dark(rgba(228, 86, 73, 0.1), rgba(224, 108, 117, 0.1));
+  color: #de9690;
+  background: rgba(222, 150, 144, 0.1);
 }
 
 .highlight .ge {

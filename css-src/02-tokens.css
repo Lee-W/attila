@@ -36,8 +36,8 @@
      --------------------------------------------------------------------- */
   --ink-body: light-dark(#3d3c38, #e0ded7); /* body copy */
   --ink-title: light-dark(#212220, #f5f4f1); /* headings / list titles */
-  --ink-muted: light-dark(#83827c, #c7c3b9); /* subtitles */
-  --ink-faint: light-dark(#9d9b95, #b2aea4); /* meta / dates */
+  --ink-muted: light-dark(#5a5953, #c7c3b9); /* subtitles, captions — >= 4.5:1 on paper and --tag-bg */
+  --ink-faint: light-dark(#66655f, #b2aea4); /* meta / dates — >= 4.5:1 on paper and --tag-bg; text only, use --rule for decoration */
   /* single source of the light paper colour; templates/partials/head_meta.html theme-color must be synced by hand */
   --paper-light: #f7f3e8;
   --paper: light-dark(var(--paper-light), #17191a); /* page canvas */
@@ -45,7 +45,7 @@
   --rule: light-dark(color-mix(in oklab, var(--paper-light) 93%, #212220), #33363a); /* hairlines / separators */
   --tag-bg: light-dark(color-mix(in oklab, var(--paper-light) 95%, #212220), #2b2e31);
   --tag-ink: light-dark(#6e6d67, #c2beb4);
-  --code-bg: #1d2023; /* dark in both modes on purpose (= top bar) */
+  --code-bg: light-dark(#1d2023, #22262a); /* dark in both modes on purpose; the dark-mode value sits a step above the page canvas so the block reads as a surface (border: --rule) */
   --code-ink: #c8cdd3;
 
   --font-mono: ui-monospace, "IBM Plex Mono", "SFMono-Regular", "Menlo", monospace;
