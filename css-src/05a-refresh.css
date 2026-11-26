@@ -1773,3 +1773,29 @@ body #on-this-day .post-nav-meta {
     filter: invert(1) hue-rotate(180deg) brightness(0.9) contrast(0.9) saturate(0.7);
   }
 }
+
+/* Zoom controls follow the dimmed tiles: same dark surface and light glyph as
+   the plugin's own dark fullscreen / reset buttons (its --osm-fs-btn-* vars). */
+.theme-dark .osm-map-block .leaflet-bar a {
+  background-color: var(--osm-fs-btn-bg, #2a2a2a);
+  border-bottom-color: var(--rule);
+  color: var(--osm-fs-btn-color, #ddd);
+}
+
+.theme-dark .osm-map-block .leaflet-bar a:hover,
+.theme-dark .osm-map-block .leaflet-bar a:focus {
+  background-color: var(--osm-fs-btn-hover-bg, #3a3a3a);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.theme-light) .osm-map-block .leaflet-bar a {
+    background-color: var(--osm-fs-btn-bg, #2a2a2a);
+    border-bottom-color: var(--rule);
+    color: var(--osm-fs-btn-color, #ddd);
+  }
+
+  :root:not(.theme-light) .osm-map-block .leaflet-bar a:hover,
+  :root:not(.theme-light) .osm-map-block .leaflet-bar a:focus {
+    background-color: var(--osm-fs-btn-hover-bg, #3a3a3a);
+  }
+}
