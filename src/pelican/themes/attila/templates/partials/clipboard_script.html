@@ -10,8 +10,10 @@ document.addEventListener("DOMContentLoaded", () => {
     button.addEventListener("click", () => {
       navigator.clipboard.writeText(codeBlock.textContent).then(() => {
         button.textContent = labels.copied;
+        button.classList.add("is-copied");
         setTimeout(() => {
           button.textContent = labels.copy;
+          button.classList.remove("is-copied");
         }, 1500);
       }).catch(() => {
         button.textContent = labels.failed;

@@ -1959,22 +1959,6 @@ textarea {
   color: inherit;
 }
 
-.post-share .twitter {
-  background-color: #3ea9dd;
-}
-
-.post-share .facebook {
-  background-color: #3c5a98;
-}
-
-.post-share .linkedin {
-  background-color: #0e76a8;
-}
-
-.post-share .email {
-  background-color: #2997ee;
-}
-
 .post-tags {
   position: relative;
   max-width: 66.66666%;
@@ -2486,7 +2470,7 @@ p a {
 }
 
 a {
-  color: light-dark(#212220, #ffb9b9);
+  color: light-dark(#212220, var(--brand-on-dark));
 }
 .series {
   font-size: 2em;
@@ -2551,17 +2535,34 @@ pre {
   right: 0;
   top: 0;
 
-  background-color: #fe8019;
+  /* Quiet by default (a ghost chip on the always-dark code block); the brand
+     only appears on hover and once the copy succeeded (.is-copied). */
+  background-color: rgba(255, 255, 255, 0.08);
+  color: var(--code-ink);
   padding: 0.7rem;
 
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: var(--radius-small);
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
   width: fit-content;
   height: fit-content;
 }
 
 .copy-btn:hover {
   opacity: 1;
+  background-color: var(--brand);
+  border-color: var(--brand);
+  color: #fff;
+}
+
+.copy-btn.is-copied {
+  background-color: transparent;
+  border-color: var(--brand-on-dark);
+  color: var(--brand-on-dark);
 }
 
 /* footnote spacing */

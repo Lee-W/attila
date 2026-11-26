@@ -13,6 +13,11 @@
      brand-coloured backgrounds. */
   --brand-text: light-dark(color-mix(in oklab, var(--brand) 90%, black), color-mix(in srgb, var(--brand) 52%, #ffffff));
 
+  /* Brand lightened for dark surfaces that stay dark in both themes (code
+     blocks, the article header, the top bar). Same formula as the dark half of
+     --brand-text, so it also follows a site's --brand override. */
+  --brand-on-dark: color-mix(in srgb, var(--brand) 52%, #ffffff);
+
   /* The existing theme rules are all wired to --color-primary; alias it to the
      brand so overriding --brand recolours the whole theme in one move. */
   --color-primary: var(--brand);
