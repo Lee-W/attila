@@ -47,11 +47,19 @@
   --paper-light: #f7f3e8;
   --paper: light-dark(var(--paper-light), #17191a); /* page canvas */
   --footer-bg: light-dark(#f6f5f3, #1c1e1f);
+  --rule-strong: light-dark(color-mix(in oklab, var(--paper-light) 80%, #212220), #4a4e53); /* table header edge: a step above --rule */
   --rule: light-dark(color-mix(in oklab, var(--paper-light) 93%, #212220), #33363a); /* hairlines / separators */
   --tag-bg: light-dark(color-mix(in oklab, var(--paper-light) 95%, #212220), #2b2e31);
   --tag-ink: light-dark(#6e6d67, #c2beb4);
   --code-bg: light-dark(#1d2023, #22262a); /* dark in both modes on purpose; the dark-mode value sits a step above the page canvas so the block reads as a surface (border: --rule) */
   --code-ink: #c8cdd3;
+
+  /* Article vertical rhythm. Children of .post-content are flex items, so
+     margins never collapse: every block owns only its BOTTOM margin (--flow),
+     and heavy blocks (code, images, tables) add a small top margin so the gap
+     above and below them is the same. */
+  --flow: 16px; /* paragraph / list / quote spacing */
+  --flow-block: 24px; /* gap above and below code, figures, tables */
 
   --font-mono: ui-monospace, "IBM Plex Mono", "SFMono-Regular", "Menlo", monospace;
 

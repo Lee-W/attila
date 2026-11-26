@@ -237,11 +237,19 @@ th {
   --paper-light: #f7f3e8;
   --paper: light-dark(var(--paper-light), #17191a); /* page canvas */
   --footer-bg: light-dark(#f6f5f3, #1c1e1f);
+  --rule-strong: light-dark(color-mix(in oklab, var(--paper-light) 80%, #212220), #4a4e53); /* table header edge: a step above --rule */
   --rule: light-dark(color-mix(in oklab, var(--paper-light) 93%, #212220), #33363a); /* hairlines / separators */
   --tag-bg: light-dark(color-mix(in oklab, var(--paper-light) 95%, #212220), #2b2e31);
   --tag-ink: light-dark(#6e6d67, #c2beb4);
   --code-bg: light-dark(#1d2023, #22262a); /* dark in both modes on purpose; the dark-mode value sits a step above the page canvas so the block reads as a surface (border: --rule) */
   --code-ink: #c8cdd3;
+
+  /* Article vertical rhythm. Children of .post-content are flex items, so
+     margins never collapse: every block owns only its BOTTOM margin (--flow),
+     and heavy blocks (code, images, tables) add a small top margin so the gap
+     above and below them is the same. */
+  --flow: 16px; /* paragraph / list / quote spacing */
+  --flow-block: 24px; /* gap above and below code, figures, tables */
 
   --font-mono: ui-monospace, "IBM Plex Mono", "SFMono-Regular", "Menlo", monospace;
 
@@ -3370,11 +3378,26 @@ body {
 }
 
 .post-content p {
-  margin: 0 0 16px;
+  margin: 0 0 var(--flow);
 }
 
 .post-content li {
   margin-bottom: 4px;
+}
+
+/* Lists follow the paragraph rhythm (the theme's 40px list margin is gone);
+   nested lists hug their parent item. */
+.post-content ul,
+.post-content ol,
+.post-content dl {
+  margin: 0 0 var(--flow);
+}
+
+.post-content ol ol,
+.post-content ol ul,
+.post-content ul ol,
+.post-content ul ul {
+  margin: 4px 0 0;
 }
 
 /* Links: brand text + soft brand underline (replaces the inset box-shadow).
@@ -3450,7 +3473,7 @@ body {
 }
 
 .post-content blockquote {
-  margin: 0 0 22px;
+  margin: 0 0 var(--flow);
   padding: 14px 22px;
   border-inline-start: 3px solid var(--brand);
   border-radius: 0 var(--radius-small) var(--radius-small) 0;
@@ -3463,7 +3486,7 @@ body {
 }
 
 .post-content hr {
-  margin: 0 0 22px;
+  margin: calc(var(--flow-block) - var(--flow)) 0 var(--flow-block);
   background: var(--rule);
 }
 
@@ -3524,7 +3547,7 @@ body {
 /* Collapsible <details> (pymdownx ??? blocks) — clean card with a comfortable
    content area (the theme left the list flush against the bottom border). */
 .post-content details {
-  margin: 0 0 22px;
+  margin: 0 0 var(--flow);
   border: 1px solid var(--rule);
   border-radius: var(--radius-medium);
 }
@@ -3567,7 +3590,7 @@ body {
 }
 
 .post-content .admonition {
-  margin: 0 0 22px;
+  margin: 0 0 var(--flow);
   padding: 14px 20px;
   border: 1px solid var(--rule);
   border-inline-start: 3px solid var(--adm);
@@ -3628,6 +3651,67 @@ body {
 .post-content details.bug {
   --adm: var(--adm-danger);
   --adm-wash: var(--adm-danger-wash);
+}
+
+/* =========================================================================
+   2b. Article vertical rhythm for the heavy blocks (code, images, figures,
+       tables) and tables themselves. Gap above == gap below == --flow-block:
+       the previous sibling contributes --flow, so the top margin is the diff.
+   ========================================================================= */
+.post-content .highlight,
+.post-content > pre,
+.post-content > table,
+.post-content > figure,
+.post-content > p:has(> img:only-child),
+.post-content > iframe {
+  margin: calc(var(--flow-block) - var(--flow)) 0 var(--flow-block);
+}
+
+/* The theme padded .highlight by 10px, which stacked with the next block's
+   margin and left code almost touching the following paragraph. */
+.post-content .highlight {
+  padding: 0;
+}
+
+.post-content img {
+  margin: 0;
+}
+
+.post-content figure figcaption {
+  padding: 8px 0 0;
+}
+
+/* Tables: horizontal hairlines only, a heavier header with a stronger edge,
+   roomy cells. */
+.post-content table {
+  border-collapse: collapse;
+}
+
+.post-content table td,
+.post-content table th {
+  padding: 10px 14px;
+  border: 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.post-content table th {
+  font-weight: 700;
+  color: var(--ink-title);
+  border-bottom: 1px solid var(--rule-strong);
+}
+
+.post-content table td > :last-child {
+  margin-bottom: 0;
+}
+
+/* Narrow screens: let the table scroll sideways inside the column instead of
+   being clipped by the page. (Desktop keeps the full-width table layout.) */
+@media (max-width: 768px) {
+  .post-content table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+  }
 }
 
 /* =========================================================================
