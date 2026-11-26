@@ -1727,3 +1727,32 @@ body #on-this-day .post-nav-meta {
     font-size: 15px;
   }
 }
+
+/* =========================================================================
+   11. Keyboard focus — one visible ring for everything focusable. Only
+       :focus-visible, so mouse clicks look the same as before. Brand-coloured
+       on the paper; white on the surfaces that are dark in both themes (top
+       bar, article header, listing banner, code blocks) where a brick ring
+       would disappear.
+   ========================================================================= */
+:focus-visible {
+  outline: 2px solid var(--brand-text);
+  outline-offset: 2px;
+}
+
+/* The theme removed the outline on form fields and only swapped the 1px
+   border colour on focus, which is barely visible. */
+.post-content :is(input, textarea, select):focus-visible {
+  outline: 2px solid var(--brand-text);
+  outline-offset: 1px;
+  border-color: var(--brand-text);
+}
+
+.nav-header :focus-visible,
+.nav-wrapper-control :focus-visible,
+.nav-close:focus-visible,
+.post-header :focus-visible,
+.site-banner :focus-visible,
+.post-content pre :focus-visible {
+  outline-color: #fff;
+}
