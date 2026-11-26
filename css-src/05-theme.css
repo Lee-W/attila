@@ -1,6 +1,16 @@
 :root {
-  --font-primary: "Fira Sans", sans-serif;
-  --font-secondary: "Libre Baskerville", serif;
+  /* Only the Latin subsets of Fira Sans / Libre Baskerville are loaded, so every
+     CJK glyph comes from the fallbacks below. Traditional Chinese first (the
+     sites are zh-tw / ja); the page's <html lang> picks the Japanese order. */
+  --font-cjk-tc: "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", "Heiti TC";
+  --font-cjk-jp: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", "Meiryo";
+  --font-primary: "Fira Sans", var(--font-cjk-tc), sans-serif;
+  --font-secondary: "Libre Baskerville", "Noto Serif TC", "Songti TC", "PMingLiU", serif;
+}
+
+:root:lang(ja) {
+  --font-primary: "Fira Sans", var(--font-cjk-jp), sans-serif;
+  --font-secondary: "Libre Baskerville", "Hiragino Mincho ProN", "Noto Serif JP", "Yu Mincho", serif;
 }
 
 html {
@@ -303,7 +313,7 @@ textarea {
   position: relative;
   margin: 0 1px;
   padding: 4px 8px;
-  font-family: monospace, sans-serif;
+  font-family: var(--font-mono);
   font-size: 1em;
   background: var(--color-background-secondary);
   border: 1px solid var(--color-background-contrast);
@@ -316,7 +326,7 @@ textarea {
   margin: 0 0 0rem;
   padding: 2.8em 1em 1em;
   overflow: hidden;
-  font-family: monospace, sans-serif;
+  font-family: var(--font-mono);
   white-space: pre;
   background: var(--color-background-secondary);
   border: 1px solid var(--color-background-contrast);
@@ -2258,7 +2268,7 @@ textarea {
 
 .post-author-bio {
   padding-inline-start: 25%;
-  font-family: "Fira Sans", sans-serif;
+  font-family: var(--font-primary);
   font-size: 2em;
   line-height: 1.333em;
 }

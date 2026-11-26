@@ -61,7 +61,7 @@
   --flow: 16px; /* paragraph / list / quote spacing */
   --flow-block: 24px; /* gap above and below code, figures, tables */
 
-  --font-mono: ui-monospace, "IBM Plex Mono", "SFMono-Regular", "Menlo", monospace;
+  --font-mono: ui-monospace, "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", monospace; /* system faces only: nothing is downloaded for code */
 
   /* Admonitions (`!!!` blocks) — one accent + one wash per type. Muted on
      purpose: these sit inside body copy and must not out-shout the brand.

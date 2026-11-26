@@ -7,9 +7,10 @@
    header-chrome tokens in its own CSS_OVERRIDE file — no rule below hardcodes
    a brand hue.
 
-   Typeface note: the mockup uses Noto Sans TC + IBM Plex Mono. Those are a
-   per-site font-loading choice; this layer only references --font-mono and the
-   theme's --font-primary, so wiring the exact faces later needs no CSS change.
+   Typeface note: the mockup uses Noto Sans TC + IBM Plex Mono, but the theme
+   downloads neither. This layer only references --font-mono and --font-primary
+   (system CJK + mono fallbacks, see 02-tokens / 05-theme), so a site that loads
+   those faces just prepends them to the tokens.
    ========================================================================= */
 
 /* ---- page canvas -------------------------------------------------------- */
