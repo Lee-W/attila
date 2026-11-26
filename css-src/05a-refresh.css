@@ -1535,6 +1535,8 @@ body #on-this-day .post-nav-meta {
 
 .nav-copy,
 .nav-credits {
+  min-width: 0;
+  white-space: normal; /* the theme set nowrap on .nav-copy; a long site name must wrap */
   margin: 0;
   font-size: 14px;
   line-height: 1.6;
