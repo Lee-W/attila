@@ -1774,28 +1774,30 @@ body #on-this-day .post-nav-meta {
   }
 }
 
-/* Zoom controls follow the dimmed tiles: same dark surface and light glyph as
-   the plugin's own dark fullscreen / reset buttons (its --osm-fs-btn-* vars). */
+/* Zoom controls follow the dimmed tiles: same dark surface, light glyph and
+   --rule-style edge as the plugin's own filter/fullscreen/reset buttons, which
+   take the theme palette through the plugin's --osm-surface / --osm-text /
+   --osm-border variables (set on .osm-map-block). */
 .theme-dark .osm-map-block .leaflet-bar a {
-  background-color: var(--osm-fs-btn-bg, #2a2a2a);
-  border-bottom-color: var(--rule);
-  color: var(--osm-fs-btn-color, #ddd);
+  background-color: var(--osm-surface, var(--color-background-main));
+  border-bottom-color: var(--osm-border, var(--rule));
+  color: var(--osm-text, var(--color-content-main));
 }
 
 .theme-dark .osm-map-block .leaflet-bar a:hover,
 .theme-dark .osm-map-block .leaflet-bar a:focus {
-  background-color: var(--osm-fs-btn-hover-bg, #3a3a3a);
+  background-color: var(--osm-subtle, var(--color-background-secondary));
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not(.theme-light) .osm-map-block .leaflet-bar a {
-    background-color: var(--osm-fs-btn-bg, #2a2a2a);
-    border-bottom-color: var(--rule);
-    color: var(--osm-fs-btn-color, #ddd);
+    background-color: var(--osm-surface, var(--color-background-main));
+    border-bottom-color: var(--osm-border, var(--rule));
+    color: var(--osm-text, var(--color-content-main));
   }
 
   :root:not(.theme-light) .osm-map-block .leaflet-bar a:hover,
   :root:not(.theme-light) .osm-map-block .leaflet-bar a:focus {
-    background-color: var(--osm-fs-btn-hover-bg, #3a3a3a);
+    background-color: var(--osm-subtle, var(--color-background-secondary));
   }
 }
