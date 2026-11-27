@@ -7,25 +7,6 @@
   --brand: #b3573a;
   --brand-active: #9c4227;
 
-  /* Brand used as TEXT: on the dark theme the raw brand is too close to the
-     background, so brighten it in dark mode (derives from --brand, so travlog's
-     override flows through). Use for links / category / month labels, not for
-     brand-coloured backgrounds. */
-  --brand-text: light-dark(color-mix(in oklab, var(--brand) 90%, black), color-mix(in srgb, var(--brand) 52%, #ffffff));
-
-  /* Brand lightened for dark surfaces that stay dark in both themes (code
-     blocks, the article header, the top bar). Same formula as the dark half of
-     --brand-text. Derived tokens resolve on :root, so a site that sets --brand
-     on :root (or html) gets a matching value; a site that sets --brand on a
-     descendant such as body.site-travlog does NOT change this token (it stays
-     derived from the :root brick brand). */
-  --brand-on-dark: color-mix(in srgb, var(--brand) 52%, #ffffff);
-
-  /* The existing theme rules are all wired to --color-primary; alias it to the
-     brand so overriding --brand recolours the whole theme in one move. */
-  --color-primary: var(--brand);
-  --color-primary-active: var(--brand-active);
-
   --color-background-main: light-dark(var(--paper-light), #222426);
   --color-background-secondary: light-dark(color-mix(in oklab, var(--paper-light) 97%, #212220), #1d1f20);
   --color-background-contrast: light-dark(color-mix(in oklab, var(--paper-light) 88%, #212220), #3b3d40);
@@ -86,6 +67,31 @@
   --topbar-bg: #1d2023;
   --banner-grad: linear-gradient(150deg, #23272c, #15181b);
   --header-scrim: 21, 24, 27; /* rgb seed for the cover overlay gradient */
+}
+
+/* Tokens derived from --brand. A var() inside a custom property is resolved on
+   the element that declares it, so declaring these only on :root freezes them
+   to the :root brand: a site that sets --brand on a descendant (travlog:
+   body.site-travlog) would not recolour them. Declaring them on body as well
+   re-derives them from whatever --brand body sees, so a site may set --brand
+   on :root or on body. --brand and --brand-active stay the sites' only knobs
+   and are never redeclared here. */
+:root,
+body {
+  /* Brand used as TEXT: on the dark theme the raw brand is too close to the
+     background, so brighten it in dark mode. Use for links / category / month
+     labels, not for brand-coloured backgrounds. */
+  --brand-text: light-dark(color-mix(in oklab, var(--brand) 90%, black), color-mix(in srgb, var(--brand) 52%, #ffffff));
+
+  /* Brand lightened for dark surfaces that stay dark in both themes (code
+     blocks, the article header, the top bar). Same formula as the dark half of
+     --brand-text. */
+  --brand-on-dark: color-mix(in srgb, var(--brand) 52%, #ffffff);
+
+  /* The existing theme rules are all wired to --color-primary; alias it to the
+     brand so overriding --brand recolours the whole theme in one move. */
+  --color-primary: var(--brand);
+  --color-primary-active: var(--brand-active);
 }
 
 /* The JS toggle sets an inline color-scheme; these keep forced themes
