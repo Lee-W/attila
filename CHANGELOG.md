@@ -1,3 +1,27 @@
+## v4.1.1 (2026-11-27)
+
+### Fix
+
+- **css**: keep tag chip text readable on hover with a lighter brand colour
+- **css**: let a site's body-level brand colour recolour links, focus rings and the progress bar
+- **css**: match the map zoom buttons to the map's other dark controls
+- **css**: darken the map zoom buttons in the dark theme
+- **css**: let the footer copyright line wrap on narrow screens
+- **css**: make the code copy button a quiet chip and fix chip text contrast
+- **css**: give wrapped listing subtitles a readable line height
+- **css**: dim the map base tiles in the dark theme
+- **css**: add Traditional Chinese and Japanese font fallbacks and one monospace stack
+- **css**: show a clear keyboard focus ring on every focusable element
+- **css**: align the footer and comments to the content column
+- **css**: even out article spacing and restyle tables with horizontal rules
+- **css**: unify chips, share buttons, dividers and the dark link colour
+- **css**: stop banner and footer text overflowing the viewport on phones
+- **css**: make code, cover meta, headings and secondary text easier to read
+
+### Refactor
+
+- **css**: lay out the footer slot by its own class, not a site's class
+
 ## v4.1.0 (2026-10-29)
 
 ### Feat
