@@ -550,7 +550,10 @@ body {
 .post-random a:hover {
   border-color: var(--brand-text);
   background: var(--tag-bg);
-  color: var(--brand-text);
+  /* Text a step darker than the edge in the light theme so a mid-tone brand
+     (travlog green) still reads >= 4.5:1 on --tag-bg; the dark theme keeps the
+     brightened brand-text. */
+  color: light-dark(color-mix(in oklab, var(--brand-text) 88%, black), var(--brand-text));
 }
 
 .post-tags a {
