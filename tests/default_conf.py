@@ -9,7 +9,7 @@ DEFAULT_DATE = "fs"
 
 DEFAULT_DATE_FORMAT = "%d %b %Y"
 
-TIMEZONE = "Asia/Calcutta"
+TIMEZONE = "Asia/Kolkata"
 
 DEFAULT_LANG = "en"
 
